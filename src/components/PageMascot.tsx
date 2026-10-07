@@ -71,6 +71,63 @@ export default function PageMascot({
     const about = document.getElementById("sobre");
     const shell = document.querySelector<HTMLElement>(".section-shell");
     if (!element || !anchor || !header || !inner || !about || !shell) return;
+    const menu = header.querySelector<HTMLElement>(".menu-toggle")!;
+    const brand = header.querySelector<HTMLElement>(".brand")!;
+    const nav = header.querySelector<HTMLElement>("nav")!;
+    const portfolio = element.closest<HTMLElement>(".portfolio")!;
+    const svgStyle = (selector: string) =>
+      element.querySelector<SVGElement>(selector)!.style;
+    const headStyle = svgStyle(".mascot-head");
+    const gazeStyle = svgStyle(".mascot-gaze");
+    const bodyStyle = svgStyle(".mascot-body");
+    const leftLegStyle = svgStyle(".leg-left");
+    const rightLegStyle = svgStyle(".leg-right");
+    // Put frame-by-frame variables on the rig that consumes them, instead
+    // of making every prop, gradient and limb inherit each new value.
+    const rootStyle = [element.style];
+    const variableTargets: Record<string, CSSStyleDeclaration[]> = {
+      "--gaze-x": [gazeStyle],
+      "--gaze-y": [gazeStyle],
+      "--head-angle": [headStyle],
+      "--step-left": [leftLegStyle],
+      "--lift-left": [leftLegStyle],
+      "--step-right": [rightLegStyle],
+      "--lift-right": [rightLegStyle],
+      "--arm-left": [svgStyle(".arm-left")],
+      "--arm-right": [svgStyle(".arm-right")],
+      "--walk-bob": [bodyStyle, svgStyle(".mascot-shadow")],
+      "--walk-sway": [bodyStyle],
+      "--walk-direction": [headStyle],
+    };
+    function setVariable(name: string, value: string) {
+      for (const style of variableTargets[name] ?? rootStyle)
+        if (style.getPropertyValue(name) !== value)
+          style.setProperty(name, value);
+    }
+    let layout: {
+      width: number;
+      h: DOMRect;
+      container: DOMRect;
+      content: DOMRect;
+      brand: DOMRect | null;
+      right: DOMRect | null;
+    } | null = null;
+    function fixedLayout() {
+      if (layout) return layout;
+      const width = document.documentElement.clientWidth;
+      layout = {
+        width,
+        h: header!.getBoundingClientRect(),
+        container: inner!.getBoundingClientRect(),
+        content: shell!.getBoundingClientRect(),
+        brand: width <= 1100 ? brand.getBoundingClientRect() : null,
+        right:
+          width <= 1100
+            ? (width <= 650 ? menu : nav).getBoundingClientRect()
+            : null,
+      };
+      return layout;
+    }
 
     let current: Phase = "docked";
     let position: Point = { x: 0, y: 0, size: BASE };
@@ -90,6 +147,7 @@ export default function PageMascot({
     let returnFrame = 0;
     let walkingDone: (() => void) | null = null;
     let menuActive = false;
+    let measuredMenuOpen: boolean | undefined;
     let anger = 0;
     let planet = false;
     let needsStretch = false;
@@ -139,8 +197,10 @@ export default function PageMascot({
     element.dataset.temper = "";
     element.dataset.planet = "off";
     element.dataset.action = "";
+    portfolio.dataset.pageHidden = String(document.hidden);
 
     function change(next: Phase) {
+      if (current === next && element!.dataset.phase === next) return;
       current = next;
       element!.dataset.phase = next;
       setPhase(next);
@@ -177,7 +237,7 @@ export default function PageMascot({
         "walk-bob",
         "walk-sway",
       ])
-        element!.style.setProperty(`--${name}`, "0");
+        setVariable(`--${name}`, "0");
       if (!animation) return;
       // Capture the actual location before cancelling so fast direction
       // changes and resizing cannot teleport the character.
@@ -195,7 +255,7 @@ export default function PageMascot({
     ) {
       stopFlight();
       const from = position;
-      element!.style.setProperty(
+      setVariable(
         "--flight-lean",
         String(Math.max(-7, Math.min(7, (to.x - from.x) / 60))),
       );
@@ -269,7 +329,7 @@ export default function PageMascot({
         return;
       }
       change("observing");
-      element!.style.setProperty("--mascot-color", "#ef75a3");
+      setVariable("--mascot-color", "#ef75a3");
       if (
         Math.hypot(position.x - observerSpot.x, position.y - observerSpot.y) >
           2 ||
@@ -296,8 +356,8 @@ export default function PageMascot({
       expanded = true;
       headerAction = "pull";
       surface();
-      element!.style.setProperty("--gaze-x", "3px");
-      element!.style.setProperty("--gaze-y", "-2px");
+      setVariable("--gaze-x", "3px");
+      setVariable("--gaze-y", "-2px");
       fly(
         edgeSpot,
         1000,
@@ -373,7 +433,7 @@ export default function PageMascot({
       stopFlight();
       place(homeSpot);
       onAwayChange(true);
-      element!.style.setProperty("--mascot-color", cardColor());
+      setVariable("--mascot-color", cardColor());
       change("departing");
       fly(observerSpot, 820, observe, 65);
     }
@@ -408,10 +468,10 @@ export default function PageMascot({
       clearReaction();
       stopFlight();
       change("returning");
-      element!.style.setProperty("--mascot-color", cardColor());
-      element!.style.setProperty("--head-angle", "0deg");
-      element!.style.setProperty("--gaze-x", "0px");
-      element!.style.setProperty("--gaze-y", "0px");
+      setVariable("--mascot-color", cardColor());
+      setVariable("--head-angle", "0deg");
+      setVariable("--gaze-x", "0px");
+      setVariable("--gaze-y", "0px");
       const from = position;
       const started = performance.now();
       // One clock for the entire return. Scrolling updates homeSpot without
@@ -459,7 +519,7 @@ export default function PageMascot({
       anger = Math.max(0, Math.min(4, value));
       planet = anger >= 3;
       element!.dataset.planet = planet ? "on" : anger > 0 ? "warming" : "off";
-      element!.style.setProperty(
+      setVariable(
         "--planet-energy",
         String(Math.min(1, anger / 3)),
       );
@@ -536,9 +596,9 @@ export default function PageMascot({
           "walk-sway": cycle * 1.8 * weight,
         };
         for (const [name, value] of Object.entries(vars))
-          element!.style.setProperty(`--${name}`, String(value));
+          setVariable(`--${name}`, String(value));
         if (Math.abs(vx) > 0.02)
-          element!.style.setProperty("--walk-direction", vx > 0 ? "1" : "-1");
+          setVariable("--walk-direction", vx > 0 ? "1" : "-1");
         place({
           x: position.x + vx * dt,
           y: position.y + vy * dt,
@@ -579,8 +639,8 @@ export default function PageMascot({
       followTarget(null);
       change("cooling");
       element!.dataset.action = "cool";
-      element!.style.setProperty("--gaze-x", "0px");
-      element!.style.setProperty("--gaze-y", "0px");
+      setVariable("--gaze-x", "0px");
+      setVariable("--gaze-y", "0px");
       later(620, () => {
         energy(0);
         element!.dataset.action = "";
@@ -706,8 +766,8 @@ export default function PageMascot({
       function gloat(next: () => void) {
         element!.dataset.action = "gloat";
         followTarget(null);
-        element!.style.setProperty("--gaze-x", "-2px");
-        element!.style.setProperty("--gaze-y", "0px");
+        setVariable("--gaze-x", "-2px");
+        setVariable("--gaze-y", "0px");
         later(420, next);
       }
       function teaseFigure() {
@@ -802,7 +862,7 @@ export default function PageMascot({
       if (current === "docked") {
         place(homeSpot);
         onAwayChange(true);
-        element!.style.setProperty("--mascot-color", cardColor());
+        setVariable("--mascot-color", cardColor());
       }
       const x = event?.clientX ?? position.x + position.size / 2;
       const y = event?.clientY ?? position.y + (position.size * 52) / BASE;
@@ -820,11 +880,11 @@ export default function PageMascot({
       };
       element!.dataset.temper = "surprised";
       element!.dataset.reaction = "";
-      element!.style.setProperty("--hang-angle", "0deg");
-      element!.style.setProperty("--hang-stretch", "1");
-      element!.style.setProperty("--gaze-x", "0px");
-      element!.style.setProperty("--gaze-y", "-2px");
-      element!.style.setProperty("--head-angle", "0deg");
+      setVariable("--hang-angle", "0deg");
+      setVariable("--hang-stretch", "1");
+      setVariable("--gaze-x", "0px");
+      setVariable("--gaze-y", "-2px");
+      setVariable("--head-angle", "0deg");
       change("held");
       const button = element!.querySelector<HTMLButtonElement>("button")!;
       if (event) button.setPointerCapture(event.pointerId);
@@ -865,11 +925,11 @@ export default function PageMascot({
         x: Math.min(maxX, Math.max(6, x - holding.dx)),
         y: Math.min(maxY, Math.max(6, y - holding.dy)),
       });
-      element!.style.setProperty(
+      setVariable(
         "--hang-angle",
         `${Math.max(-20, Math.min(20, vx * 10))}deg`,
       );
-      element!.style.setProperty(
+      setVariable(
         "--hang-stretch",
         `${1 + Math.min(0.12, Math.abs(vy) * 0.045)}`,
       );
@@ -910,8 +970,8 @@ export default function PageMascot({
             ? "curious"
             : "proud";
       element!.dataset.temper = "";
-      element!.style.setProperty("--hang-angle", "0deg");
-      element!.style.setProperty("--hang-stretch", "1");
+      setVariable("--hang-angle", "0deg");
+      setVariable("--hang-stretch", "1");
       if (!cancelled && !home && !held.moved && !annoyed) {
         change("observing");
         place(observerSpot);
@@ -981,6 +1041,7 @@ export default function PageMascot({
       }
     }
     function visibility() {
+      portfolio.dataset.pageHidden = String(document.hidden);
       if (document.hidden) {
         suspended = true;
         release(true);
@@ -1000,6 +1061,7 @@ export default function PageMascot({
         if (current !== "docked") change("observing");
       } else if (suspended) {
         suspended = false;
+        layout = null;
         // Refresh geometry before resuming, including scroll/viewport changes
         // while this tab was in the background. Keep the captured position.
         measure();
@@ -1048,11 +1110,9 @@ export default function PageMascot({
       anchor = document.querySelector<HTMLElement>(".art-dot");
       if (!anchor) return;
       const a = anchor!.getBoundingClientRect();
-      const h = header!.getBoundingClientRect();
-      const container = inner!.getBoundingClientRect();
+      const geometry = fixedLayout();
+      const { h, container, content, width } = geometry;
       const pink = about!.getBoundingClientRect();
-      const content = shell!.getBoundingClientRect();
-      const width = document.documentElement.clientWidth;
       const widthChanged = measuredWidth !== 0 && measuredWidth !== width;
       measuredWidth = width;
       const height = window.innerHeight;
@@ -1081,21 +1141,19 @@ export default function PageMascot({
       // original circle when taking off and when docking again.
       updateHomeSpot(a);
       const tucked = width <= 1100;
-      const menu = header!.querySelector(".menu-toggle") as HTMLElement | null;
-      const menuIsOpen = menu?.getAttribute("aria-expanded") === "true";
-      setMenuOpen(menuIsOpen);
+      const menuIsOpen = menu.getAttribute("aria-expanded") === "true";
+      if (menuIsOpen !== measuredMenuOpen) {
+        measuredMenuOpen = menuIsOpen;
+        setMenuOpen(menuIsOpen);
+      }
       if (element!.dataset.tucked !== String(tucked))
         element!.dataset.tucked = String(tucked);
 
       if (tucked) {
-        const brand = header!.querySelector(".brand")!.getBoundingClientRect();
-        const rightControl =
-          width <= 650 ? menu! : header!.querySelector("nav")!;
-        const right = rightControl.getBoundingClientRect();
-        const gap = Math.max(0, right.left - brand.right);
+        const gap = Math.max(0, geometry.right!.left - geometry.brand!.right);
         const small = Math.min(60, Math.max(44, gap - 8));
         observerSpot = {
-          x: brand.right + gap / 2 - small / 2,
+          x: geometry.brand!.right + gap / 2 - small / 2,
           y: h.height / 2 - (small * 52) / BASE,
           size: small,
         };
@@ -1255,6 +1313,10 @@ export default function PageMascot({
       lastScrollAt = now;
       if (!measureFrame) measureFrame = requestAnimationFrame(measure);
     }
+    function invalidateLayout() {
+      layout = null;
+      schedule();
+    }
     function look() {
       gazeFrame = 0;
       if (
@@ -1263,13 +1325,17 @@ export default function PageMascot({
         (current !== "observing" && !MISCHIEF.includes(current))
       )
         return;
-      const rect = element!.getBoundingClientRect();
+      // During a WAAPI flight the browser owns the position. At rest, use
+      // the point we already know and avoid a layout read after SVG writes.
+      const rect = animation
+        ? element!.getBoundingClientRect()
+        : { left: position.x, top: position.y, width: position.size };
       const r = attentionTarget?.getBoundingClientRect();
       const target = r
         ? {
             x: r.left + r.width / 2,
             y: Math.max(
-              header!.getBoundingClientRect().bottom + 12,
+              fixedLayout().h.bottom + 12,
               Math.min(window.innerHeight - 20, r.top + r.height / 2),
             ),
           }
@@ -1281,17 +1347,17 @@ export default function PageMascot({
       const dy = target.y - (rect.top + (rect.width * 52) / BASE);
       const distance = Math.max(Math.hypot(dx, dy), 1);
       const strength = Math.min(distance / 120, 1);
-      element!.style.setProperty(
+      setVariable(
         "--gaze-x",
-        `${(dx / distance) * 5 * strength}px`,
+        `${((dx / distance) * 5 * strength).toFixed(2)}px`,
       );
-      element!.style.setProperty(
+      setVariable(
         "--gaze-y",
-        `${(dy / distance) * 3.5 * strength}px`,
+        `${((dy / distance) * 3.5 * strength).toFixed(2)}px`,
       );
-      element!.style.setProperty(
+      setVariable(
         "--head-angle",
-        `${(dx / distance) * 6 * strength}deg`,
+        `${((dx / distance) * 6 * strength).toFixed(2)}deg`,
       );
     }
     function point(event: globalThis.PointerEvent) {
@@ -1376,11 +1442,19 @@ export default function PageMascot({
       pointer = null;
       look();
     }
-    const resize = new ResizeObserver(schedule);
-    resize.observe(header);
-    resize.observe(document.querySelector("main")!);
+    const resize = new ResizeObserver(invalidateLayout);
+    for (const node of [
+      header,
+      inner,
+      shell,
+      brand,
+      menu,
+      nav,
+      document.querySelector("main")!,
+    ])
+      resize.observe(node);
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
+    window.addEventListener("resize", invalidateLayout);
     if (motion)
       window.addEventListener("pointermove", point, { passive: true });
     window.addEventListener("blur", rest);
@@ -1401,6 +1475,7 @@ export default function PageMascot({
     measure();
     return () => {
       closed = true;
+      delete portfolio.dataset.pageHidden;
       animation?.cancel();
       cancelAnimationFrame(measureFrame);
       cancelAnimationFrame(gazeFrame);
@@ -1422,7 +1497,7 @@ export default function PageMascot({
         button.releasePointerCapture(captured);
       resize.disconnect();
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
+      window.removeEventListener("resize", invalidateLayout);
       window.removeEventListener("pointermove", point);
       window.removeEventListener("blur", rest);
       document.removeEventListener("focusin", focus);
@@ -1461,7 +1536,9 @@ export default function PageMascot({
             : -1
         }
       >
-        <MascotArtwork />
+        <div className="mascot-viewport">
+          <MascotArtwork />
+        </div>
       </button>
     </div>
   );

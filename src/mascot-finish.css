@@ -48,6 +48,17 @@
   animation: mascot-grin 800ms var(--ease-out);
 }
 
+/* Keep the animation clocks, but stop painting the hidden copy and tabs. */
+.portfolio[data-mascot-away="true"] .art-dot,
+.portfolio[data-mascot-away="true"] .art-dot *,
+.workbench[data-in-view="false"] .mascot-artwork *,
+.page-mascot:is([data-phase="docked"], [data-phase="waiting"]) *,
+.portfolio[data-page-hidden="true"] *,
+.portfolio[data-page-hidden="true"] *::before,
+.portfolio[data-page-hidden="true"] *::after {
+  animation-play-state: paused !important;
+}
+
 .mascot-body,
 .mascot-limbs,
 .mascot-arm,

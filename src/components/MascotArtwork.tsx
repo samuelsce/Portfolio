@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { memo, useId } from "react";
 
 // Both the card and the roaming character use the same face and material.
 // Limbs, props and orbital halves share the body rig, so they travel together.
@@ -26,7 +26,7 @@ function Orbit({ front }: { front: boolean }) {
   );
 }
 
-export default function MascotArtwork({
+function MascotArtwork({
   docked = false,
 }: {
   docked?: boolean;
@@ -385,3 +385,5 @@ export default function MascotArtwork({
     </svg>
   );
 }
+
+export default memo(MascotArtwork);

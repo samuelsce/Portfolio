@@ -66,7 +66,17 @@
   pointer-events: auto;
   cursor: grabbing;
 }
-.mascot-greeting > svg {
+.mascot-viewport {
+  /* A bounded paint area with room for the limbs, lens, steam and orbit.
+     The extra padding does not enlarge the button's touch target. */
+  position: absolute;
+  inset: -32px;
+  padding: 32px;
+  contain: layout paint;
+  pointer-events: none;
+}
+.mascot-viewport > svg {
+  display: block;
   width: 112px;
   height: 126px;
   overflow: visible;
