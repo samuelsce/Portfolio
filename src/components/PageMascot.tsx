@@ -140,8 +140,18 @@ export default function PageMascot({
     let animation: Animation | null = null;
     let measureFrame = 0;
     let gazeFrame = 0;
-    let attentionFrame = 0;
     let attentionTarget: HTMLElement | null = null;
+    let attentionRect: DOMRect | null = null;
+    let prankTarget: HTMLElement | null = null;
+    let prankSpot: Point | null = null;
+    let prankAttached = false;
+    let prankFrame = 0;
+    let prankJourney: {
+      from: Point;
+      start: number;
+      duration: number;
+      done: () => void;
+    } | null = null;
     let reactionFrame = 0;
     let reactionTimer: ReturnType<typeof setTimeout> | undefined;
     let languageTimer: ReturnType<typeof setTimeout> | undefined;
@@ -234,6 +244,9 @@ export default function PageMascot({
     function stopFlight() {
       cancelAnimationFrame(walkFrame);
       cancelAnimationFrame(returnFrame);
+      cancelAnimationFrame(prankFrame);
+      prankFrame = 0;
+      prankJourney = null;
       returnFrame = 0;
       walkingDone = null;
       for (const name of [
@@ -588,18 +601,23 @@ export default function PageMascot({
     function stopPlay(skip?: Element | null) {
       jobs.forEach(clearTimeout);
       jobs.clear();
+      cancelAnimationFrame(prankFrame);
+      prankFrame = 0;
+      prankJourney = null;
+      prankTarget = null;
+      prankSpot = null;
+      prankAttached = false;
       restorePrank(skip);
       followTarget(null);
     }
     function followTarget(node: HTMLElement | null) {
-      cancelAnimationFrame(attentionFrame);
       attentionTarget = node;
-      function track() {
-        if (closed || !attentionTarget || !MISCHIEF.includes(current)) return;
-        look();
-        attentionFrame = requestAnimationFrame(track);
+      attentionRect = node?.getBoundingClientRect() ?? null;
+      if (node && !gazeFrame) gazeFrame = requestAnimationFrame(look);
+      else if (!node) {
+        cancelAnimationFrame(gazeFrame);
+        gazeFrame = 0;
       }
-      if (node) track();
     }
     function walk(done: () => void) {
       stopFlight();
@@ -679,8 +697,7 @@ export default function PageMascot({
       });
     }
     function adventureEnd() {
-      restorePrank();
-      followTarget(null);
+      stopPlay();
       change("cooling");
       element!.dataset.action = "cool";
       setVariable("--gaze-x", "0px");
@@ -691,8 +708,18 @@ export default function PageMascot({
         walk(() => settle(false, "curious"));
       });
     }
-    function targetSpot(node: HTMLElement): Point {
-      const rect = node.getBoundingClientRect();
+    function targetVisible(node: HTMLElement, rect = node.getBoundingClientRect()) {
+      return (
+        node.isConnected &&
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.bottom > fixedLayout().h.bottom &&
+        rect.top < window.innerHeight &&
+        rect.right > 0 &&
+        rect.left < document.documentElement.clientWidth
+      );
+    }
+    function targetSpot(rect: DOMRect): Point {
       const size = Math.min(
         96,
         document.documentElement.clientWidth <= 650 ? 68 : 96,
@@ -707,7 +734,7 @@ export default function PageMascot({
           ),
         ),
         y: Math.max(
-          header!.getBoundingClientRect().bottom + 5,
+          fixedLayout().h.bottom + 5,
           Math.min(
             window.innerHeight - (size * 126) / BASE - 8,
             rect.top + rect.height / 2 - (size * 79) / BASE,
@@ -715,10 +742,39 @@ export default function PageMascot({
         ),
       };
     }
+    function approachTarget(duration: number, done: () => void) {
+      stopFlight();
+      setVariable(
+        "--flight-lean",
+        String(Math.max(-7, Math.min(7, ((prankSpot?.x ?? position.x) - position.x) / 60))),
+      );
+      prankJourney = { from: position, start: performance.now(), duration, done };
+      function step(now: number) {
+        prankFrame = 0;
+        const journey = prankJourney;
+        if (closed || suspended || !journey || !prankSpot) return;
+        const t = Math.min(1, (now - journey.start) / journey.duration);
+        const eased = t * t * (3 - 2 * t);
+        const { from } = journey;
+        place({
+          x: from.x + (prankSpot.x - from.x) * eased,
+          y: from.y + (prankSpot.y - from.y) * eased - 96 * eased * (1 - eased),
+          size: from.size + (prankSpot.size - from.size) * eased,
+        });
+        look();
+        if (t < 1) prankFrame = requestAnimationFrame(step);
+        else {
+          prankJourney = null;
+          prankAttached = true;
+          journey.done();
+        }
+      }
+      prankFrame = requestAnimationFrame(step);
+    }
     function prank() {
       const visible = (node: HTMLElement, whole = false) => {
         const r = node.getBoundingClientRect();
-        const top = header!.getBoundingClientRect().bottom + 12;
+        const top = fixedLayout().h.bottom + 12;
         return (
           node.isConnected &&
           r.width > 0 &&
@@ -767,22 +823,25 @@ export default function PageMascot({
       }
 
       function travel(node: HTMLElement, arrive: () => void) {
-        const targetVisible = () =>
-          visible(node, node instanceof HTMLButtonElement);
-        if (!targetVisible()) {
+        const stillVisible = () => targetVisible(node);
+        if (!stillVisible()) {
           adventureEnd();
           return;
         }
         change("scheming");
         element!.dataset.action = "scan";
+        prankTarget = node;
+        prankSpot = targetSpot(node.getBoundingClientRect());
+        prankAttached = false;
         followTarget(node);
         later(320, () => {
-          if (!targetVisible()) {
+          if (!stillVisible()) {
             adventureEnd();
             return;
           }
           element!.dataset.action = "approach";
-          const target = targetSpot(node);
+          const target = targetSpot(node.getBoundingClientRect());
+          prankSpot = target;
           const duration = Math.max(
             480,
             Math.min(
@@ -791,20 +850,15 @@ export default function PageMascot({
                 Math.hypot(target.x - position.x, target.y - position.y) * 0.48,
             ),
           );
-          fly(
-            target,
-            duration,
-            () => {
-              if (!targetVisible()) {
-                adventureEnd();
-                return;
-              }
-              change("pranking");
-              element!.dataset.action = "aim";
-              later(240, arrive);
-            },
-            24,
-          );
+          approachTarget(duration, () => {
+            if (!stillVisible()) {
+              adventureEnd();
+              return;
+            }
+            change("pranking");
+            element!.dataset.action = "aim";
+            later(240, arrive);
+          });
         });
       }
       function gloat(next: () => void) {
@@ -815,20 +869,20 @@ export default function PageMascot({
         later(420, next);
       }
       function teaseFigure() {
-        if (!secondFigure || !visible(secondFigure)) {
+        if (!secondFigure || !targetVisible(secondFigure)) {
           adventureEnd();
           return;
         }
         travel(secondFigure, () => {
           element!.dataset.action = "windup";
           later(220, () => {
-            if (!visible(secondFigure)) {
+            if (!targetVisible(secondFigure)) {
               adventureEnd();
               return;
             }
             element!.dataset.action = "poke";
             later(290, () => {
-              if (!visible(secondFigure)) {
+              if (!targetVisible(secondFigure)) {
                 adventureEnd();
                 return;
               }
@@ -850,7 +904,7 @@ export default function PageMascot({
       travel(control, () => {
         element!.dataset.action = "press";
         later(290, () => {
-          if (!visible(control, true)) {
+          if (!targetVisible(control)) {
             adventureEnd();
             return;
           }
@@ -870,7 +924,7 @@ export default function PageMascot({
             followTarget(figure && visible(figure) ? figure : control);
             later(760, () =>
               gloat(() => {
-                if (!visible(control, true)) {
+                if (!targetVisible(control)) {
                   adventureEnd();
                   return;
                 }
@@ -1034,7 +1088,9 @@ export default function PageMascot({
     function pointerDown(event: globalThis.PointerEvent) {
       if (!(event.target instanceof Element)) return;
       if (event.target.closest(".mascot-greeting, .art-dot")) grab(event);
-      else if (MISCHIEF.includes(current)) {
+      // Touch down can begin a scroll, including over a control. Focus and
+      // click confirm a touch action; mouse presses still yield immediately.
+      else if (MISCHIEF.includes(current) && event.pointerType === "mouse") {
         stopPlay(event.target.closest("button"));
         energy(0);
         stopFlight();
@@ -1279,6 +1335,36 @@ export default function PageMascot({
         else fly(observerSpot, 420, observe);
         return;
       }
+      if (MISCHIEF.includes(current)) {
+        // Scroll moves the document, not the adventure's clock. Read its
+        // targets once per scheduled measurement and keep the hand attached.
+        const rect = prankTarget?.getBoundingClientRect();
+        attentionRect = attentionTarget === prankTarget
+          ? rect ?? null
+          : attentionTarget?.getBoundingClientRect() ?? null;
+        if (rect && prankTarget) {
+          if (!targetVisible(prankTarget, rect)) {
+            stopPlay();
+            energy(0);
+            stopFlight();
+            walk(() => settle());
+            return;
+          }
+          const next = targetSpot(rect);
+          if (prankJourney && prankSpot) {
+            // Translate both endpoints together to preserve the ongoing arc.
+            prankJourney.from = {
+              ...prankJourney.from,
+              x: prankJourney.from.x + next.x - prankSpot.x,
+              y: prankJourney.from.y + next.y - prankSpot.y,
+            };
+          }
+          prankSpot = next;
+          if (prankAttached) place(next);
+        }
+        if (current !== "cooling" && element!.dataset.action !== "gloat") look();
+        return;
+      }
       if (home && !wasHome && current !== "docked" && current !== "returning") {
         stopPlay();
         clearTimeout(headerTimer);
@@ -1354,12 +1440,6 @@ export default function PageMascot({
       if (suspended) return;
       const now = performance.now();
       const delta = Math.abs(window.scrollY - lastScroll);
-      if (delta > 3 && MISCHIEF.includes(current)) {
-        stopPlay();
-        energy(0);
-        stopFlight();
-        walk(() => settle());
-      }
       if (
         delta > 65 &&
         delta / Math.max(16, now - lastScrollAt) > 1.5 &&
@@ -1389,7 +1469,7 @@ export default function PageMascot({
       const rect = animation
         ? element!.getBoundingClientRect()
         : { left: position.x, top: position.y, width: position.size };
-      const r = attentionTarget?.getBoundingClientRect();
+      const r = attentionRect;
       const target = r
         ? {
             x: r.left + r.width / 2,
