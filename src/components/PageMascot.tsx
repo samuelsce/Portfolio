@@ -87,6 +87,7 @@ export default function PageMascot({
     let planetTimer: ReturnType<typeof setTimeout> | undefined;
     let headerTimer: ReturnType<typeof setTimeout> | undefined;
     let walkFrame = 0;
+    let returnFrame = 0;
     let walkingDone: (() => void) | null = null;
     let menuActive = false;
     let anger = 0;
@@ -163,6 +164,8 @@ export default function PageMascot({
     }
     function stopFlight() {
       cancelAnimationFrame(walkFrame);
+      cancelAnimationFrame(returnFrame);
+      returnFrame = 0;
       walkingDone = null;
       for (const name of [
         "step-left",
@@ -403,29 +406,46 @@ export default function PageMascot({
       }
       clearTimeout(idleTimer);
       clearReaction();
+      stopFlight();
       change("returning");
       element!.style.setProperty("--mascot-color", cardColor());
       element!.style.setProperty("--head-angle", "0deg");
       element!.style.setProperty("--gaze-x", "0px");
       element!.style.setProperty("--gaze-y", "0px");
-      fly(
-        homeSpot,
-        650,
-        () => {
-          if (!home) {
-            land();
-            return;
-          }
-          // The hero can move while the user keeps scrolling upward.
-          const distance = Math.hypot(
-            homeSpot.x - position.x,
-            homeSpot.y - position.y,
-          );
-          if (distance > 8) fly(homeSpot, 180, dock);
-          else dock();
-        },
-        45,
-      );
+      const from = position;
+      const started = performance.now();
+      // One clock for the entire return. Scrolling updates homeSpot without
+      // cancelling, re-reading the animated SVG or restarting its easing.
+      function step(now: number) {
+        if (closed || suspended || current !== "returning") return;
+        const t = Math.min(1, Math.max(0, (now - started) / 650));
+        const eased = t * t * (3 - 2 * t);
+        if (t === 1) {
+          // Read the anchor once at handoff, after any final scroll/focus
+          // change. The roaming and card renderers then share the same spot.
+          updateHomeSpot(anchor!.getBoundingClientRect());
+        }
+        place({
+          x: from.x + (homeSpot.x - from.x) * eased,
+          y: from.y + (homeSpot.y - from.y) * eased - 180 * t * (1 - t),
+          size: from.size + (homeSpot.size - from.size) * eased,
+        });
+        if (t < 1) returnFrame = requestAnimationFrame(step);
+        else {
+          returnFrame = 0;
+          dock();
+        }
+      }
+      returnFrame = requestAnimationFrame(step);
+    }
+
+    function updateHomeSpot(rect: DOMRect) {
+      const size = (rect.width * BASE) / 74;
+      homeSpot = {
+        x: rect.left + rect.width / 2 - size / 2,
+        y: rect.top + rect.height / 2 - (size * 52) / BASE,
+        size,
+      };
     }
 
     function later(ms: number, fn: () => void) {
@@ -1059,17 +1079,13 @@ export default function PageMascot({
 
       // Body circle occupies 74 of the SVG's 112 units. Match the hero's
       // original circle when taking off and when docking again.
-      const size = (a.width * BASE) / 74;
-      homeSpot = {
-        x: a.left + a.width / 2 - size / 2,
-        y: a.top + a.height / 2 - (size * 52) / BASE,
-        size,
-      };
+      updateHomeSpot(a);
       const tucked = width <= 1100;
       const menu = header!.querySelector(".menu-toggle") as HTMLElement | null;
       const menuIsOpen = menu?.getAttribute("aria-expanded") === "true";
       setMenuOpen(menuIsOpen);
-      element!.dataset.tucked = String(tucked);
+      if (element!.dataset.tucked !== String(tucked))
+        element!.dataset.tucked = String(tucked);
 
       if (tucked) {
         const brand = header!.querySelector(".brand")!.getBoundingClientRect();
@@ -1158,13 +1174,8 @@ export default function PageMascot({
         return;
       }
       if (home && current === "returning") {
-        // The card is a moving target while scrolling. Keep chasing the
-        // real anchor, then dock only after geometry has converged.
-        const distance = Math.hypot(
-          homeSpot.x - position.x,
-          homeSpot.y - position.y,
-        );
-        if (distance > 12) fly(homeSpot, 360, dock, 12);
+        // The existing return loop reads the latest destination. Do not
+        // restart a flight from a scroll or ResizeObserver notification.
         return;
       }
       if (
@@ -1401,6 +1412,7 @@ export default function PageMascot({
       clearTimeout(planetTimer);
       clearTimeout(headerTimer);
       cancelAnimationFrame(walkFrame);
+      cancelAnimationFrame(returnFrame);
       stopPlay();
       cancelAnimationFrame(holdFrame);
       const button = element.querySelector("button")!;
