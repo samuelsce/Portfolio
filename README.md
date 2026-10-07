@@ -18,6 +18,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 - **Projetos:** contexto, tecnologias, detalhes da implementação e comparação entre ilustrações e capturas reais.
 - **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
+- **Português e inglês:** seleção PT/EN no menu, com preferência salva no navegador e tradução de conteúdo, controles e descrições de acessibilidade.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -48,6 +49,8 @@ As tecnologias dos projetos são apresentadas individualmente no site. A stack d
 ### Conteúdo e componentes
 
 Dados pessoais, contatos e projetos ficam em `src/data/portfolio.ts`, separados da composição da página. Os componentes de projetos, bancada e ilustrações mantêm suas próprias responsabilidades e estados.
+
+As traduções da interface ficam em `src/i18n/translations.ts`, e as versões em inglês dos projetos em `src/i18n/projects.ts`. O contexto de idioma atualiza textos e metadados sem remontar os componentes: temas, detalhes abertos e título personalizado da bancada são preservados. A persistência usa `localStorage`, com funcionamento em memória quando o navegador bloqueia o armazenamento.
 
 O mascote usa o mesmo desenho no card e na página. Seu controlador coordena as fases de movimento, as reações e as interrupções, enquanto o CSS define os gestos. O deslocamento é separado da animação dos membros e objetos, mantendo a lupa e a órbita ligadas ao personagem.
 
@@ -92,6 +95,7 @@ O portfólio é uma aplicação estática, sem backend, banco de dados ou variá
 ```text
 src/
   data/portfolio.ts              Conteúdo, projetos e contatos
+  i18n/                          Idiomas, traduções e preferência do visitante
   App.tsx                        Composição da página e controles
   components/
     PageMascot.tsx               Estados, movimentos e interações do mascote
@@ -109,7 +113,7 @@ index.html                      Título e metadados
 .github/workflows/ci.yml         Verificação automática do build
 ```
 
-Para atualizar a apresentação, comece por `src/data/portfolio.ts`. As capturas ficam em `public/projects/`, e os metadados em `index.html`.
+Para atualizar a apresentação, comece por `src/data/portfolio.ts` e mantenha as traduções em `src/i18n/` correspondentes. As capturas ficam em `public/projects/`. Os metadados iniciais estão em `index.html`; ao carregar a aplicação, são atualizados pelo idioma escolhido.
 
 ## Publicação e documentação
 

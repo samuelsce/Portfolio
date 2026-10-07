@@ -1,4 +1,22 @@
-# Validação da primeira versão
+# Validação do portfólio
+
+## Português e inglês, versão 1.1.0
+
+Verificação em 7 de outubro de 2026, no Edge, em desenvolvimento e no build de produção servido localmente.
+
+- `npm run check` e `npm run build` aprovados.
+- PT/EN verificados na apresentação, projetos, Recette, ilustrações, bancada, rodapé e descrições de acessibilidade. Nome, tecnologias, URLs e capturas reais permanecem como nos projetos de origem.
+- Preferência preservada após recarregar; seletor continua funcionando quando o navegador bloqueia leituras e escritas de `localStorage`.
+- Idioma do documento, título, descrição e metadados Open Graph conferidos nos dois idiomas. O HTML estático inicial continua em português; a aplicação atualiza os metadados no navegador.
+- Troca de idioma preservou tema, formato, arredondamento, título personalizado, iluminação, captura selecionada e detalhes abertos. Reset e título padrão usam o idioma ativo.
+- Mascote e âncora mantiveram os mesmos nós DOM durante a troca, sem reiniciar a fase de observação. Regressão de retorno, inversão de direção, altura da viewport, menu, pausa, visibilidade e puxada/fechamento do header aprovada.
+- Ambos os idiomas sem rolagem horizontal em 320, 390, 650, 651, 768, 1024, 1440 e 1600 px. Seletor disponível no menu móvel com alvos de toque de 44 px.
+- Seleção por teclado e fechamento do menu com Escape e retorno de foco aprovados. Nenhum erro de execução nos testes.
+- Capturas de revisão em `.publish-staging/language-desktop.png`, `language-mobile.png` e `language-mobile-menu.png` (arquivos locais ignorados no Git).
+
+Os testes usam navegador desktop e viewports simulados; não representam validação em iPhone físico/Safari.
+
+## Validação da primeira versão
 
 Verificação local em 6 de outubro de 2026, após implementação e ajustes visuais.
 

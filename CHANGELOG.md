@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0] - 2026-10-07
+
+### Funcionalidades
+
+- Seletor PT/EN no menu desktop e móvel, integrado à identidade visual existente.
+- Tradução da apresentação, projetos, Recette, ilustrações, bancada, contatos e descrições de acessibilidade.
+- Idioma persistido no navegador, com alternativa em memória quando o armazenamento está bloqueado.
+- Título, descrição e idioma do documento atualizados conforme a seleção.
+- Troca preserva os estados dos controles, o texto personalizado da bancada e o controlador do mascote, sem recarregar a página.
+
 ## [1.0.2] - 2026-10-07
 
 ### Desempenho
@@ -52,6 +62,7 @@ Primeira versão do portfólio de Samuel Santos Cerqueira.
 
 O histórico inicial agrupa a implementação local por responsabilidade. Não representa uma sequência de releases anteriores.
 
+[1.1.0]: https://github.com/samuelsce/Portfolio/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/samuelsce/Portfolio/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/samuelsce/Portfolio/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/samuelsce/Portfolio/tree/v1.0.0
