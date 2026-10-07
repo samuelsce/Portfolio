@@ -1,5 +1,22 @@
 # Validação do portfólio
 
+## Travessuras durante a rolagem, versão 1.2.1
+
+Verificação em 7 de outubro de 2026, no Edge, em desenvolvimento e no build de produção servido localmente.
+
+- TypeScript e build aprovados, sem dependências novas nem alterações em CSS ou desenhos SVG.
+- Em 390, 768 e 1600 px, pequenas rolagens durante a aproximação e a observação preservaram o planetinha e a sequência. A aproximação usa um único relógio; os dois extremos da trajetória acompanham o deslocamento do alvo, sem recriar viagens WAAPI por scroll.
+- Posição junto ao botão acompanhou uma rolagem de 24 px, com variação inferior a 2 px na distância relativa medida. O botão também tem sua própria animação de toque. Alvo parcialmente encoberto pelo header não encerrou a brincadeira; completamente fora da área visível encerrou e recuperou os controles, sem classes temporárias.
+- Rolagem por eventos reais de toque do CDP em 390 px deslocou a página e manteve a travessura. Seleção humana por toque preservou o estado escolhido; abrir o menu interrompeu e restaurou os efeitos antes da espera.
+- Sequência completa, do planejamento à cutucada e ao resfriamento, concluída nos três tamanhos sob rolagens alternadas de 7 px a cada 80 ms. Ao recuperar a observação, controles restaurados, planetinha desligado e nenhum efeito temporário.
+- Reentrada do hero com o alvo da bancada ainda visível não antecipou a chegada ao card. Retorno e entrega ao personagem original concluíram após a travessura.
+- Na amostra estacionária de 120 ms durante a observação do botão, zero leituras de posição do mascote ou dos alvos nos três tamanhos. O olhar agora reutiliza a geometria e atualiza durante deslocamentos e eventos, sem um loop permanente de consulta ao alvo.
+- Regressões de retorno, inversão, altura da viewport, menu, pausa, visibilidade, ícones SVG e puxada/fechamento aprovadas. Retorno instrumentado manteve zero viagens recriadas, cancelamentos ou leituras da posição do mascote.
+- Caminhada com passos em oposição, lupa, planetinha e restauração conferidos; nenhum corte dos grupos SVG monitorados ou erro de execução. Larguras de 320 a 1600 px sem excesso horizontal.
+- Script de diagnóstico em `.publish-staging/verify-prank-scroll.cjs`, ignorado no Git junto às demais ferramentas locais de verificação.
+
+Viewports e toque simulados em Edge/Chromium. Sem medição de FPS ou teste em iPhone/iPad físico ou Safari.
+
 ## Toque e acabamento, versão 1.2.0
 
 Verificação em 7 de outubro de 2026, no Edge, em desenvolvimento e no build servido localmente.

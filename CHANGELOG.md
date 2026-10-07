@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.1] - 2026-10-07
+
+### Correções
+
+- Travessuras continuam durante a rolagem enquanto o alvo permanece visível, incluindo quando o card inicial reaparece. O personagem acompanha o elemento durante a aproximação e os gestos.
+- Alvo fora da área visível encerra a sequência, restaura os controles e limpa os efeitos temporários. Menu, interações humanas, pausa e mudança de largura conservam prioridade.
+- Início de um gesto de toque deixa de interromper a travessura, permitindo rolar a página. Cliques e foco nos controles continuam sendo respeitados.
+- Olhar nas travessuras reutiliza a geometria medida na rolagem e nos gestos, evitando consultar a posição do alvo em cada frame quando o personagem está parado.
+
 ## [1.2.0] - 2026-10-07
 
 ### Interações e acabamento
@@ -72,6 +81,7 @@ Primeira versão do portfólio de Samuel Santos Cerqueira.
 
 O histórico inicial agrupa a implementação local por responsabilidade. Não representa uma sequência de releases anteriores.
 
+[1.2.1]: https://github.com/samuelsce/Portfolio/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/samuelsce/Portfolio/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/samuelsce/Portfolio/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/samuelsce/Portfolio/compare/v1.0.1...v1.0.2
