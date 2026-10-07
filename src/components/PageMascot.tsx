@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { HeaderSurface } from "./HeaderStretch";
 import MascotArtwork from "./MascotArtwork";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Point = { x: number; y: number; size: number };
 type Phase =
@@ -59,6 +60,7 @@ export default function PageMascot({
   onAwayChange: (away: boolean) => void;
   onHeaderChange: (surface: HeaderSurface) => void;
 }) {
+  const { t } = useLanguage();
   const root = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<Phase>("docked");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1527,7 +1529,7 @@ export default function PageMascot({
       <button
         className="mascot-greeting"
         type="button"
-        aria-label="Mascote interativo. Clique para acenar, segure e arraste para mover. No teclado, Enter pega e solta; setas movem, Escape devolve. Espaço também permite segurar."
+        aria-label={t.mascot}
         tabIndex={
           motion &&
           (INTERACTIVE.includes(phase) || phase === "held") &&

@@ -1,6 +1,7 @@
 // Every object uses the same projection, including its height. This keeps the
 // keyboard on the desk and the chair, cabinet and plant on separate floor areas.
 import { memo } from "react";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Point = readonly [number, number, number];
 const project = ([x, z, height]: Point) =>
@@ -63,6 +64,7 @@ function Box({
 }
 
 function RoomIllustration({ night }: { night: boolean }) {
+  const { t } = useLanguage();
   return (
     <svg
       className={`room-illustration ${night ? "room-night" : ""}`}
@@ -71,9 +73,7 @@ function RoomIllustration({ night }: { night: boolean }) {
       aria-labelledby="room-illustration-title"
     >
       <title id="room-illustration-title">
-        Ilustração isométrica de um quarto: mesa com monitor e teclado, cadeira
-        à frente, armário com planta à direita.{" "}
-        {night ? "Luz noturna." : "Luz natural."}
+        {t.roomDescription} {night ? t.nightLight : t.dayLight}.
       </title>
       <defs>
         <filter

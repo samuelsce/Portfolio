@@ -691,3 +691,41 @@ html {
     align-items: center;
   }
 }
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--paper);
+}
+.language-switcher button {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 6px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--berry);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+.language-switcher button[aria-pressed="true"] {
+  background: var(--berry);
+  color: #fff7fa;
+}
+.language-switcher button[aria-pressed="false"]:hover {
+  background: var(--blush);
+}
+@media (max-width: 650px) {
+  .site-header nav .language-switcher {
+    margin-left: auto;
+  }
+  .language-switcher button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

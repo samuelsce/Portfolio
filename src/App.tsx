@@ -7,6 +7,8 @@ import type { HeaderSurface } from "./components/HeaderStretch";
 import PageMascot from "./components/PageMascot";
 import MascotArtwork from "./components/MascotArtwork";
 import Icon from "./components/Icon";
+import { useLanguage, LanguageSwitcher } from "./i18n/LanguageProvider";
+import { englishProjects, englishAcademicProject } from "./i18n/projects";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -55,10 +57,11 @@ const Workbench = memo(function Workbench({
   mascotAway: boolean;
   onMotionChange: () => void;
 }) {
+  const { t } = useLanguage();
   const [format, setFormat] = useState<"card" | "poster">("card");
   const [dark, setDark] = useState(false);
   const [radius, setRadius] = useState(24);
-  const [idea, setIdea] = useState("Uma boa ideia");
+  const [idea, setIdea] = useState<string | null>(null);
   const [celebrate, setCelebrate] = useState(false);
   const [celebrationId, setCelebrationId] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -136,7 +139,7 @@ const Workbench = memo(function Workbench({
     setFormat("card");
     setDark(false);
     setRadius(24);
-    setIdea("Uma boa ideia");
+    setIdea(null);
     setCelebrate(false);
     if (timer.current) clearTimeout(timer.current);
     restGaze();
@@ -150,7 +153,7 @@ const Workbench = memo(function Workbench({
       onPointerLeave={restGaze}
     >
       <div className="bench-note">
-        <span className="handwritten">um pedacinho do meu processo</span>
+        <span className="handwritten">{t.benchNote}</span>
         <svg viewBox="0 0 90 45" aria-hidden="true">
           <path
             d="M2 7c38-17 58 8 55 27m-10-8 10 10 10-12"
@@ -168,7 +171,7 @@ const Workbench = memo(function Workbench({
             <i />
             <i />
           </span>
-          <span>ideia.em.construção</span>
+          <span>{t.windowTitle}</span>
           <span className="chrome-symbol" aria-hidden="true">
             <Icon name="asterisk" />
           </span>
@@ -180,7 +183,7 @@ const Workbench = memo(function Workbench({
             style={{ "--idea-radius": `${radius}px` } as CSSProperties}
           >
             <div className="idea-top">
-              <span>feito para experimentar</span>
+              <span>{t.experiment}</span>
               <Spark />
             </div>
             <div className="idea-art" key={celebrationId}>
@@ -190,7 +193,7 @@ const Workbench = memo(function Workbench({
                 className="art-dot"
                 ref={mascotRef}
                 type="button"
-                aria-label="Mascote no card. Segure e arraste para mover. No teclado, Enter pega e solta; setas movem, Escape devolve. Espaço também permite segurar."
+                aria-label={t.cardMascot}
                 tabIndex={motion && !mascotAway ? 0 : -1}
               >
                 <MascotArtwork docked />
@@ -198,16 +201,16 @@ const Workbench = memo(function Workbench({
               <Spark className="art-spark" />
             </div>
             <h2>
-              {idea.trim() || "Uma boa ideia"}
-              <span>começa aqui.</span>
+              {idea?.trim() || t.defaultIdea}
+              <span>{t.startsHere}</span>
             </h2>
             <button className="idea-action" onClick={play}>
-              {celebrate ? "Ideia ganhou vida!" : "Dar vida à ideia"}
+              {celebrate ? t.ideaAlive : t.bringToLife}
               <Arrow />
             </button>
           </div>
           <span className="stage-hint">
-            design + código + um pouco de curiosidade
+            {t.stageHint}
           </span>
           <span className="cursor-sticker" aria-hidden="true">
             <svg viewBox="0 0 30 36">
@@ -218,11 +221,11 @@ const Workbench = memo(function Workbench({
                 strokeWidth="2"
               />
             </svg>
-            <span>você :)</span>
+            <span>{t.you}</span>
           </span>
           <span className="sr-only" role="status">
             {celebrate
-              ? "Sua ideia ganhou vida. Experimente outro formato ou tema."
+              ? t.ideaStatus
               : ""}
           </span>
         </div>
@@ -230,19 +233,19 @@ const Workbench = memo(function Workbench({
           <div
             className="format-control"
             role="group"
-            aria-label="Formato da interface"
+            aria-label={t.formatLabel}
           >
             <button
               aria-pressed={format === "card"}
               onClick={() => setFormat("card")}
             >
-              Card
+              {t.card}
             </button>
             <button
               aria-pressed={format === "poster"}
               onClick={() => setFormat("poster")}
             >
-              Cartaz
+              {t.poster}
             </button>
           </div>
           <button
@@ -250,15 +253,15 @@ const Workbench = memo(function Workbench({
             role="switch"
             aria-checked={dark}
             onClick={() => setDark(!dark)}
-            aria-label="Tema escuro da bancada"
+            aria-label={t.benchDark}
           >
             <span aria-hidden="true">
               <Icon name={dark ? "moon" : "sun"} />
             </span>
-            <span>{dark ? "Escuro" : "Claro"}</span>
+            <span>{dark ? t.dark : t.light}</span>
           </button>
           <label className="radius-control" htmlFor="radius">
-            <span>Cantos</span>
+            <span>{t.corners}</span>
             <input
               id="radius"
               type="range"
@@ -273,31 +276,31 @@ const Workbench = memo(function Workbench({
       </div>
       <div className="bench-bottom">
         <span>
-          <span className="live-dot" /> Laboratório aberto. Pode mexer.
+          <span className="live-dot" /> {t.labOpen}
         </span>
         <button onClick={reset}>
-          Recomeçar
+          {t.reset}
           <span aria-hidden="true">
             <Icon name="reset" />
           </span>
         </button>
       </div>
       <label className="idea-input">
-        Dê um nome à sua ideia
+        {t.nameIdea}
         <input
           maxLength={28}
-          value={idea}
+          value={idea ?? t.defaultIdea}
           onChange={(e) => setIdea(e.target.value)}
         />
       </label>
       <div className="bench-motion-row">
-        <span>{motion ? "Movimento ativado." : "Movimento reduzido."}</span>
+        <span>{motion ? t.motionOn : t.motionReduced}</span>
         <button
           className="motion-toggle"
           aria-pressed={motion}
           onClick={onMotionChange}
         >
-          {motion ? "Desativar animações" : "Ativar animações"}
+          {motion ? t.disableMotion : t.enableMotion}
         </button>
       </div>
     </div>
@@ -305,10 +308,11 @@ const Workbench = memo(function Workbench({
 });
 
 function MonitorIllustration() {
+  const { t, language } = useLanguage();
   return (
     <div
       className="monitor-illustration"
-      aria-label="Ilustração conceitual de um painel de monitoramento"
+      aria-label={t.monitorLabel}
     >
       <div className="monitor-top">
         <span>
@@ -318,20 +322,21 @@ function MonitorIllustration() {
           LinkWatch
         </span>
         <span className="monitor-status">
-          <i /> Sistemas operacionais
+          <i /> {t.systemsOperational}
         </span>
       </div>
       <div className="monitor-content">
-        <span className="monitor-caption">Visão geral</span>
+        <span className="monitor-caption">{t.overview}</span>
         <div className="monitor-metrics">
           <div>
-            <span>Disponibilidade</span>
+            <span>{t.uptime}</span>
             <strong>
-              99,98<small>%</small>
+              {language === "pt" ? "99,98" : "99.98"}
+              <small>%</small>
             </strong>
           </div>
           <div>
-            <span>Latência média</span>
+            <span>{t.averageLatency}</span>
             <strong>
               124<small>ms</small>
             </strong>
@@ -339,8 +344,8 @@ function MonitorIllustration() {
         </div>
         <div className="monitor-chart">
           <div className="chart-label">
-            <span>Tempo de resposta</span>
-            <span>Últimas 24h</span>
+            <span>{t.responseTime}</span>
+            <span>{t.last24h}</span>
           </div>
           <svg viewBox="0 0 480 130" fill="none" aria-hidden="true">
             <path d="M0 30h480M0 65h480M0 100h480" stroke="#ebe6f1" />
@@ -359,30 +364,31 @@ function MonitorIllustration() {
         </div>
         <div className="endpoint-row">
           <span>
-            <i /> api.exemplo.dev
+            <i /> {language === "pt" ? "api.exemplo.dev" : "api.example.dev"}
           </span>
-          <span>Operacional</span>
+          <span>{t.operational}</span>
           <span>112 ms</span>
         </div>
         <div className="endpoint-row">
           <span>
-            <i /> exemplo.dev
+            <i /> {language === "pt" ? "exemplo.dev" : "example.dev"}
           </span>
-          <span>Operacional</span>
+          <span>{t.operational}</span>
           <span>136 ms</span>
         </div>
       </div>
-      <span className="monitor-demo-note">Dados ilustrativos</span>
+      <span className="monitor-demo-note">{t.illustrativeData}</span>
     </div>
   );
 }
 
 function BarberIllustration() {
+  const { t } = useLanguage();
   return (
     <div
       className="barber-illustration"
       role="img"
-      aria-label="Ilustração conceitual de agenda de barbearia, com horários de exemplo"
+      aria-label={t.barberLabel}
     >
       <div className="barber-symbol" aria-hidden="true">
         <svg viewBox="0 0 100 100" fill="none">
@@ -412,27 +418,28 @@ function BarberIllustration() {
       <div className="barber-agenda">
         <div className="agenda-heading">
           <span>
-            Entre um corte
-            <br />e outro.
+            {t.betweenCuts}
+            <br />
+            {t.andAnother}
           </span>
           <span className="agenda-mini">
-            Uma agenda
+            {t.aSchedule}
             <br />
-            bem resolvida.
+            {t.wellOrganized}
           </span>
         </div>
         <div className="agenda-days" aria-hidden="true">
-          <span>seg</span>
-          <span>ter</span>
-          <span className="selected-day">qua</span>
-          <span>qui</span>
-          <span>sex</span>
+          <span>{t.mon}</span>
+          <span>{t.tue}</span>
+          <span className="selected-day">{t.wed}</span>
+          <span>{t.thu}</span>
+          <span>{t.fri}</span>
         </div>
         <div className="agenda-slot">
           <span>09:00</span>
           <div>
-            <strong>Corte & estilo</strong>
-            <span>Horário de exemplo</span>
+            <strong>{t.cutStyle}</strong>
+            <span>{t.sampleTime}</span>
           </div>
           <span aria-hidden="true">
             <Arrow diagonal />
@@ -441,8 +448,8 @@ function BarberIllustration() {
         <div className="agenda-slot">
           <span>10:30</span>
           <div>
-            <strong>Barba & cuidado</strong>
-            <span>Horário de exemplo</span>
+            <strong>{t.beardCare}</strong>
+            <span>{t.sampleTime}</span>
           </div>
           <span aria-hidden="true">
             <Arrow diagonal />
@@ -450,7 +457,7 @@ function BarberIllustration() {
         </div>
         <div className="agenda-free">
           <span>11:30</span>
-          <span>Espaço para o próximo.</span>
+          <span>{t.roomForNext}</span>
           <span aria-hidden="true">
             <Icon name="plus" />
           </span>
@@ -465,6 +472,8 @@ const Project = memo(function Project({
 }: {
   project: (typeof projects)[number];
 }) {
+  const { t, language } = useLanguage();
+  const copy = language === "pt" ? project : englishProjects[project.id];
   const [expanded, setExpanded] = useState(false);
   const [showScreenshot, setShowScreenshot] = useState(false);
   const [roomNight, setRoomNight] = useState(false);
@@ -481,29 +490,29 @@ const Project = memo(function Project({
               className="room-light-toggle"
               role="switch"
               aria-checked={roomNight}
-              aria-label="Luz noturna do quarto"
+              aria-label={t.roomNightLabel}
               onClick={() => setRoomNight(!roomNight)}
             >
               <span aria-hidden="true">
                 <Icon name={roomNight ? "moon" : "sun"} />
               </span>{" "}
-              {roomNight ? "Luz noturna" : "Luz natural"}
+              {roomNight ? t.nightLight : t.dayLight}
             </button>
           ) : !showScreenshot ? (
             <button
               className="room-light-toggle illustration-theme-toggle"
               role="switch"
               aria-checked={illustrationDark}
-              aria-label={`Modo escuro da ilustração ${project.name}`}
+              aria-label={`${t.illustrationDarkLabel}: ${project.name}`}
               onClick={() => setIllustrationDark(!illustrationDark)}
             >
               <span aria-hidden="true">
                 <Icon name={illustrationDark ? "sun" : "moon"} />
               </span>
-              {illustrationDark ? "Modo claro" : "Modo escuro"}
+              {illustrationDark ? t.lightMode : t.darkMode}
             </button>
           ) : (
-            <span aria-hidden="true">Interface real</span>
+            <span aria-hidden="true">{t.actualInterface}</span>
           )}
         </div>
         <div className="project-visual">
@@ -529,7 +538,7 @@ const Project = memo(function Project({
               <img
                 className="project-screenshot"
                 src={`${import.meta.env.BASE_URL}${project.image}`}
-                alt={project.imageAlt}
+                alt={copy.imageAlt}
                 loading="lazy"
                 width={
                   project.id === "roomlab"
@@ -546,8 +555,8 @@ const Project = memo(function Project({
         <div className="art-bottom">
           <span className="illustration-label">
             {showScreenshot
-              ? "Interface real do projeto"
-              : "Ilustração conceitual do projeto"}
+              ? t.actualProject
+              : t.conceptProject}
           </span>
           {project.image && (
             <button
@@ -555,7 +564,7 @@ const Project = memo(function Project({
               aria-pressed={showScreenshot}
               onClick={() => setShowScreenshot(!showScreenshot)}
             >
-              {showScreenshot ? "Ver ilustração" : "Ver interface real"}
+              {showScreenshot ? t.viewIllustration : t.viewInterface}
               <span aria-hidden="true">
                 <Icon name={showScreenshot ? "asterisk" : "image"} />
               </span>
@@ -564,10 +573,10 @@ const Project = memo(function Project({
         </div>
       </div>
       <div className="project-info">
-        <span className="project-category">{project.category}</span>
+        <span className="project-category">{copy.category}</span>
         <h3>{project.name}</h3>
-        <p>{project.description}</p>
-        <ul className="project-tags" aria-label="Tecnologias e recursos">
+        <p>{copy.description}</p>
+        <ul className="project-tags" aria-label={t.technologies}>
           {project.tags.map((tag) => (
             <li key={tag}>{tag}</li>
           ))}
@@ -580,7 +589,7 @@ const Project = memo(function Project({
               target="_blank"
               rel="noreferrer"
             >
-              Explorar projeto <Arrow diagonal />
+              {t.exploreProject} <Arrow diagonal />
             </a>
           )}
           {project.repo && (
@@ -590,7 +599,7 @@ const Project = memo(function Project({
               target="_blank"
               rel="noreferrer"
             >
-              Ver código <Arrow diagonal />
+              {t.viewCode} <Arrow diagonal />
             </a>
           )}
         </div>
@@ -600,7 +609,7 @@ const Project = memo(function Project({
           aria-controls={`${project.id}-detail`}
           onClick={() => setExpanded(!expanded)}
         >
-          {expanded ? "Fechar detalhes" : "Por dentro do projeto"}
+          {expanded ? t.closeDetails : t.insideProject}
           <span aria-hidden="true">
             <Icon name={expanded ? "minus" : "plus"} />
           </span>
@@ -612,8 +621,8 @@ const Project = memo(function Project({
           className={`project-detail ${expanded ? "is-open" : ""}`}
         >
           <div className="project-detail-content">
-            <p>{project.note}</p>
-            <p>{project.details}</p>
+            <p>{copy.note}</p>
+            <p>{copy.details}</p>
           </div>
         </div>
       </div>
@@ -622,6 +631,8 @@ const Project = memo(function Project({
 });
 
 function AcademicProject() {
+  const { t, language } = useLanguage();
+  const copy = language === "pt" ? academicProject : englishAcademicProject;
   return (
     <article className="academic-project" aria-labelledby="recette-title">
       <div className="academic-heading">
@@ -655,16 +666,16 @@ function AcademicProject() {
           <path d="m56 88 2 12 4-4 5 3-2-12" fill="#ef75a3" />
         </svg>
         <div>
-          <p className="academic-category">Trabalho de conclusão de curso</p>
+          <p className="academic-category">{t.academicCategory}</p>
           <h3 id="recette-title">{academicProject.name}</h3>
-          <span className="academic-origin">Onde tudo começou.</span>
+          <span className="academic-origin">{t.academicOrigin}</span>
         </div>
       </div>
       <div className="academic-copy">
-        <p>{academicProject.description}</p>
-        <p className="academic-contribution">{academicProject.contribution}</p>
+        <p>{copy.description}</p>
+        <p className="academic-contribution">{copy.contribution}</p>
         <div className="academic-footer">
-          <ul className="project-tags" aria-label="Tecnologias do Recette">
+          <ul className="project-tags" aria-label={t.recetteTechnologies}>
             {academicProject.technologies.map((tech) => (
               <li key={tech}>{tech}</li>
             ))}
@@ -675,7 +686,7 @@ function AcademicProject() {
             target="_blank"
             rel="noreferrer"
           >
-            Ver projeto no GitHub <Arrow diagonal />
+            {t.viewGithubProject} <Arrow diagonal />
           </a>
         </div>
       </div>
@@ -684,6 +695,7 @@ function AcademicProject() {
 }
 
 export default function App() {
+  const { t } = useLanguage();
   const [motion, setMotion] = useState(
     () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
@@ -759,7 +771,7 @@ export default function App() {
       data-mascot-away={mascotAway}
     >
       <a className="skip-link" href="#conteudo">
-        Pular para o conteúdo
+        {t.skip}
       </a>
       <header className="site-header">
         <HeaderStretch {...headerSurface} />
@@ -767,7 +779,7 @@ export default function App() {
           <a
             className="brand"
             href="#inicio"
-            aria-label={`${profile.name}, início`}
+            aria-label={`${profile.name}, ${t.home}`}
           >
             <span className="brand-mark" aria-hidden="true">
               s.
@@ -783,7 +795,7 @@ export default function App() {
             aria-controls="main-nav"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            {menuOpen ? "Fechar" : "Menu"}
+            {menuOpen ? t.close : t.menu}
             <span aria-hidden="true">
               <Icon name={menuOpen ? "close" : "plus"} />
             </span>
@@ -791,16 +803,16 @@ export default function App() {
           <nav
             id="main-nav"
             className={menuOpen ? "nav-open" : ""}
-            aria-label="Navegação principal"
+            aria-label={t.navigation}
           >
             <a href="#projetos" onClick={() => setMenuOpen(false)}>
-              Projetos
+              {t.projects}
             </a>
             <a href="#sobre" onClick={() => setMenuOpen(false)}>
-              Sobre mim
+              {t.about}
             </a>
             <a href="#contato" onClick={() => setMenuOpen(false)}>
-              Contato
+              {t.contact}
             </a>
             <a
               className="nav-github"
@@ -810,6 +822,7 @@ export default function App() {
             >
               GitHub <Arrow diagonal />
             </a>
+            <LanguageSwitcher />
           </nav>
         </div>
       </header>
@@ -821,19 +834,19 @@ export default function App() {
         >
           <div className="hero-copy">
             <h1 id="hero-title">
-              <span className="hero-greeting">Oi, eu sou o</span>samuel
+              <span className="hero-greeting">{t.hello}</span>samuel
               <span className="name-period">.</span>
             </h1>
             <p className="hero-description">
-              Transformo ideias em interfaces que dão vontade de usar.
+              {t.heroLead}
             </p>
             <p className="hero-support">
-              Desenvolvedor front-end. Curioso por natureza.
+              {t.heroRole}
               <br />
-              Do primeiro esboço ao último detalhe.
+              {t.heroSupport}
             </p>
             <a className="primary-button" href="#projetos">
-              Conheça meus projetos <Arrow />
+              {t.seeProjects} <Arrow />
             </a>
             <div className="hero-location">
               <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -850,8 +863,8 @@ export default function App() {
                   strokeWidth="1.3"
                 />
               </svg>
-              {profile.location}
-              <span>Construindo para a web.</span>
+              {t.location}
+              <span>{t.buildingWeb}</span>
             </div>
           </div>
           <Workbench
@@ -861,9 +874,9 @@ export default function App() {
           />
         </section>
         <div className="section-transition section-shell">
-          <span>Um pouco de intenção em cada pixel.</span>
+          <span>{t.pixel}</span>
           <span>
-            Role para conhecer
+            {t.scroll}
             <span aria-hidden="true">
               <Icon name="down" />
             </span>
@@ -876,13 +889,13 @@ export default function App() {
         >
           <div className="section-heading">
             <div>
-              <span className="section-kicker">Ideias que saíram do papel</span>
-              <h2 id="projects-title">Código com propósito.</h2>
+              <span className="section-kicker">{t.projectsKicker}</span>
+              <h2 id="projects-title">{t.projectsTitle}</h2>
             </div>
             <p>
-              Explorar, construir, ajustar.
+              {t.projectsLead}
               <br />
-              Algumas coisas que venho criando.
+              {t.projectsSupport}
             </p>
           </div>
           <div className="projects-list">
@@ -898,7 +911,7 @@ export default function App() {
             rel="noreferrer"
           >
             <GitHubIcon />
-            Mais experimentos no GitHub
+            {t.moreGithub}
             <Arrow diagonal />
           </a>
         </section>
@@ -909,9 +922,9 @@ export default function App() {
         >
           <div className="section-shell about-layout">
             <div className="about-heading">
-              <span className="section-kicker">Do outro lado da tela</span>
+              <span className="section-kicker">{t.aboutKicker}</span>
               <h2 id="about-title">
-                Prazer,
+                {t.niceToMeet}
                 <br />
                 Samuel.
               </h2>
@@ -920,29 +933,24 @@ export default function App() {
                   s.
                 </span>
                 <span>
-                  curiosidade em
+                  {t.curiosity}
                   <br />
-                  modo de construção
+                  {t.constructionMode}
                 </span>
               </div>
             </div>
             <div className="about-copy">
               <p className="about-lead">
-                Gosto de quando uma interface faz sentido. E de descobrir como
-                fazer isso acontecer.
+                {t.aboutLead}
               </p>
               <p>
-                Meu foco está no front-end: unir código, interação e cuidado
-                visual. Também exploro o que acontece por trás da tela,
-                conectando interfaces a dados e serviços.
+                {t.aboutFocus}
               </p>
               <p>
-                Sou técnico em Desenvolvimento de Sistemas e curso o bacharelado
-                em Tecnologia da Informação na UNIVESP. Construir projetos é
-                parte do meu jeito de aprender.
+                {t.aboutEducation}
               </p>
               <div className="toolbox">
-                <h3>Na minha bancada</h3>
+                <h3>{t.toolbox}</h3>
                 <ul>
                   {profile.technologies.map((tech) => (
                     <li key={tech}>{tech}</li>
@@ -950,14 +958,14 @@ export default function App() {
                 </ul>
               </div>
               <div className="about-footer">
-                <span>São Paulo, Brasil</span>
+                <span>{t.location}</span>
                 <a
                   className="text-link"
                   href={profile.github}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Acompanhe o que construo <Arrow diagonal />
+                  {t.followBuild} <Arrow diagonal />
                 </a>
               </div>
             </div>
@@ -969,20 +977,20 @@ export default function App() {
           aria-labelledby="contact-title"
         >
           <div className="contact-prelude">
-            <span>Uma conversa é um bom começo.</span>
+            <span>{t.conversation}</span>
             <Spark />
           </div>
           <div className="contact-main">
             <h2 id="contact-title">
-              Bora criar
+              {t.letsBuild}
               <br />
-              algo bom?
+              {t.somethingGood}
             </h2>
             <div className="contact-copy">
               <p>
-                Tem uma ideia, um projeto
-                <br /> ou uma oportunidade?
-                <br /> Vamos nos conectar.
+                {t.haveIdea}
+                <br /> {t.opportunity}
+                <br /> {t.connect}
               </p>
               <a
                 className="primary-button"
@@ -992,24 +1000,24 @@ export default function App() {
                 target={profile.email ? undefined : "_blank"}
                 rel={profile.email ? undefined : "noreferrer"}
               >
-                {profile.email ? "Me mande um e-mail" : "Me encontre no GitHub"}
+                {profile.email ? t.emailMe : t.findGithub}
                 <Arrow diagonal />
               </a>
               <button className="copy-contact" onClick={copyContact}>
                 {copied
-                  ? "Copiado!"
+                  ? t.copied
                   : profile.email
-                    ? "Copiar e-mail"
-                    : "Copiar link do perfil"}
+                    ? t.copyEmail
+                    : t.copyProfile}
                 <span aria-hidden="true">
                   <Icon name={copied ? "check" : "copy"} />
                 </span>
               </button>
               <span className="copy-status" role="status">
                 {copyFailed
-                  ? "Não foi possível copiar. Use o link acima."
+                  ? t.copyFailed
                   : copied
-                    ? "Contato copiado para a área de transferência."
+                    ? t.copySuccess
                     : ""}
               </span>
             </div>
@@ -1030,7 +1038,7 @@ export default function App() {
               </a>
             )}
             <a className="back-top" href="#inicio">
-              De volta ao começo <span aria-hidden="true">↑</span>
+              {t.backTop} <span aria-hidden="true">↑</span>
             </a>
           </div>
         </section>
@@ -1039,9 +1047,9 @@ export default function App() {
         <span>
           © {new Date().getFullYear()} {profile.fullName}
         </span>
-        <span>Feito com código, cuidado e rosa.</span>
+        <span>{t.footer}</span>
         <span className="footer-signoff">
-          Até a próxima ideia <Spark />
+          {t.signoff} <Spark />
         </span>
       </footer>
       <PageMascot
