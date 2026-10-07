@@ -1,0 +1,148 @@
+# Samuel Studio — plano de design
+
+Planejamento registrado antes da implementação, em 6 de outubro de 2026.
+
+## Objetivo
+
+Portfólio pessoal de Samuel Santos Cerqueira, com foco em front-end e espaço para projetos fullstack. Mostrar projetos reais e demonstrar cuidado de interface em uma experiência pequena, acessível e memorável. Conteúdo em português.
+
+## Conceito
+
+Um estúdio pessoal de interfaces. A peça central é uma bancada interativa: um pequeno navegador com um componente que o visitante pode personalizar. O projeto demonstra React, estados e sensibilidade visual sem bloquear o acesso aos trabalhos.
+
+## Tokens
+
+| Token      | Valor   | Uso                         |
+| ---------- | ------- | --------------------------- |
+| Papel      | #fff7fa | Fundo principal             |
+| Rosa       | #ef75a3 | Blocos de identidade        |
+| Rosa claro | #f8dbe7 | Superfícies secundárias     |
+| Tinta      | #291b24 | Texto principal             |
+| Amora      | #691b3e | Links e ações com contraste |
+| Linha      | #e7cdd8 | Divisões e limites          |
+
+Tipografia: Space Grotesk para títulos e texto, com pesos e tamanhos distintos; Georgia apenas na assinatura editorial secundária. Fontes locais, com fallback de sistema. Layout amplo, alinhado à esquerda; seções de projetos com imagens e texto, sem grade de cards idênticos.
+
+```text
+desktop
+[assinatura       projetos / sobre / contato       GitHub]
+[nome grande + apresentação       bancada interativa   ]
+[introdução de projetos                                 ]
+[RoomLab: visual amplo                 descrição / links]
+[LinkWatch: descrição / links          visual amplo     ]
+[sobre / formação                     tecnologias       ]
+[contato com tipografia ampla + links                   ]
+
+mobile
+[assinatura                        menu]
+[nome + apresentação + ação            ]
+[bancada e controles                   ]
+[projetos com visual antes do texto     ]
+[sobre / tecnologias                   ]
+[contato                               ]
+```
+
+## Referências efetivamente consultadas
+
+- https://www.samuelrizzon.dev/ — incentivo à exploração; não reutilizar linguagem pixel, blocos, terminal, assets ou código.
+- https://www.navbar.gallery/navbar/supaste — navegação compacta, acesso direto e ação distinguível; adaptar ao português e à identidade rosa.
+- https://www.footer.design/sites/yash-fataniya — encerramento com presença visual e personalidade; não repetir quadriculado, ilustrações ou assinatura.
+- https://rauno.me/craft — experimentos de interface apresentados como trabalho; criar uma bancada original, sem reproduzir componentes.
+- https://bruno-simon.com/ — conceito de experiência que demonstra habilidade; conteúdo textual consultado, sem alegar observação da interação 3D.
+
+Fontes consultadas pela skill frontend-design-references e sua skill complementar frontend-design. As páginas Supaste, Yash, Rauno e Samuel Rizzon foram também inspecionadas renderizadas.
+
+## Revisão do briefing
+
+Rosa é a cor favorita do usuário e será a identidade principal. Rejeitar um hero genérico com glow, métricas inventadas ou cartões repetidos. Concentrar a ousadia na bancada de interface; tipografia e respiro dão suporte. Não inventar experiência, disponibilidade, resultados de projetos, clientes ou contatos.
+
+## Conteúdo e implementação
+
+- Dados públicos verificados no GitHub: Samuel Santos Cerqueira, São Paulo, técnico em Desenvolvimento de Sistemas, bacharelado em TI na UNIVESP, React, TypeScript, Tailwind CSS e Git.
+- Projetos principais: BarberAg, RoomLab e LinkWatch. BarberAg conforme README local do perfil, com link real e atuação em equipe distinguida. Links de demo apenas quando existentes.
+- React, TypeScript, Vite e CSS próprio. Sem necessidade de backend para a primeira versão.
+- Dados em src/data/portfolio.ts. Ilustrações próprias marcadas como conceituais; RoomLab e LinkWatch também têm capturas reais dos projetos locais, com toggle. LinkWatch identifica os dados como dados de teste.
+- Menu mobile, foco visível, landmarks, link para pular conteúdo, reduced motion e contraste.
+- Verificar TypeScript, build, desktop, mobile, teclado, controles e links.
+
+## Limites da primeira versão
+
+Nome confirmado pelo usuário: Samuel Santos. E-mail: samuelsantosmft7@gmail.com. LinkedIn: https://www.linkedin.com/in/samuelsce/. Next.js incluído conforme declaração do usuário. BarberAg confirmado pelo usuário como projeto privado de gestão e agendamento de barbearias, em https://barberag.com.br/. Não criar formulário sem envio funcional. Publicação e envio ao GitHub não fazem parte desta primeira entrega local.
+
+## Personalidade da bancada e contexto do TCC
+
+Revisão em 7 de outubro de 2026, após nova leitura das duas skills. Preservar os tokens, tipografia e composição aprovados. Concentrar a nova interação no mascote existente da bancada: olhar em direção ao mouse e uma piscadinha com sorriso ao acionar o botão. Sem animações repetidas nas seções, cursor que substitui o cursor nativo ou dependências novas.
+
+Referência nova: [Eye tracker do Bencho](https://bencho.dev/blocks/eye-tracker), inspecionado na página individual renderizada e na demonstração interativa. Aproveitar o princípio de um personagem que responde ao ponteiro, com desenho e implementação próprios. A pesquisa anterior continua válida para a composição da página.
+
+Recette foi confirmado pelo usuário para inclusão em um bloco compacto de TCC abaixo dos trabalhos principais. Seu [repositório público](https://github.com/Gab-sousa/recette-web) documenta receitas com IA, compartilhamento, favoritos e avaliações. A participação do autor está descrita no README do perfil. Apresentar o contexto acadêmico e a atuação no front-end, com contribuições pontuais em Django, sem reestilizar nem simular uma interface nova do projeto antigo.
+
+## O mascote estica o cabeçalho
+
+Ideia solicitada pelo usuário: o rostinho da bancada ajuda o cabeçalho a cobrir as laterais quando encontra a seção rosa. Preservar a largura de 1440 px da navegação e animar apenas a superfície por trás. O personagem aparece, puxa a borda e desaparece em 1,25 s; a ação reinicia a cada nova entrada na região, sem loop contínuo. Em telas de até 1500 px, a superfície já ocupa a largura útil e o personagem fica oculto.
+
+Reutilizar o princípio de personagem responsivo do [Eye tracker do Bencho](https://bencho.dev/blocks/eye-tracker), já observado na revisão anterior. A coreografia de puxar, o SVG e a lógica são próprios. O catálogo Annnimate foi consultado por pesquisa, mas sua página renderizada falhou no navegador; nenhum movimento não observado dessa fonte foi atribuído ou reproduzido.
+
+Iniciar a expansão antes da chegada do rosa, cobrir imediatamente em rolagens rápidas e navegação por âncoras, e manter a cobertura com movimento desativado. Não deslocar links, alterar textos ou acrescentar dependências.
+
+## Mascote que acompanha a página
+
+Evolução solicitada pelo usuário: o personagem deixa de aparecer apenas na puxada. O mesmo rostinho sai do card, observa a navegação, sobe para ajudar o cabeçalho e volta ao card quando o hero reaparece. Substitui a coreografia curta descrita acima, mantendo a identidade aprovada.
+
+Plano de estados: `card → salto → observação → subida → puxada → pouso → observação`; o retorno ao hero faz `observação → retorno → card`. Salto de 820 ms com arco e abertura dos braços; subida de 520 ms; puxada de 780 ms sincronizada com a superfície; pouso de 600 ms; retorno de 650 ms com recolhimento dos membros. Expressão de esforço, sobrancelhas, gotinhas e uma pequena dobra na pegada explicam a puxada. Piscar é o único movimento periódico no repouso. Olhar e inclinação acompanham o ponteiro ou o foco; clicar em controles produz uma reação breve, e acionar o próprio personagem faz acenar e piscar.
+
+Preservar papel `#fff7fa`, rosa `#ef75a3`, berry `#691b3e` e tinta `#291b24`, a tipografia e toda a composição. Reutilizar a referência Eye tracker do Bencho, já inspecionada, para o olhar; trajetórias, expressões e desenho próprios, sem código ou assets de terceiros. A ideia do usuário fornece a direção para a coreografia nova.
+
+Critérios de contenção: um único personagem visível; original do card oculto apenas enquanto está fora; margem de leitura preservada; em telas de até 1100 px, pouso no espaço entre marca e controles do cabeçalho. Menu aberto oculta o personagem temporariamente. Sem falas persistentes, animações adicionais nas seções ou dependências novas. Movimento desativado mantém o personagem no card e a correção funcional do header. Interrupções capturam a posição atual antes de recalcular a viagem; mudanças de largura recalculam o pouso seguro.
+
+## Personalidade sem fala e interação física
+
+Revisão solicitada pelo usuário: retirar toda fala do mascote e aprofundar suas animações. Reutilizar a pesquisa da skill e o olhar responsivo do Eye tracker do Bencho; desenho, reações e coreografia continuam próprios. Preservar a estética e os locais de repouso aprovados.
+
+Novos estados `held` e `released`, com prioridade sobre deslocamentos automáticos. A pegada começa com surpresa; após 320 ms, sobrancelhas em V e boca fechada; após 1,25 s, cor mais quente, bochechas coradas, esperneio, pequenas marcas de irritação e vapor desenhado. O arrasto transfere peso pela inclinação e alongamento proporcionais à velocidade. A soltura usa arco, contração, rebote e acomodação de 720 ms, seguida de uma birra curta que se dissolve em sorriso. O personagem volta à margem para liberar o conteúdo; não fica abandonado sobre um controle.
+
+Gestos contextuais: lupa nas capturas; olhos sonolentos, mão no rosto e lua ao escurecer; proteção contra a luz ao clarear; saltos e pequenos corações na comemoração; susto na rolagem rápida; espreguiçada depois de repouso prolongado. Props são formas SVG, nunca balões ou textos. O personagem original do card também pode ser pego. A bancada mantém suas interações existentes.
+
+Garantir alternativa por teclado (Enter, Espaço, setas, Escape), captura de ponteiro para mouse/toque, cancelamento em perda de foco, menu e resize, restauração do foco ao card, ausência de rolagem horizontal e interrupção completa com movimento desativado. Piscar continua discreto; espreguiçadas ocorrem após 14 s de repouso. Sem bibliotecas novas, timers de polling ou animações adicionais nas seções.
+
+## Caminhada, planetinha e empurrão de volta
+
+Evolução pedida pelo usuário: o retorno depois da soltura deixa de usar um arco de voo. Pousar no local em 360 ms e caminhar até o card ou o pouso de observação, com aceleração e freio discretos, passos alternados de 340 ms, braços em oposição, inclinação e sombra acompanhando o peso. Durante o planetinha, o passo fica mais rápido. O destino é atualizado se a página se mover durante a caminhada.
+
+Acumular irritação por tempo de pegada e arrasto; uma pegada de 2,8 s também ativa o modo diretamente. Recuperar os três anéis finos do card, com rotações em direções e velocidades distintas, sem mudar a identidade do personagem. Após voltar ao pouso, preparação de 1,2 s, deslocamento ao botão, toque com o braço e sorriso assimétrico. Fazer duas pequenas travessuras: uma troca temporária em controles visuais visíveis e uma cutucada com balanço em uma ilustração. Restaurar o estado anterior, limpar classes e voltar a pé. Não fazer loops de travessuras independentes da provocação. A intervenção humana tem prioridade, e movimento desativado interrompe toda a sequência.
+
+No desktop com largura útil acima de 1500 px: subida de 580 ms, pegada preparada durante 220 ms, dois esforços em 1000 ms sincronizados com a expansão. Desenhar a mão e a dobra na frente do corpo para que a pegada fique visível. Ao deixar a região rosa: ir até a borda em 520 ms, firmar durante 180 ms e empurrar de volta em 900 ms. Preservar posição e largura dos links. Em celular/tablet e larguras sem espaço lateral suficiente, não acionar subida, pegada, puxada ou empurrão; manter somente a cobertura funcional do fundo.
+
+Reutilizar a referência de olhar [Bencho](https://bencho.dev/blocks/eye-tracker), já inspecionada, e a própria aura do card como referência explícita do usuário. Caminhada, travessuras, expressões e coordenação do header são implementações próprias. Preservar cores, conteúdo, composição e ausência de falas.
+
+## Volume, rig e continuidade do mascote
+
+Refinar o personagem aprovado com corpo levemente orgânico, luz localizada e sombreado suave, braços e pernas encorpados, pequenas mãos e sapatos. Um único `MascotArtwork` desenha tanto o rosto do card quanto o personagem fora dele. Preservar cores, expressão simples e composição da página. Reutilizar a skill e a referência de olhar do Bencho; a escultura SVG, a mecânica dos membros e a órbita são próprias.
+
+A lupa passa a compartilhar um rig com ombro, cotovelo, cabo e dedos, sem trajetória independente. A aura vira uma faixa orbital inclinada, com metades atrás e à frente do corpo, acompanhando sua inclinação e flutuação. Satélites se deslocam pela órbita; não girar os anéis inteiros em torno do SVG. Sombra difusa com contato sutil e origem explícita sob os pés. Respiração discreta no repouso, birra menos exagerada e início/fim suaves nas viagens.
+
+A caminhada segue o destino atual a partir da posição atual, com aceleração e frenagem. A distância efetivamente percorrida controla passada, elevação dos pés, oposição dos braços e transferência de peso. Recalcular o destino durante a rolagem, sem retornar primeiro ao ponto antigo. O retorno ao card só troca o desenho quando as posições e os tamanhos convergem. Reações com objetos completam a retirada antes de encerrar.
+
+Menu móvel: abaixar, retirar-se em 380 ms, aguardar e reaparecer em 520 ms. Cancelar pegadas, travessuras e callbacks antigos ao abrir; manter a navegação livre. Alterações rápidas de direção ou viewport preservam a posição visível. O indicador de foco do teclado é uma pequena linha abaixo dos pés, separado da órbita. Verificar arrasto com retorno rápido, menu aberto/fechado, lupa, planetinha, header reversível e movimento desativado.
+
+Usar um cabeçalho fixo com reserva equivalente no início do conteúdo (96 px no desktop e 84 px no celular). Isso mantém a camada da navegação estável durante a rolagem e permite abrir o menu sem empurrar a página. Preservar a largura dos links e a superfície animada existente.
+
+## Planetinha mais decidido e travessuras com intenção
+
+Reutilizar a skill e a referência de olhar [Bencho](https://bencho.dev/blocks/eye-tracker). Preservar o desenho e a composição aprovados. No planetinha, fechar as sobrancelhas, comprimir os olhos, mostrar dentes cerrados e pequenas rugas de expressão, aquecer o rosa e acelerar discretamente os satélites. A expressão continua durante a aproximação e o toque; depois aparece um sorriso de provocação. Sem falas.
+
+Separar a postura da flutuação em um grupo interno do SVG para que trocar de gesto não reinicie o movimento do corpo. Inclinação, compressão e braços mudam com transições suaves. Voos usam uma trajetória parabólica contínua, com aceleração e freio; o olhar acompanha o alvo durante a viagem e a observação do resultado.
+
+Coreografar uma sequência finita: avaliar um controle visual próximo, aproximar-se, preparar a mão, tocar, observar, provocar, desfazer a troca e cutucar uma ilustração visível. Sincronizar a resposta dos elementos com o contato da mão. Encerrar com uma breve acomodação antes de voltar andando. Revalidar os alvos em cada etapa; botão precisa estar completamente visível, ilustração pode estar parcialmente visível. Interação humana, menu e pausa cancelam os callbacks e restauram efeitos temporários.
+
+## Sincronização do header com a borda rosa
+
+Correção de lógica solicitada pelo usuário, preservando a coreografia e o visual aprovados. Iniciar puxada e fechamento quando a seção rosa cruza o meio do header, em vez de antecipar a chegada em centenas de pixels. Usar tolerância de 6 px na entrada/saída. No desktop com animações habilitadas, a largura é controlada pela coreografia: a cobertura automática não pode preencher o fundo antes do gesto. Manter cobertura imediata em telas estreitas e com movimento desativado. Sem pesquisa visual nova para esta correção mecânica.
+
+## Revisão final da experiência
+
+Reutilizar a pesquisa da skill e o olhar do Bencho. Manter papel, rosa, berry, Space Grotesk e toda a composição aprovada. Concentrar a personalidade no mascote, sem adicionar efeitos decorativos às seções.
+
+Revisar hero/bancada, os três projetos, Recette, sobre, contato e rodapé entre 320 px e desktop. Aumentar os alvos de toque para 44 px e o campo móvel para 16 px, mantendo as miniaturas na escala atual. Ajustar o espaço entre o controle de iluminação e a ilustração. O menu deve fechar ao sair do breakpoint móvel e ao tocar fora; Escape continua recuperando foco.
+
+Interromper gestos ao ocultar a aba: cancelar callbacks, restaurar controles, capturar posição e suspender atualizações de geometria/olhar. Ao retornar, medir antes de retomar o pouso. Preservar a lupa integrada ao braço, a órbita no corpo, a sombra sob os pés e o retorno contínuo. Não adicionar mais travessuras sem uma necessidade demonstrada na revisão.
