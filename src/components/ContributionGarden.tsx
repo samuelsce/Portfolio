@@ -5,6 +5,7 @@ import type { ContributionDay } from "../data/contributions";
 import { useLanguage } from "../i18n/LanguageProvider";
 import { gardenCopy } from "../i18n/garden";
 import MascotArtwork from "./MascotArtwork";
+import LazyLoadBoundary, { LoadFailure } from "./LazyLoadBoundary";
 const SecretGarden = lazy(() => import("./SecretGarden"));
 
 const Calendar = memo(function Calendar({ days, onSelect }: { days: ContributionDay[]; onSelect: (day: ContributionDay) => void }) {
@@ -116,6 +117,7 @@ export default function ContributionGarden({ motion }: { motion: boolean }) {
         <MascotArtwork docked />
       </button>
     </div>
+    {secret && <LazyLoadBoundary fallback={<LoadFailure onClose={closeSecret} />}><Suspense fallback={<span role="status">{copy.gameLoading}</span>}><SecretGarden motion={motion} onClose={closeSecret} /></Suspense></LazyLoadBoundary>}
     <div className="contribution-summary"><p><strong>{data.total.toLocaleString(locale)}</strong> {copy.contributions}</p><a href="https://github.com/samuelsce" target="_blank" rel="noreferrer">@samuelsce</a></div>
     <Calendar days={data.days} onSelect={selectDay} />
     <div className="contribution-details">
@@ -124,6 +126,5 @@ export default function ContributionGarden({ motion }: { motion: boolean }) {
     </div>
     <p className="contribution-instructions" id="calendar-help">{copy.chartHelp}</p>
     <div className="contribution-footer"><p>{failed ? copy.saved : copy.updated} <time dateTime={data.fetchedAt}>{date.format(new Date(data.fetchedAt))}</time>{failed && <button onClick={retry} disabled={loading}>{loading ? copy.loading : copy.retry}</button>}</p><span className="contribution-swipe">{copy.slide}</span></div>
-    {secret && <Suspense fallback={<span role="status">{copy.gameLoading}</span>}><SecretGarden motion={motion} onClose={closeSecret} /></Suspense>}
   </>;
 }

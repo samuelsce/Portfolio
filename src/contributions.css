@@ -1,5 +1,9 @@
 .contribution-section { padding-block: 84px 88px; min-height: 470px; }
 .garden-placeholder { min-height: 302px; }
+.load-error { padding-block: 24px; color: #796471; font-size: 16px; }
+.load-error h2 { margin-bottom: 20px; color: var(--ink); font-size: clamp(30px,3.2vw,44px); font-weight: 500; letter-spacing: -1.5px; }
+.load-error > div { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.load-error button { border: 1px solid var(--line); border-radius: 7px; padding: 10px 14px; min-height: 44px; background: var(--paper); color: var(--berry); }
 .contribution-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .contribution-heading h2 { margin: 0; font-size: clamp(30px,3.2vw,44px); font-weight: 500; letter-spacing: -1.5px; line-height: 1.15; }
 .contribution-heading p { margin: 16px 0 0; color: #796471; font-size: 17px; line-height: 1.6; }

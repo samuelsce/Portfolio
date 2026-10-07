@@ -12,6 +12,8 @@ const pt = {
   close: "Voltar ao portfólio", won: "Órbita ativada!", wonDetail: "O quadro inteiro acendeu. Missão cumprida.",
   row: "Linha", column: "coluna", lit: "aceso", unlit: "apagado", board: "Puzzle de luzes, quatro linhas e quatro colunas",
   keys: "Use as setas para escolher um quadrado e Enter ou Espaço para tocar.",
+  calendarUnavailable: "Não foi possível carregar o calendário.", gameUnavailable: "Não foi possível abrir o jogo.",
+  loadHelp: "O restante do portfólio continua disponível. Recarregue a página para tentar novamente.", reload: "Recarregar página",
 };
 const en: Record<keyof typeof pt, string> = {
   title: "A year of building.", description: "Each square records a day on GitHub.",
@@ -27,5 +29,7 @@ const en: Record<keyof typeof pt, string> = {
   close: "Back to the portfolio", won: "Orbit activated!", wonDetail: "Every square is lit. Mission accomplished.",
   row: "Row", column: "column", lit: "lit", unlit: "unlit", board: "Light puzzle, four rows and four columns",
   keys: "Use the arrows to choose a square and Enter or Space to tap it.",
+  calendarUnavailable: "The calendar could not be loaded.", gameUnavailable: "The game could not be opened.",
+  loadHelp: "The rest of the portfolio is still available. Reload the page to try again.", reload: "Reload page",
 };
 export const gardenCopy = { pt, en };
