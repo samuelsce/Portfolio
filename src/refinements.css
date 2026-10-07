@@ -720,6 +720,12 @@ html {
 .language-switcher button[aria-pressed="false"]:hover {
   background: var(--blush);
 }
+@media (pointer: coarse) {
+  .language-switcher button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
 @media (max-width: 650px) {
   .site-header nav .language-switcher {
     margin-left: auto;

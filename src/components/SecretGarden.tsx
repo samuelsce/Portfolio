@@ -70,6 +70,8 @@ export default function SecretGarden({ motion, onClose }: { motion: boolean; onC
   }, []);
   useEffect(() => {
     if (!won || moves === 0) return;
+    // Winning disables every tile. Move focus to an enabled action before Tab is lost.
+    dialog.current?.querySelector<HTMLButtonElement>(".secret-actions button:last-child")?.focus({ preventScroll: true });
     if (best === null || moves < best) {
       setBest(moves);
       try { localStorage.setItem(recordKey, String(moves)); } catch { /* Play without storage. */ }

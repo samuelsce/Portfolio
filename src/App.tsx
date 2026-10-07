@@ -736,6 +736,7 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [copyFailed, setCopyFailed] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const navigation = useRef<HTMLElement>(null);
   const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(
     () => () => {
@@ -746,6 +747,8 @@ export default function App() {
   useEffect(() => {
     const mobile = window.matchMedia("(max-width: 650px)");
     function resizeMenu(event: MediaQueryListEvent) {
+      if (event.matches && navigation.current?.contains(document.activeElement))
+        menuButton.current?.focus({ preventScroll: true });
       if (!event.matches) {
         setMenuOpen(false);
         if (document.activeElement === menuButton.current)
@@ -828,6 +831,7 @@ export default function App() {
             </span>
           </button>
           <nav
+            ref={navigation}
             id="main-nav"
             className={menuOpen ? "nav-open" : ""}
             aria-label={t.navigation}
@@ -853,7 +857,7 @@ export default function App() {
           </nav>
         </div>
       </header>
-      <main id="conteudo">
+      <main id="conteudo" tabIndex={-1}>
         <section
           className="hero section-shell"
           id="inicio"
