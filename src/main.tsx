@@ -8,6 +8,7 @@ import App from "./App";
 import "./styles.css";
 import "./refinements.css";
 import "./mascot.css";
+import "./mascot-adventures.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

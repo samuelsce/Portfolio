@@ -1,0 +1,498 @@
+/* The planet's rings belong to the workbench's original visual language. */
+.mascot-orbits {
+  opacity: 0;
+  transition:
+    opacity 450ms,
+    scale 500ms;
+  transform-origin: 56px 52px;
+  scale: 0.8;
+}
+.orbit {
+  transform-origin: 56px 52px;
+}
+.page-mascot[data-planet="warming"] .mascot-orbits {
+  opacity: calc(var(--planet-energy) * 0.65);
+  scale: 1;
+}
+.page-mascot[data-planet="on"] .mascot-orbits {
+  opacity: 0.85;
+  scale: 1;
+}
+.page-mascot:is([data-planet="warming"], [data-planet="on"]) .orbit-one {
+  animation: mascot-orbit 5.4s linear infinite;
+}
+.page-mascot:is([data-planet="warming"], [data-planet="on"]) .orbit-two {
+  animation: mascot-orbit 7s linear reverse infinite;
+}
+.page-mascot:is([data-planet="warming"], [data-planet="on"]) .orbit-three {
+  animation: mascot-orbit 9s linear infinite;
+}
+.page-mascot[data-planet="on"] .orbit-one {
+  animation-duration: 2.6s;
+}
+.page-mascot[data-planet="on"] .orbit-two {
+  animation-duration: 3.8s;
+}
+.page-mascot[data-planet="on"] .mascot-skin {
+  fill: #ef75a3;
+}
+@keyframes mascot-orbit {
+  to {
+    rotate: 360deg;
+  }
+}
+.mascot-smirk {
+  opacity: 0;
+}
+.page-mascot:is(
+    [data-phase="walking"],
+    [data-phase="settling"],
+    [data-phase="charging"],
+    [data-phase="scheming"],
+    [data-phase="pranking"]
+  )
+  .mascot-greeting {
+  pointer-events: auto;
+  cursor: grab;
+}
+
+/* Feet alternate their weight, with the opposite arm counterbalancing. */
+.page-mascot[data-phase="walking"] .mascot-body {
+  animation: mascot-walk-bob var(--walk-step, 340ms) ease-in-out infinite;
+}
+.page-mascot[data-phase="walking"] .leg-left {
+  transform-origin: 44px 82px;
+  animation: mascot-walk-leg var(--walk-step, 340ms) ease-in-out infinite
+    alternate;
+}
+.page-mascot[data-phase="walking"] .leg-right {
+  transform-origin: 67px 82px;
+  animation: mascot-walk-leg var(--walk-step, 340ms) ease-in-out infinite
+    alternate-reverse;
+}
+.page-mascot[data-phase="walking"] .arm-left {
+  animation: mascot-walk-arm var(--walk-step, 340ms) ease-in-out infinite
+    alternate-reverse;
+}
+.page-mascot[data-phase="walking"] .arm-right {
+  animation: mascot-walk-arm var(--walk-step, 340ms) ease-in-out infinite
+    alternate;
+}
+.page-mascot[data-phase="walking"] .mascot-shadow {
+  animation: mascot-walk-shadow var(--walk-step, 340ms) ease-in-out infinite;
+}
+.page-mascot[data-phase="walking"] .mascot-head {
+  rotate: calc(var(--walk-direction) * 5deg);
+}
+.page-mascot[data-phase="walking"]:is(
+    [data-planet="warming"],
+    [data-planet="on"]
+  )
+  :is(.mascot-brows, .mascot-frown) {
+  opacity: 1;
+}
+.page-mascot[data-phase="walking"]:is(
+    [data-planet="warming"],
+    [data-planet="on"]
+  )
+  .mascot-smile {
+  opacity: 0;
+}
+.page-mascot[data-phase="walking"] .brow-left {
+  rotate: 18deg;
+  translate: 0 2px;
+}
+.page-mascot[data-phase="walking"] .brow-right {
+  rotate: -18deg;
+  translate: 0 2px;
+}
+@keyframes mascot-walk-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(calc(var(--walk-direction) * 3deg));
+  }
+  50% {
+    transform: translateY(-3px) rotate(calc(var(--walk-direction) * 5deg));
+  }
+}
+@keyframes mascot-walk-leg {
+  from {
+    rotate: -22deg;
+    translate: 0 -2px;
+  }
+  to {
+    rotate: 22deg;
+    translate: 0 0;
+  }
+}
+@keyframes mascot-walk-arm {
+  from {
+    rotate: -24deg;
+  }
+  to {
+    rotate: 24deg;
+  }
+}
+@keyframes mascot-walk-shadow {
+  0%,
+  100% {
+    scale: 1 1;
+    opacity: 0.12;
+  }
+  50% {
+    scale: 0.82 0.8;
+    opacity: 0.08;
+  }
+}
+.page-mascot[data-phase="released"] .mascot-body {
+  animation: mascot-drop 360ms both;
+}
+.page-mascot[data-phase="released"] .mascot-shadow {
+  opacity: 0.12;
+}
+.page-mascot[data-phase="released"] .arm-left {
+  animation-duration: 360ms;
+}
+.page-mascot[data-phase="released"] .arm-right {
+  animation-duration: 360ms;
+}
+@keyframes mascot-drop {
+  0% {
+    transform: translateY(-5px) scale(0.96, 1.08);
+  }
+  45% {
+    transform: translateY(3px) scale(1.12, 0.82);
+  }
+  75% {
+    transform: translateY(-2px) scale(0.96, 1.04);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* Anticipation gives the angry planet a change of character before mischief. */
+.page-mascot[data-phase="charging"] .mascot-body {
+  animation: mascot-power-up 1200ms both;
+}
+.page-mascot[data-phase="charging"] .mascot-brows {
+  opacity: 1;
+}
+.page-mascot[data-phase="charging"] .arm-left {
+  animation: mascot-power-arm-left 1200ms both;
+}
+.page-mascot[data-phase="charging"] .arm-right {
+  animation: mascot-power-arm-right 1200ms both;
+}
+.page-mascot[data-phase="charging"] .mascot-delight {
+  animation: mascot-sparkle 1200ms both;
+}
+.page-mascot[data-phase="charging"] .mascot-shadow {
+  animation: mascot-power-shadow 1200ms both;
+}
+@keyframes mascot-power-up {
+  0% {
+    transform: scale(1.06, 0.92);
+  }
+  25% {
+    transform: scale(0.92, 1.1) rotate(-7deg);
+  }
+  50% {
+    transform: scale(1.12, 0.9) rotate(7deg);
+  }
+  72% {
+    transform: translateY(-12px) scale(0.98, 1.02);
+  }
+  100% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes mascot-power-arm-left {
+  0% {
+    rotate: -30deg;
+  }
+  70%,
+  100% {
+    rotate: 105deg;
+  }
+}
+@keyframes mascot-power-arm-right {
+  0% {
+    rotate: 30deg;
+  }
+  70%,
+  100% {
+    rotate: -105deg;
+  }
+}
+@keyframes mascot-power-shadow {
+  0% {
+    scale: 1;
+    opacity: 0.12;
+  }
+  100% {
+    scale: 0.6;
+    opacity: 0.05;
+  }
+}
+.page-mascot:is([data-phase="scheming"], [data-phase="pranking"]) .mascot-body {
+  animation: mascot-planet-hover 900ms ease-in-out infinite alternate;
+}
+.page-mascot:is([data-phase="scheming"], [data-phase="pranking"])
+  .mascot-shadow {
+  opacity: 0;
+}
+.page-mascot:is([data-phase="scheming"], [data-phase="pranking"])
+  .mascot-brows {
+  opacity: 1;
+}
+.page-mascot:is([data-phase="scheming"], [data-phase="pranking"]) .brow-left {
+  rotate: -12deg;
+  translate: 0 -2px;
+}
+.page-mascot:is([data-phase="scheming"], [data-phase="pranking"])
+  .mascot-smile {
+  opacity: 0;
+}
+.page-mascot:is([data-phase="scheming"], [data-phase="pranking"])
+  .mascot-smirk {
+  opacity: 1;
+}
+.page-mascot[data-phase="scheming"] .leg-left {
+  rotate: 12deg;
+}
+.page-mascot[data-phase="scheming"] .leg-right {
+  rotate: -12deg;
+}
+.page-mascot[data-phase="pranking"] .eye-right {
+  animation: mascot-hello-wink 1300ms both;
+}
+.page-mascot[data-phase="pranking"][data-action="press"] .arm-right {
+  animation: mascot-button-poke 1400ms both;
+}
+.page-mascot[data-phase="pranking"][data-action="poke"] .arm-right {
+  animation: mascot-double-poke 1450ms both;
+}
+.page-mascot[data-phase="pranking"] .arm-left {
+  rotate: -40deg;
+}
+@keyframes mascot-planet-hover {
+  from {
+    transform: translateY(-4px) rotate(-4deg);
+  }
+  to {
+    transform: translateY(-8px) rotate(4deg);
+  }
+}
+@keyframes mascot-button-poke {
+  0% {
+    rotate: 0deg;
+  }
+  17% {
+    rotate: -42deg;
+  }
+  22% {
+    rotate: -8deg;
+    translate: 3px 0;
+  }
+  34% {
+    rotate: -30deg;
+    translate: 0 0;
+  }
+  85%,
+  100% {
+    rotate: 0deg;
+  }
+}
+@keyframes mascot-double-poke {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  20%,
+  55% {
+    rotate: -45deg;
+  }
+  30%,
+  65% {
+    rotate: -5deg;
+    translate: 4px 0;
+  }
+  40%,
+  75% {
+    translate: 0 0;
+  }
+}
+.mascot-tapped {
+  animation: mascot-control-tap 1450ms both;
+}
+.project-visual.mascot-teased .visual-layer.is-active,
+.idea-preview.mascot-teased,
+h1.mascot-teased {
+  animation: mascot-element-wiggle 1450ms both;
+  transform-origin: 50% 80%;
+}
+@keyframes mascot-control-tap {
+  0% {
+    scale: 0.92;
+  }
+  15% {
+    scale: 1.05;
+  }
+  30% {
+    scale: 1;
+  }
+  45%,
+  70% {
+    rotate: -2deg;
+  }
+  55%,
+  80% {
+    rotate: 2deg;
+  }
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+@keyframes mascot-element-wiggle {
+  0%,
+  100% {
+    transform: none;
+  }
+  15%,
+  45% {
+    transform: rotate(-2deg) translateX(-3px);
+  }
+  30%,
+  60% {
+    transform: rotate(2deg) translateX(3px);
+  }
+  75% {
+    transform: rotate(-0.6deg);
+  }
+}
+
+/* Header grip, planted feet, anticipation, two tugs, then release. */
+.page-mascot[data-phase="bracing"] .mascot-body {
+  transform: scale(1.04, 0.95) rotate(-5deg);
+}
+.page-mascot:is(
+    [data-phase="bracing"],
+    [data-phase="pulling"],
+    [data-phase="pushing"]
+  )
+  .mascot-paper-grip {
+  opacity: 1;
+}
+.page-mascot:is(
+    [data-phase="bracing"],
+    [data-phase="pulling"],
+    [data-phase="pushing"]
+  )
+  .arm-right {
+  rotate: 60deg;
+}
+.page-mascot[data-phase="bracing"] .arm-left {
+  rotate: -42deg;
+}
+.page-mascot:is([data-phase="bracing"], [data-phase="pushing"])
+  :is(.mascot-brows, .mascot-effort) {
+  opacity: 1;
+}
+.page-mascot:is([data-phase="bracing"], [data-phase="pushing"]) .mascot-smile {
+  opacity: 0;
+}
+.page-mascot[data-phase="pulling"] .mascot-body {
+  animation: mascot-two-tugs 1000ms both;
+}
+.page-mascot[data-phase="pulling"] .arm-left {
+  animation: mascot-counterweight 1000ms both;
+}
+.page-mascot[data-phase="pulling"] .leg-left {
+  rotate: -20deg;
+}
+.page-mascot[data-phase="pulling"] .leg-right {
+  rotate: 16deg;
+}
+.page-mascot[data-phase="pulling"] .mascot-sweat {
+  animation: mascot-effort-drops 1000ms both;
+}
+.page-mascot[data-phase="pushing"] .mascot-body {
+  animation: mascot-header-push 900ms both;
+}
+.page-mascot[data-phase="pushing"] .arm-left {
+  rotate: 110deg;
+}
+.page-mascot[data-phase="pushing"] .leg-left {
+  animation: mascot-walk-leg 300ms ease-in-out infinite alternate;
+}
+.page-mascot[data-phase="pushing"] .leg-right {
+  animation: mascot-walk-leg 300ms ease-in-out infinite alternate-reverse;
+}
+.page-mascot[data-phase="pushing"] .mascot-head {
+  rotate: 7deg;
+}
+.page-mascot[data-phase="bracing"] .mascot-shadow,
+.page-mascot[data-phase="pushing"] .mascot-shadow {
+  opacity: 0;
+}
+@keyframes mascot-two-tugs {
+  0% {
+    transform: rotate(-5deg) scale(1.04, 0.95);
+  }
+  25% {
+    transform: rotate(-13deg) scale(0.94, 1.05);
+  }
+  43% {
+    transform: rotate(-6deg) scale(1.05, 0.94);
+  }
+  65% {
+    transform: rotate(-16deg) scale(0.95, 1.06);
+  }
+  85% {
+    transform: rotate(-3deg) scale(1.06, 0.95);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes mascot-counterweight {
+  0%,
+  100% {
+    rotate: -40deg;
+  }
+  25%,
+  65% {
+    rotate: -80deg;
+  }
+}
+@keyframes mascot-effort-drops {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  25%,
+  65% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+@keyframes mascot-header-push {
+  0% {
+    transform: rotate(4deg) scale(1.05, 0.94);
+  }
+  30% {
+    transform: rotate(14deg) scale(0.95, 1.03);
+  }
+  55% {
+    transform: rotate(9deg) scale(1.02, 0.98);
+  }
+  78% {
+    transform: rotate(13deg);
+  }
+  100% {
+    transform: none;
+  }
+}
