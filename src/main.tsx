@@ -7,6 +7,7 @@ import "@fontsource/space-grotesk/latin-700.css";
 import App from "./App";
 import "./styles.css";
 import "./refinements.css";
+import "./mascot.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

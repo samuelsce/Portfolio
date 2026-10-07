@@ -4,6 +4,7 @@ import { academicProject, profile, projects } from "./data/portfolio";
 import RoomIllustration from "./components/RoomIllustration";
 import HeaderStretch from "./components/HeaderStretch";
 import type { HeaderSurface } from "./components/HeaderStretch";
+import PageMascot from "./components/PageMascot";
 import MascotArtwork from "./components/MascotArtwork";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -636,8 +637,8 @@ export default function App() {
     () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mascotAway] = useState(false);
-  const [headerSurface] = useState<HeaderSurface>({
+  const [mascotAway, setMascotAway] = useState(false);
+  const [headerSurface, setHeaderSurface] = useState<HeaderSurface>({
     expanded: false,
     covered: false,
   });
@@ -984,6 +985,11 @@ export default function App() {
           Até a próxima ideia <Spark />
         </span>
       </footer>
+      <PageMascot
+        motion={motion}
+        onAwayChange={setMascotAway}
+        onHeaderChange={setHeaderSurface}
+      />
     </div>
   );
 }
