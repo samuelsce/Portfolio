@@ -6,6 +6,7 @@ import HeaderStretch from "./components/HeaderStretch";
 import type { HeaderSurface } from "./components/HeaderStretch";
 import PageMascot from "./components/PageMascot";
 import MascotArtwork from "./components/MascotArtwork";
+import Icon from "./components/Icon";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -145,7 +146,7 @@ function Workbench({
           </span>
           <span>ideia.em.construção</span>
           <span className="chrome-symbol" aria-hidden="true">
-            ✳
+            <Icon name="asterisk" />
           </span>
         </div>
         <div className={`preview-stage ${dark ? "is-dark" : ""}`}>
@@ -227,7 +228,9 @@ function Workbench({
             onClick={() => setDark(!dark)}
             aria-label="Tema escuro da bancada"
           >
-            <span aria-hidden="true">{dark ? "☾" : "☀"}</span>
+            <span aria-hidden="true">
+              <Icon name={dark ? "moon" : "sun"} />
+            </span>
             <span>{dark ? "Escuro" : "Claro"}</span>
           </button>
           <label className="radius-control" htmlFor="radius">
@@ -249,7 +252,10 @@ function Workbench({
           <span className="live-dot" /> Laboratório aberto. Pode mexer.
         </span>
         <button onClick={reset}>
-          Recomeçar <span aria-hidden="true">↺</span>
+          Recomeçar
+          <span aria-hidden="true">
+            <Icon name="reset" />
+          </span>
         </button>
       </div>
       <label className="idea-input">
@@ -282,7 +288,10 @@ function MonitorIllustration() {
     >
       <div className="monitor-top">
         <span>
-          <span className="monitor-logo">⌁</span> LinkWatch
+          <span className="monitor-logo">
+            <Icon name="link" />
+          </span>{" "}
+          LinkWatch
         </span>
         <span className="monitor-status">
           <i /> Sistemas operacionais
@@ -401,7 +410,9 @@ function BarberIllustration() {
             <strong>Corte & estilo</strong>
             <span>Horário de exemplo</span>
           </div>
-          <span aria-hidden="true">↗</span>
+          <span aria-hidden="true">
+            <Arrow diagonal />
+          </span>
         </div>
         <div className="agenda-slot">
           <span>10:30</span>
@@ -409,12 +420,16 @@ function BarberIllustration() {
             <strong>Barba & cuidado</strong>
             <span>Horário de exemplo</span>
           </div>
-          <span aria-hidden="true">↗</span>
+          <span aria-hidden="true">
+            <Arrow diagonal />
+          </span>
         </div>
         <div className="agenda-free">
           <span>11:30</span>
           <span>Espaço para o próximo.</span>
-          <span aria-hidden="true">+</span>
+          <span aria-hidden="true">
+            <Icon name="plus" />
+          </span>
         </div>
       </div>
     </div>
@@ -441,7 +456,9 @@ function Project({ project }: { project: (typeof projects)[number] }) {
               aria-label="Luz noturna do quarto"
               onClick={() => setRoomNight(!roomNight)}
             >
-              <span aria-hidden="true">{roomNight ? "☾" : "☀"}</span>{" "}
+              <span aria-hidden="true">
+                <Icon name={roomNight ? "moon" : "sun"} />
+              </span>{" "}
               {roomNight ? "Luz noturna" : "Luz natural"}
             </button>
           ) : !showScreenshot ? (
@@ -452,7 +469,9 @@ function Project({ project }: { project: (typeof projects)[number] }) {
               aria-label={`Modo escuro da ilustração ${project.name}`}
               onClick={() => setIllustrationDark(!illustrationDark)}
             >
-              <span aria-hidden="true">{illustrationDark ? "☀" : "☾"}</span>
+              <span aria-hidden="true">
+                <Icon name={illustrationDark ? "sun" : "moon"} />
+              </span>
               {illustrationDark ? "Modo claro" : "Modo escuro"}
             </button>
           ) : (
@@ -509,7 +528,9 @@ function Project({ project }: { project: (typeof projects)[number] }) {
               onClick={() => setShowScreenshot(!showScreenshot)}
             >
               {showScreenshot ? "Ver ilustração" : "Ver interface real"}
-              <span aria-hidden="true">{showScreenshot ? "✳" : "▣"}</span>
+              <span aria-hidden="true">
+                <Icon name={showScreenshot ? "asterisk" : "image"} />
+              </span>
             </button>
           )}
         </div>
@@ -552,7 +573,9 @@ function Project({ project }: { project: (typeof projects)[number] }) {
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? "Fechar detalhes" : "Por dentro do projeto"}
-          <span aria-hidden="true">{expanded ? "−" : "+"}</span>
+          <span aria-hidden="true">
+            <Icon name={expanded ? "minus" : "plus"} />
+          </span>
         </button>
         <div
           id={`${project.id}-detail`}
@@ -732,7 +755,9 @@ export default function App() {
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? "Fechar" : "Menu"}
-            <span aria-hidden="true">{menuOpen ? "×" : "+"}</span>
+            <span aria-hidden="true">
+              <Icon name={menuOpen ? "close" : "plus"} />
+            </span>
           </button>
           <nav
             id="main-nav"
@@ -809,7 +834,10 @@ export default function App() {
         <div className="section-transition section-shell">
           <span>Um pouco de intenção em cada pixel.</span>
           <span>
-            Role para conhecer <span aria-hidden="true">↓</span>
+            Role para conhecer
+            <span aria-hidden="true">
+              <Icon name="down" />
+            </span>
           </span>
         </div>
         <section
@@ -944,7 +972,9 @@ export default function App() {
                   : profile.email
                     ? "Copiar e-mail"
                     : "Copiar link do perfil"}
-                <span aria-hidden="true">{copied ? "✓" : "⧉"}</span>
+                <span aria-hidden="true">
+                  <Icon name={copied ? "check" : "copy"} />
+                </span>
               </button>
               <span className="copy-status" role="status">
                 {copyFailed

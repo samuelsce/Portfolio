@@ -1,4 +1,12 @@
 /* Refinements shared by the illustration, controls and page navigation. */
+.ui-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+
 :root {
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
