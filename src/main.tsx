@@ -11,6 +11,7 @@ import "./refinements.css";
 import "./mascot.css";
 import "./mascot-adventures.css";
 import "./mascot-finish.css";
+import "./polish.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

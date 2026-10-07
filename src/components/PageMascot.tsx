@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { HeaderSurface } from "./HeaderStretch";
 import MascotArtwork from "./MascotArtwork";
-import { useLanguage } from "../i18n/LanguageProvider";
+import { languageChangeEvent, useLanguage } from "../i18n/LanguageProvider";
 
 type Point = { x: number; y: number; size: number };
 type Phase =
@@ -26,6 +26,7 @@ type Phase =
   | "waiting"
   | "reappearing";
 type Reaction =
+  | "language"
   | "wave"
   | "curious"
   | "inspect"
@@ -77,6 +78,9 @@ export default function PageMascot({
     const brand = header.querySelector<HTMLElement>(".brand")!;
     const nav = header.querySelector<HTMLElement>("nav")!;
     const portfolio = element.closest<HTMLElement>(".portfolio")!;
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const headerPerch = (width: number) =>
+      width <= 1100 || (coarsePointer && width <= 1500);
     const svgStyle = (selector: string) =>
       element.querySelector<SVGElement>(selector)!.style;
     const headStyle = svgStyle(".mascot-head");
@@ -122,9 +126,9 @@ export default function PageMascot({
         h: header!.getBoundingClientRect(),
         container: inner!.getBoundingClientRect(),
         content: shell!.getBoundingClientRect(),
-        brand: width <= 1100 ? brand.getBoundingClientRect() : null,
+        brand: headerPerch(width) ? brand.getBoundingClientRect() : null,
         right:
-          width <= 1100
+          headerPerch(width)
             ? (width <= 650 ? menu : nav).getBoundingClientRect()
             : null,
       };
@@ -140,6 +144,9 @@ export default function PageMascot({
     let attentionTarget: HTMLElement | null = null;
     let reactionFrame = 0;
     let reactionTimer: ReturnType<typeof setTimeout> | undefined;
+    let languageTimer: ReturnType<typeof setTimeout> | undefined;
+    let languageFrame = 0;
+    let pendingLanguage = false;
     let idleTimer: ReturnType<typeof setTimeout> | undefined;
     let holdTimer: ReturnType<typeof setTimeout> | undefined;
     let furyTimer: ReturnType<typeof setTimeout> | undefined;
@@ -317,6 +324,39 @@ export default function PageMascot({
       });
     }
 
+    function languageGreeting() {
+      if (!pendingLanguage || !motion || suspended || menuActive) return;
+      if (current === "observing") {
+        pendingLanguage = false;
+        react("language", 1200);
+      } else if (current === "docked" && anchor) {
+        pendingLanguage = false;
+        clearTimeout(languageTimer);
+        cancelAnimationFrame(languageFrame);
+        const card = anchor;
+        delete card.dataset.languageReaction;
+        languageFrame = requestAnimationFrame(() => {
+          languageFrame = 0;
+          if (closed || suspended) return;
+          if (current !== "docked" || menuActive) {
+            pendingLanguage = true;
+            return;
+          }
+          card.dataset.languageReaction = "true";
+          languageTimer = setTimeout(
+            () => delete card.dataset.languageReaction,
+            1200,
+          );
+        });
+      }
+    }
+    function languageChanged() {
+      if (!motion || suspended) return;
+      // Queue the gesture while navigation or a trajectory has priority.
+      pendingLanguage = true;
+      languageGreeting();
+    }
+
     function observe() {
       if (expanded && !zone && needsStretch) {
         push();
@@ -343,6 +383,7 @@ export default function PageMascot({
       place(observerSpot);
       look();
       idle();
+      languageGreeting();
     }
     function land() {
       change("landing");
@@ -458,6 +499,7 @@ export default function PageMascot({
       clearReaction();
       change("docked");
       onAwayChange(false);
+      languageGreeting();
       if (element!.contains(document.activeElement))
         anchor?.focus({ preventScroll: true });
     }
@@ -1045,6 +1087,10 @@ export default function PageMascot({
     function visibility() {
       portfolio.dataset.pageHidden = String(document.hidden);
       if (document.hidden) {
+        pendingLanguage = false;
+        clearTimeout(languageTimer);
+        cancelAnimationFrame(languageFrame);
+        if (anchor) delete anchor.dataset.languageReaction;
         suspended = true;
         release(true);
         stopPlay();
@@ -1074,7 +1120,10 @@ export default function PageMascot({
     function yieldToMenu(open: boolean) {
       if (open === menuActive) return;
       menuActive = open;
-      if (current === "docked") return;
+      if (current === "docked") {
+        if (!open) languageGreeting();
+        return;
+      }
       release(true);
       stopPlay();
       energy(0);
@@ -1142,7 +1191,7 @@ export default function PageMascot({
       // Body circle occupies 74 of the SVG's 112 units. Match the hero's
       // original circle when taking off and when docking again.
       updateHomeSpot(a);
-      const tucked = width <= 1100;
+      const tucked = headerPerch(width);
       const menuIsOpen = menu.getAttribute("aria-expanded") === "true";
       if (menuIsOpen !== measuredMenuOpen) {
         measuredMenuOpen = menuIsOpen;
@@ -1153,12 +1202,20 @@ export default function PageMascot({
 
       if (tucked) {
         const gap = Math.max(0, geometry.right!.left - geometry.brand!.right);
-        const small = Math.min(60, Math.max(44, gap - 8));
-        observerSpot = {
-          x: geometry.brand!.right + gap / 2 - small / 2,
-          y: h.height / 2 - (small * 52) / BASE,
-          size: small,
-        };
+        if (width > 650 && gap < 112) {
+          // On tablets a cramped navigation gap must not shrink the character.
+          observerSpot = { x: width - 112, y: h.bottom + 12, size: 104 };
+        } else {
+          const small = Math.min(
+            width > 650 ? 96 : 60,
+            Math.max(44, gap - (width > 650 ? 16 : 8)),
+          );
+          observerSpot = {
+            x: geometry.brand!.right + gap / 2 - small / 2,
+            y: h.height / 2 - (small * 52) / BASE,
+            size: small,
+          };
+        }
       } else {
         const gutter = width - content.right;
         const small = Math.min(112, Math.max(44, gutter - 12));
@@ -1402,6 +1459,7 @@ export default function PageMascot({
         return;
       }
       if (control.matches(".art-dot")) return;
+      if (control.closest(".language-switcher")) return;
       if (MISCHIEF.includes(current)) {
         stopPlay(control);
         energy(0);
@@ -1473,6 +1531,7 @@ export default function PageMascot({
       document.addEventListener("keydown", keyDown);
       document.addEventListener("keyup", keyUp);
       document.addEventListener("visibilitychange", visibility);
+      window.addEventListener(languageChangeEvent, languageChanged);
     }
     measure();
     return () => {
@@ -1483,6 +1542,9 @@ export default function PageMascot({
       cancelAnimationFrame(gazeFrame);
       cancelAnimationFrame(reactionFrame);
       clearTimeout(reactionTimer);
+      clearTimeout(languageTimer);
+      cancelAnimationFrame(languageFrame);
+      if (anchor) delete anchor.dataset.languageReaction;
       clearTimeout(idleTimer);
       clearTimeout(holdTimer);
       clearTimeout(furyTimer);
@@ -1500,6 +1562,7 @@ export default function PageMascot({
       resize.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", invalidateLayout);
+      window.removeEventListener(languageChangeEvent, languageChanged);
       window.removeEventListener("pointermove", point);
       window.removeEventListener("blur", rest);
       document.removeEventListener("focusin", focus);

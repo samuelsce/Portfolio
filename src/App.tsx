@@ -7,6 +7,7 @@ import type { HeaderSurface } from "./components/HeaderStretch";
 import PageMascot from "./components/PageMascot";
 import MascotArtwork from "./components/MascotArtwork";
 import Icon from "./components/Icon";
+import SectionStroke from "./components/SectionStroke";
 import { useLanguage, LanguageSwitcher } from "./i18n/LanguageProvider";
 import { englishProjects, englishAcademicProject } from "./i18n/projects";
 
@@ -63,6 +64,7 @@ const Workbench = memo(function Workbench({
   const [radius, setRadius] = useState(24);
   const [idea, setIdea] = useState<string | null>(null);
   const [celebrate, setCelebrate] = useState(false);
+  const [benchActive, setBenchActive] = useState(false);
   const [celebrationId, setCelebrationId] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const benchRef = useRef<HTMLDivElement>(null);
@@ -129,9 +131,30 @@ const Workbench = memo(function Workbench({
     },
     [],
   );
+  useEffect(() => {
+    if (!benchActive) return;
+    function outside(event: globalThis.PointerEvent) {
+      if (
+        event.target instanceof Node &&
+        !benchRef.current?.contains(event.target)
+      ) {
+        setBenchActive(false);
+      }
+    }
+    function escape(event: KeyboardEvent) {
+      if (event.key === "Escape") setBenchActive(false);
+    }
+    document.addEventListener("pointerdown", outside, { passive: true });
+    window.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("pointerdown", outside);
+      window.removeEventListener("keydown", escape);
+    };
+  }, [benchActive]);
   function play() {
     if (timer.current) clearTimeout(timer.current);
     setCelebrate(true);
+    setBenchActive(true);
     setCelebrationId((current) => current + 1);
     timer.current = setTimeout(() => setCelebrate(false), 2200);
   }
@@ -141,6 +164,7 @@ const Workbench = memo(function Workbench({
     setRadius(24);
     setIdea(null);
     setCelebrate(false);
+    setBenchActive(false);
     if (timer.current) clearTimeout(timer.current);
     restGaze();
   }
@@ -164,7 +188,9 @@ const Workbench = memo(function Workbench({
           />
         </svg>
       </div>
-      <div className="studio-window">
+      <div
+        className={`studio-window ${benchActive ? "is-engaged" : ""} ${celebrate ? "is-activated" : ""}`}
+      >
         <div className="window-chrome">
           <span className="window-dots" aria-hidden="true">
             <i />
@@ -890,7 +916,10 @@ export default function App() {
           <div className="section-heading">
             <div>
               <span className="section-kicker">{t.projectsKicker}</span>
-              <h2 id="projects-title">{t.projectsTitle}</h2>
+              <h2 id="projects-title" className="projects-heading-title">
+                {t.projectsTitle}
+                <SectionStroke motion={motion} />
+              </h2>
             </div>
             <p>
               {t.projectsLead}
@@ -1047,7 +1076,6 @@ export default function App() {
         <span>
           © {new Date().getFullYear()} {profile.fullName}
         </span>
-        <span>{t.footer}</span>
         <span className="footer-signoff">
           {t.signoff} <Spark />
         </span>

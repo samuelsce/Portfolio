@@ -1,0 +1,101 @@
+/* Touch activation has the same intentional straightening as keyboard focus. */
+.studio-window:is(.is-activated, .is-engaged) {
+  --window-angle: 0deg;
+  transform: rotate(0deg);
+}
+.studio-window.is-activated .window-dots i {
+  animation: studio-dot-pop 650ms var(--ease-out);
+}
+.studio-window.is-activated .window-dots i:nth-child(2) {
+  animation-delay: 80ms;
+}
+.studio-window.is-activated .window-dots i:nth-child(3) {
+  animation-delay: 160ms;
+}
+@keyframes studio-dot-pop {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-3px); }
+  68% { transform: translateY(1px); }
+}
+
+/* One small stroke on arrival. Text stays visible throughout. */
+.projects-heading-title {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+}
+.section-stroke {
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  width: 100%;
+  height: 30px;
+  overflow: visible;
+  color: var(--pink);
+  pointer-events: none;
+}
+.section-stroke-line {
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.section-stroke-spark {
+  transform-box: view-box;
+  transform-origin: 441px 16px;
+}
+.portfolio[data-motion="on"] .section-stroke:not([data-drawn="true"]) .section-stroke-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.portfolio[data-motion="on"] .section-stroke:not([data-drawn="true"]) .section-stroke-spark {
+  opacity: 0;
+}
+.portfolio[data-motion="on"] .section-stroke[data-drawn="true"] .section-stroke-line {
+  stroke-dasharray: 1;
+  animation: section-stroke-draw 950ms var(--ease-out) both;
+}
+.portfolio[data-motion="on"] .section-stroke[data-drawn="true"] .section-stroke-spark {
+  animation: section-stroke-finish 500ms 600ms var(--ease-out) both;
+}
+@keyframes section-stroke-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes section-stroke-finish {
+  from { opacity: 0; transform: scale(0.5) rotate(-35deg); }
+  65% { opacity: 1; transform: scale(1.12) rotate(8deg); }
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* A knowing nod and wink, never a speech bubble or a new journey. */
+.page-mascot[data-reaction="language"] .mascot-head,
+.art-dot[data-language-reaction="true"] .mascot-head {
+  animation: mascot-language-nod 1100ms var(--ease-out) both;
+}
+.portfolio .art-dot[data-language-reaction="true"] .eye-right,
+.page-mascot[data-reaction="language"] .eye-right {
+  animation: mascot-hello-wink 1100ms both;
+}
+.page-mascot[data-reaction="language"] .arm-right {
+  animation: mascot-wave 1100ms both;
+}
+.page-mascot[data-reaction="language"] .mascot-body {
+  animation: mascot-language-hop 1100ms var(--ease-out) both;
+}
+.page-mascot[data-reaction="language"] .mascot-delight {
+  animation: mascot-sparkle 1100ms both;
+}
+@keyframes mascot-language-nod {
+  0%, 100% { rotate: 0deg; }
+  24% { rotate: -9deg; }
+  50% { rotate: 5deg; }
+  76% { rotate: -2deg; }
+}
+@keyframes mascot-language-hop {
+  0%, 100% { transform: translateY(0) scale(1); }
+  18% { transform: translateY(2px) scale(1.03, 0.97); }
+  38% { transform: translateY(-5px) scale(0.99, 1.02); }
+  62% { transform: translateY(1px) scale(1.01, 0.99); }
+  80% { transform: translateY(0) scale(1); }
+}

@@ -1,10 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { en, pt } from "./translations";
 import type { Translation } from "./translations";
 
 type Language = "pt" | "en";
 const storageKey = "samuel-studio-language";
+export const languageChangeEvent = "portfolio:languagechange";
 const LanguageContext = createContext<{
   language: Language;
   setLanguage: (language: Language) => void;
@@ -21,7 +22,14 @@ function initialLanguage(): Language {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(initialLanguage);
+  const selectedLanguage = useRef(language);
   const t = language === "pt" ? pt : en;
+  const changeLanguage = useCallback((next: Language) => {
+    if (next === selectedLanguage.current) return;
+    selectedLanguage.current = next;
+    setLanguage(next);
+    window.dispatchEvent(new Event(languageChangeEvent));
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
@@ -41,7 +49,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, [language, t]);
 
-  const value = useMemo(() => ({ language, setLanguage, t }), [language, t]);
+  const value = useMemo(
+    () => ({ language, setLanguage: changeLanguage, t }),
+    [language, changeLanguage, t],
+  );
   return (
     <LanguageContext.Provider value={value}>
       {children}
