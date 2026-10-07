@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent } from "react";
 import { academicProject, profile, projects } from "./data/portfolio";
 import RoomIllustration from "./components/RoomIllustration";
@@ -46,7 +46,7 @@ function GitHubIcon() {
   );
 }
 
-function Workbench({
+const Workbench = memo(function Workbench({
   motion,
   mascotAway,
   onMotionChange,
@@ -65,36 +65,60 @@ function Workbench({
   const benchRef = useRef<HTMLDivElement>(null);
   const mascotRef = useRef<HTMLButtonElement>(null);
   const gazeFrame = useRef<number | null>(null);
+  const pendingGaze = useRef({ x: 0, y: 0 });
   function restGaze() {
     if (gazeFrame.current !== null) cancelAnimationFrame(gazeFrame.current);
     gazeFrame.current = null;
-    benchRef.current?.style.setProperty("--gaze-x", "0px");
-    benchRef.current?.style.setProperty("--gaze-y", "0px");
-    benchRef.current?.style.setProperty("--gaze-angle", "0deg");
+    mascotRef.current?.style.setProperty("--gaze-x", "0px");
+    mascotRef.current?.style.setProperty("--gaze-y", "0px");
+    mascotRef.current?.style.setProperty("--gaze-angle", "0deg");
   }
   function followPointer(event: PointerEvent<HTMLDivElement>) {
-    if (!motion || event.pointerType !== "mouse" || !mascotRef.current) return;
-    const { clientX, clientY } = event;
-    if (gazeFrame.current !== null) cancelAnimationFrame(gazeFrame.current);
+    if (
+      !motion ||
+      mascotAway ||
+      event.pointerType !== "mouse" ||
+      !mascotRef.current
+    )
+      return;
+    pendingGaze.current = { x: event.clientX, y: event.clientY };
+    if (gazeFrame.current !== null) return;
     gazeFrame.current = requestAnimationFrame(() => {
       gazeFrame.current = null;
+      const { x: clientX, y: clientY } = pendingGaze.current;
       const face = mascotRef.current?.getBoundingClientRect();
-      const bench = benchRef.current;
-      if (!face || !bench) return;
+      const mascot = mascotRef.current;
+      if (!face || !mascot) return;
       const dx = clientX - (face.left + face.width / 2);
       const dy = clientY - (face.top + face.height / 2);
       const distance = Math.max(Math.hypot(dx, dy), 1);
       const strength = Math.min(distance / 24, 1);
       const x = (dx / distance) * strength * 6;
       const y = (dy / distance) * strength * 4;
-      bench.style.setProperty("--gaze-x", `${x.toFixed(2)}px`);
-      bench.style.setProperty("--gaze-y", `${y.toFixed(2)}px`);
-      bench.style.setProperty("--gaze-angle", `${(x * 0.65).toFixed(2)}deg`);
+      for (const [name, value] of [
+        ["--gaze-x", `${x.toFixed(2)}px`],
+        ["--gaze-y", `${y.toFixed(2)}px`],
+        ["--gaze-angle", `${(x * 0.65).toFixed(2)}deg`],
+      ])
+        if (mascot.style.getPropertyValue(name) !== value)
+          mascot.style.setProperty(name, value);
     });
   }
   useEffect(() => {
-    if (!motion) restGaze();
-  }, [motion]);
+    if (!motion || mascotAway) restGaze();
+  }, [motion, mascotAway]);
+  useEffect(() => {
+    const bench = benchRef.current;
+    if (!bench) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        bench.dataset.inView = String(entry.isIntersecting);
+      },
+      { rootMargin: "80px" },
+    );
+    observer.observe(bench);
+    return () => observer.disconnect();
+  }, []);
   useEffect(
     () => () => {
       if (timer.current) clearTimeout(timer.current);
@@ -278,7 +302,7 @@ function Workbench({
       </div>
     </div>
   );
-}
+});
 
 function MonitorIllustration() {
   return (
@@ -436,7 +460,11 @@ function BarberIllustration() {
   );
 }
 
-function Project({ project }: { project: (typeof projects)[number] }) {
+const Project = memo(function Project({
+  project,
+}: {
+  project: (typeof projects)[number];
+}) {
   const [expanded, setExpanded] = useState(false);
   const [showScreenshot, setShowScreenshot] = useState(false);
   const [roomNight, setRoomNight] = useState(false);
@@ -591,7 +619,7 @@ function Project({ project }: { project: (typeof projects)[number] }) {
       </div>
     </article>
   );
-}
+});
 
 function AcademicProject() {
   return (
@@ -659,6 +687,7 @@ export default function App() {
   const [motion, setMotion] = useState(
     () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+  const toggleMotion = useCallback(() => setMotion((on) => !on), []);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mascotAway, setMascotAway] = useState(false);
   const [headerSurface, setHeaderSurface] = useState<HeaderSurface>({
@@ -828,7 +857,7 @@ export default function App() {
           <Workbench
             mascotAway={mascotAway}
             motion={motion}
-            onMotionChange={() => setMotion(!motion)}
+            onMotionChange={toggleMotion}
           />
         </section>
         <div className="section-transition section-shell">

@@ -1,5 +1,7 @@
 // Every object uses the same projection, including its height. This keeps the
 // keyboard on the desk and the chair, cabinet and plant on separate floor areas.
+import { memo } from "react";
+
 type Point = readonly [number, number, number];
 const project = ([x, z, height]: Point) =>
   `${320 + (x - z) * 0.9},${210 + (x + z) * 0.46 - height}`;
@@ -60,7 +62,7 @@ function Box({
   );
 }
 
-export default function RoomIllustration({ night }: { night: boolean }) {
+function RoomIllustration({ night }: { night: boolean }) {
   return (
     <svg
       className={`room-illustration ${night ? "room-night" : ""}`}
@@ -412,3 +414,5 @@ export default function RoomIllustration({ night }: { night: boolean }) {
     </svg>
   );
 }
+
+export default memo(RoomIllustration);
