@@ -1,0 +1,686 @@
+/* Soft material, a shared rig and distance-driven steps. */
+.mascot-greeting:focus-visible {
+  outline: none;
+}
+.mascot-greeting:focus-visible::after {
+  content: "";
+  position: absolute;
+  left: 40px;
+  bottom: 2px;
+  width: 32px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--berry);
+}
+.art-dot,
+.is-poster .art-dot {
+  padding: 0;
+  box-shadow: none;
+  border-radius: 46%;
+  background: transparent;
+  --mascot-color: var(--pink);
+}
+.is-poster .art-dot {
+  --mascot-color: #fff7fa;
+}
+.art-dot > .mascot-artwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.art-dot .mascot-skin {
+  fill: var(--mascot-color);
+}
+.art-dot .mascot-head {
+  rotate: 0deg;
+}
+.art-dot .mascot-body {
+  transform: none;
+}
+.portfolio[data-motion="on"] .art-dot .mascot-eye {
+  animation: mascot-blink 6.4s infinite;
+}
+.is-celebrating .art-dot .eye-left {
+  animation: mascot-wink 800ms ease;
+}
+.is-celebrating .art-dot .mascot-smile {
+  animation: mascot-grin 800ms var(--ease-out);
+}
+
+.mascot-body,
+.mascot-limbs,
+.mascot-arm,
+.mascot-leg,
+.mascot-shadow,
+.mascot-inspection-rig,
+.mascot-paper-grip,
+.mascot-orbits,
+.brow-left,
+.brow-right {
+  transform-box: view-box;
+}
+.mascot-body {
+  transform-origin: 56px 107px;
+}
+.mascot-leg {
+  transition:
+    rotate 180ms ease-out,
+    translate 180ms ease-out;
+}
+.leg-left {
+  transform-origin: 44px 82px;
+}
+.leg-right {
+  transform-origin: 67px 82px;
+}
+.mascot-arm {
+  transition:
+    rotate 180ms ease-out,
+    translate 180ms ease-out,
+    opacity 120ms;
+}
+.mascot-shadow {
+  transform-origin: 56px 113px;
+  opacity: 1;
+  transition:
+    opacity 160ms,
+    scale 220ms;
+}
+.page-mascot[data-phase="observing"] .mascot-head {
+  animation: mascot-breathe 5.8s ease-in-out infinite;
+  transform-origin: 56px 85px;
+}
+@keyframes mascot-breathe {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.006, 1.014);
+  }
+}
+
+/* The gait advances with travelled distance, and fades with braking. */
+.page-mascot[data-phase="walking"] .mascot-body {
+  animation: none;
+  transform: translateY(calc(var(--walk-bob, 0) * 1px))
+    rotate(calc(var(--walk-sway, 0) * 1deg));
+}
+.page-mascot[data-phase="walking"] .mascot-leg {
+  animation: none;
+  transition: none;
+}
+.page-mascot[data-phase="walking"] .leg-left {
+  rotate: calc(var(--step-left, 0) * 1deg);
+  translate: 0 calc(var(--lift-left, 0) * 1px);
+}
+.page-mascot[data-phase="walking"] .leg-right {
+  rotate: calc(var(--step-right, 0) * 1deg);
+  translate: 0 calc(var(--lift-right, 0) * 1px);
+}
+.page-mascot[data-phase="walking"] .mascot-arm {
+  animation: none;
+  transition: none;
+}
+.page-mascot[data-phase="walking"] .arm-left {
+  rotate: calc(var(--arm-left, 0) * 1deg);
+}
+.page-mascot[data-phase="walking"] .arm-right {
+  rotate: calc(var(--arm-right, 0) * 1deg);
+}
+.page-mascot[data-phase="walking"] .mascot-head {
+  rotate: calc(var(--walk-direction, 1) * 2deg);
+}
+.page-mascot[data-phase="walking"] .mascot-shadow {
+  animation: none;
+  opacity: 1;
+  scale: calc(1 + var(--walk-bob, 0) * 0.035) 1;
+}
+.page-mascot[data-phase="released"] .mascot-shadow {
+  opacity: 1;
+}
+.page-mascot[data-phase="released"] .mascot-body {
+  animation: mascot-soft-drop 360ms both;
+}
+@keyframes mascot-soft-drop {
+  0% {
+    transform: translateY(-3px) scale(0.98, 1.04);
+  }
+  43% {
+    transform: translateY(2px) scale(1.07, 0.92);
+  }
+  73% {
+    transform: translateY(-1px) scale(0.985, 1.025);
+  }
+  100% {
+    transform: none;
+  }
+}
+.page-mascot[data-reaction="grumpy"] .mascot-body {
+  animation: mascot-soft-grump 1400ms both;
+}
+@keyframes mascot-soft-grump {
+  0%,
+  100% {
+    transform: none;
+  }
+  18% {
+    transform: rotate(-4deg) translateY(-2px);
+  }
+  29% {
+    transform: rotate(-3deg) scale(1.025, 0.98);
+  }
+  45% {
+    transform: rotate(4deg) translateY(-1.5px);
+  }
+  57% {
+    transform: rotate(3deg) scale(1.025, 0.98);
+  }
+  80% {
+    transform: rotate(-1deg);
+  }
+}
+
+/* A single ellipse passes behind the body and in front of it. No spinning
+   wire cage: only the small satellite travels around the orbital belt. */
+.mascot-orbits {
+  transform-origin: 56px 52px;
+}
+.orbital-track {
+  stroke: #a4416b;
+  stroke-width: 1.6;
+  fill: none;
+}
+.orbital-echo {
+  stroke: #e279a0;
+  stroke-width: 0.65;
+  opacity: 0.45;
+  fill: none;
+}
+.orbit-front .orbital-track {
+  stroke: #7e2c51;
+}
+.orbit-satellite {
+  opacity: 0;
+}
+.page-mascot:is([data-planet="warming"], [data-planet="on"]) .orbit-satellite {
+  animation: mascot-satellite 3.8s linear infinite;
+}
+.satellite-back {
+  animation-delay: -1.9s !important;
+}
+@keyframes mascot-satellite {
+  0% {
+    translate: 106px 52px;
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  12.5% {
+    translate: 91.35px 66.14px;
+  }
+  25% {
+    translate: 56px 72px;
+  }
+  37.5% {
+    translate: 20.65px 66.14px;
+  }
+  49% {
+    opacity: 1;
+  }
+  50% {
+    translate: 6px 52px;
+    opacity: 0;
+  }
+  62.5% {
+    translate: 20.65px 37.86px;
+  }
+  75% {
+    translate: 56px 32px;
+  }
+  87.5% {
+    translate: 91.35px 37.86px;
+  }
+  100% {
+    translate: 106px 52px;
+    opacity: 0;
+  }
+}
+/* Back satellite travels over the rear half, occluded by the face. */
+.page-mascot:is([data-planet="warming"], [data-planet="on"]) .satellite-back {
+  animation-name: mascot-satellite-rear;
+}
+@keyframes mascot-satellite-rear {
+  0% {
+    translate: 106px 52px;
+    opacity: 0;
+  }
+  12.5% {
+    translate: 91.35px 66.14px;
+  }
+  25% {
+    translate: 56px 72px;
+  }
+  37.5% {
+    translate: 20.65px 66.14px;
+  }
+  50% {
+    translate: 6px 52px;
+    opacity: 0;
+  }
+  51% {
+    opacity: 1;
+  }
+  62.5% {
+    translate: 20.65px 37.86px;
+  }
+  75% {
+    translate: 56px 32px;
+  }
+  87.5% {
+    translate: 91.35px 37.86px;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    translate: 106px 52px;
+    opacity: 0;
+  }
+}
+.page-mascot:is([data-phase="scheming"], [data-phase="pranking"]) .mascot-body {
+  animation: mascot-soft-hover 1800ms ease-in-out infinite;
+}
+@keyframes mascot-soft-hover {
+  0%,
+  100% {
+    transform: translateY(-4px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(2deg);
+  }
+}
+
+/* Shoulder, bent elbow, handle and fingers are transformed as one rig. */
+.mascot-inspection-rig {
+  transform-origin: 88px 57px;
+  opacity: 0;
+}
+.page-mascot[data-reaction="inspect"] .mascot-inspection-rig {
+  animation: mascot-inspect-rig 2000ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.page-mascot[data-reaction="inspect"] .arm-right {
+  opacity: 0;
+  animation: none;
+}
+.page-mascot[data-reaction="inspect"] .mascot-magnifier {
+  opacity: 1;
+  animation: none;
+  transform: none;
+}
+.page-mascot[data-reaction="inspect"] .mascot-body {
+  animation: mascot-soft-examine 2000ms both;
+}
+@keyframes mascot-inspect-rig {
+  0%,
+  100% {
+    opacity: 0;
+    rotate: 28deg;
+  }
+  14% {
+    opacity: 1;
+    rotate: -3deg;
+  }
+  38% {
+    opacity: 1;
+    rotate: -11deg;
+  }
+  65% {
+    opacity: 1;
+    rotate: -4deg;
+  }
+  82% {
+    opacity: 1;
+    rotate: 0deg;
+  }
+}
+@keyframes mascot-soft-examine {
+  0%,
+  100% {
+    transform: none;
+  }
+  24% {
+    transform: rotate(-4deg);
+  }
+  45% {
+    transform: rotate(-7deg) translateY(-1px);
+  }
+  75% {
+    transform: rotate(-4deg);
+  }
+}
+.page-mascot:is(
+    [data-phase="bracing"],
+    [data-phase="pulling"],
+    [data-phase="pushing"]
+  )
+  .arm-right {
+  opacity: 0;
+}
+
+/* Navigation takes priority. The character ducks out and peeks back in. */
+.page-mascot[data-menu-open="true"] .mascot-greeting {
+  pointer-events: none;
+}
+.page-mascot[data-phase="yielding"] .mascot-body {
+  animation: mascot-menu-duck 380ms both;
+}
+.page-mascot[data-phase="reappearing"] .mascot-body {
+  animation: mascot-menu-peek 520ms both;
+}
+.page-mascot:is([data-phase="yielding"], [data-phase="reappearing"])
+  .mascot-shadow {
+  opacity: 0;
+}
+.page-mascot[data-phase="yielding"] .arm-left {
+  rotate: -35deg;
+}
+.page-mascot[data-phase="yielding"] .arm-right {
+  rotate: 35deg;
+}
+@keyframes mascot-menu-duck {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.08, 0.87);
+  }
+  70% {
+    transform: scale(0.9, 1.04) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) rotate(-8deg);
+    opacity: 0;
+  }
+}
+@keyframes mascot-menu-peek {
+  0% {
+    transform: scale(0.8) rotate(8deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  66% {
+    transform: scale(1.03, 0.97) rotate(-3deg);
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Attitude is an inner rig: poses blend while the outer hover keeps running. */
+.mascot-snarl,
+.mascot-furrow {
+  opacity: 0;
+  transition: opacity 240ms;
+}
+.mascot-attitude {
+  transform-box: view-box;
+  transform-origin: 56px 84px;
+  rotate: 0deg;
+  translate: 0 0;
+  scale: 1;
+  transition:
+    rotate 340ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    scale 340ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    translate 340ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.page-mascot[data-planet="on"] .mascot-skin {
+  fill: #e96899;
+}
+.page-mascot[data-planet="on"]
+  :is(.mascot-brows, .mascot-snarl, .mascot-furrow) {
+  opacity: 1;
+}
+.page-mascot[data-planet="on"]
+  :is(.mascot-smile, .mascot-smirk, .mascot-frown) {
+  opacity: 0;
+  animation: none;
+}
+.page-mascot[data-planet="on"][data-phase="held"] .mascot-frown {
+  opacity: 0;
+}
+.page-mascot[data-planet="on"] .brow-left {
+  rotate: 23deg;
+  translate: 1px 3px;
+}
+.page-mascot[data-planet="on"] .brow-right {
+  rotate: -23deg;
+  translate: -1px 3px;
+}
+.page-mascot[data-planet="on"] .mascot-eye {
+  scale: 1.08 0.64;
+  animation: none;
+}
+.page-mascot[data-planet="on"] .mascot-cheek {
+  opacity: 0.46;
+}
+.page-mascot[data-planet="on"] .mascot-anger {
+  opacity: 0.85;
+}
+.page-mascot[data-planet="on"] .steam {
+  opacity: 0;
+}
+.page-mascot[data-planet="on"][data-phase="charging"] .steam {
+  animation: mascot-steam 800ms ease-out 2 both;
+}
+.page-mascot[data-planet="on"] .anger-mark {
+  animation: mascot-anger-pulse 1.8s ease-in-out infinite alternate;
+}
+.page-mascot[data-planet="on"] .orbit-satellite {
+  animation-duration: 2.4s;
+}
+.page-mascot[data-planet="on"] .satellite-back {
+  animation-delay: -1.2s !important;
+}
+.page-mascot[data-planet="on"] .orbital-track {
+  stroke-width: 1.8;
+}
+.page-mascot[data-planet="on"][data-phase="scheming"] .leg-left {
+  rotate: 10deg;
+}
+.page-mascot[data-planet="on"][data-phase="scheming"] .leg-right {
+  rotate: -10deg;
+}
+.page-mascot[data-phase="cooling"] .mascot-greeting {
+  pointer-events: auto;
+  cursor: grab;
+}
+.page-mascot[data-phase="cooling"] .mascot-shadow {
+  opacity: 0;
+}
+.page-mascot[data-phase="cooling"] .mascot-body {
+  animation: mascot-soft-hover 1800ms ease-in-out infinite;
+}
+
+.page-mascot[data-action="scan"] .mascot-attitude {
+  rotate: -5deg;
+  scale: 1.03 0.97;
+}
+.page-mascot[data-action="scan"] .arm-left {
+  rotate: -34deg;
+}
+.page-mascot[data-action="scan"] .arm-right {
+  rotate: 30deg;
+}
+.page-mascot[data-action="approach"] .mascot-attitude {
+  rotate: calc(var(--flight-lean, 0) * 1deg);
+  scale: 0.97 1.025;
+  translate: 0 -2px;
+}
+.page-mascot[data-action="approach"] .arm-left {
+  rotate: 24deg;
+}
+.page-mascot[data-action="approach"] .arm-right {
+  rotate: -34deg;
+}
+.page-mascot[data-action="aim"] .mascot-attitude {
+  rotate: -4deg;
+  scale: 1.04 0.97;
+}
+.page-mascot[data-action="aim"] .arm-right {
+  rotate: -35deg;
+}
+.page-mascot[data-action="aim"] .arm-left {
+  rotate: -35deg;
+}
+.page-mascot[data-phase="pranking"]:is(
+    [data-action="press"],
+    [data-action="undo"]
+  )
+  .arm-right {
+  animation: mascot-deliberate-press 830ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.page-mascot:is([data-action="press"], [data-action="undo"]) .mascot-attitude {
+  rotate: -2deg;
+  scale: 0.99 1.02;
+}
+.page-mascot[data-action="watch"] .mascot-attitude {
+  rotate: 3deg;
+  scale: 1;
+}
+.page-mascot[data-action="watch"] .arm-right {
+  rotate: -24deg;
+}
+.page-mascot[data-action="watch"] .arm-left {
+  rotate: -36deg;
+}
+.page-mascot[data-action="gloat"] .mascot-attitude {
+  rotate: 4deg;
+  scale: 1.055 0.98;
+  translate: 0 -1px;
+}
+.page-mascot[data-action="gloat"] .arm-left {
+  rotate: -38deg;
+}
+.page-mascot[data-action="gloat"] .arm-right {
+  rotate: 32deg;
+}
+.page-mascot[data-planet="on"][data-action="gloat"]
+  :is(.mascot-snarl, .mascot-furrow) {
+  opacity: 0;
+}
+.page-mascot[data-planet="on"][data-action="gloat"] .mascot-smirk {
+  opacity: 1;
+}
+.page-mascot[data-planet="on"][data-action="gloat"] .brow-left {
+  rotate: -12deg;
+  translate: 0 -1px;
+}
+.page-mascot[data-action="windup"] .mascot-attitude {
+  rotate: -7deg;
+  scale: 1.03 0.97;
+}
+.page-mascot[data-action="windup"] .arm-right {
+  rotate: -60deg;
+}
+.page-mascot[data-action="windup"] .arm-left {
+  rotate: 20deg;
+}
+.page-mascot[data-phase="pranking"][data-action="poke"] .arm-right {
+  animation: mascot-deliberate-poke 1120ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.page-mascot[data-action="poke"] .mascot-attitude {
+  rotate: -2deg;
+  scale: 0.99 1.015;
+}
+.page-mascot[data-action="cool"] .mascot-attitude {
+  rotate: 0deg;
+  scale: 1;
+  translate: 0 1px;
+}
+.page-mascot[data-action="cool"] .mascot-skin {
+  fill: #ef75a3;
+}
+.page-mascot[data-planet="on"][data-action="cool"]
+  :is(.mascot-snarl, .mascot-furrow, .mascot-anger) {
+  opacity: 0;
+}
+.page-mascot[data-planet="on"][data-action="cool"] .mascot-smile {
+  opacity: 1;
+}
+.page-mascot[data-planet="on"][data-action="cool"] .brow-left {
+  rotate: 6deg;
+  translate: 0 0;
+}
+.page-mascot[data-planet="on"][data-action="cool"] .brow-right {
+  rotate: -6deg;
+  translate: 0 0;
+}
+.mascot-brows path {
+  transition:
+    rotate 240ms,
+    translate 240ms;
+}
+.mascot-tapped {
+  animation: mascot-control-tap 830ms both;
+}
+.project-visual.mascot-teased .visual-layer.is-active,
+.idea-preview.mascot-teased,
+h1.mascot-teased,
+.contact-copy h2.mascot-teased {
+  animation: mascot-element-wiggle 1050ms both;
+}
+@keyframes mascot-deliberate-press {
+  0% {
+    rotate: -35deg;
+    translate: 0 0;
+  }
+  23% {
+    rotate: -45deg;
+    translate: -1px -1px;
+  }
+  35%,
+  40% {
+    rotate: -4deg;
+    translate: 4px 1px;
+  }
+  57% {
+    rotate: -30deg;
+    translate: 0 0;
+  }
+  100% {
+    rotate: -24deg;
+    translate: 0 0;
+  }
+}
+@keyframes mascot-deliberate-poke {
+  0% {
+    rotate: -60deg;
+    translate: 0 0;
+  }
+  25%,
+  31% {
+    rotate: -5deg;
+    translate: 4px 1px;
+  }
+  46% {
+    rotate: -38deg;
+    translate: 0 0;
+  }
+  62%,
+  68% {
+    rotate: -7deg;
+    translate: 3px 1px;
+  }
+  100% {
+    rotate: -24deg;
+    translate: 0 0;
+  }
+}
