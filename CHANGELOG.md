@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.2] - 2026-10-07
+
+### Correções
+
+- Traço de “Código com propósito” começa quando o título está totalmente visível nos 65% superiores da viewport, após uma pausa de 220 ms para leitura. A margem usa a altura da tela e acompanha suas mudanças.
+- Desenho principal em 1600 ms, com curva menos antecipada. Acabamento e estrela entram em sequência; o desenho final mantém a mesma geometria, cores e composição.
+- Efeito repete após o título sair da área visível e voltar, sem reiniciar por pequenas rolagens. Passar rapidamente pela seção cancela a espera.
+- Movimento reduzido conserva o desenho estático. Observadores e timer são limpos ao desativar o efeito; nenhuma dependência ou atualização contínua de rolagem adicionada.
+
 ## [1.2.1] - 2026-10-07
 
 ### Correções
@@ -81,6 +90,7 @@ Primeira versão do portfólio de Samuel Santos Cerqueira.
 
 O histórico inicial agrupa a implementação local por responsabilidade. Não representa uma sequência de releases anteriores.
 
+[1.2.2]: https://github.com/samuelsce/Portfolio/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/samuelsce/Portfolio/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/samuelsce/Portfolio/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/samuelsce/Portfolio/compare/v1.0.2...v1.1.0

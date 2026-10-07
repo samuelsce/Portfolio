@@ -1,5 +1,19 @@
 # Validação do portfólio
 
+## Entrada perceptível do traço, versão 1.2.2
+
+Verificação em 7 de outubro de 2026, no Edge, no build de produção servido localmente.
+
+- TypeScript e build aprovados, sem dependências novas. Composição final do traço e da estrela preservada; os dois segmentos do caminho SVG foram separados para aparecerem em sequência.
+- Em 390, 768, 1600 e 2560 px, título perto do fim da tela (88% da altura) permaneceu sem traço após 1050 ms. Ao entrar nos 60%, espera de leitura observada antes de iniciar o desenho.
+- Aos 450 ms de desenho, aproximadamente 75% do caminho principal ainda estava por desenhar; numa amostra posterior, aproximadamente 14% a 18%. Caminho e estrela terminaram no estado completo. Capturas de início e fim revisadas em celular e desktop.
+- Sair da faixa de disparo mantendo o título na tela não reiniciou o efeito. Sair completamente e retornar iniciou uma nova sequência; passagem rápida cancelou a espera, sem desenho fora da tela.
+- Mudança da altura da viewport de 900 para 650 px conservou o gatilho proporcional à altura. Dois observadores ativos por efeito; zero ao desativar o movimento e dois novamente ao reativar, sem acúmulo.
+- Inglês conservou o traço completo durante a troca de texto. Movimento reduzido apresentou traço e estrela estáticos, sem animação. Nenhum erro de execução ou excesso horizontal nas larguras verificadas.
+- Diagnóstico em `.publish-staging/verify-section-stroke.cjs` e capturas `stroke-drawing-390.png`, `stroke-complete-390.png`, `stroke-drawing-1600.png` e `stroke-complete-1600.png`, ignorados no Git.
+
+Viewports simulados em Edge/Chromium, sem teste em iPhone/iPad físico ou Safari. Correção de momento, progressão e repetição do efeito existente; pesquisa visual anterior reutilizada.
+
 ## Travessuras durante a rolagem, versão 1.2.1
 
 Verificação em 7 de outubro de 2026, no Edge, em desenvolvimento e no build de produção servido localmente.
