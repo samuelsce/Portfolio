@@ -1,5 +1,17 @@
 # Samuel Studio — plano de design
 
+## Refinamento de toque, idioma e movimento independente
+
+Revisão de 7 de outubro de 2026, conforme os testes do usuário em iPad. Preservar a paleta, tipografia, composição e funções existentes. Nova leitura da skill frontend-design-references e de sua referência complementar frontend-design.
+
+- Idioma: inclinação de cabeça, piscadinha e aceno de 1,1 s. Reagir apenas a uma mudança efetiva; aguardar menu e trajetórias sem interrompê-los. No card, animar o rosto, sem fala ou ícones de bandeira.
+- Tablet: aumentar o pouso para 96 px quando houver espaço no header; usar 104 px logo abaixo quando o intervalo entre a marca e os controles for estreito. Aplicar também a telas de toque em paisagem, sem mudar o tamanho do celular.
+- Bancada: endireitar por estado explícito, preservando a resposta ao foco e garantindo a mesma interação quando o Safari não foca o botão por toque. Manter a posição reta até uma ação externa, Escape ou reset.
+- Movimento independente: um traço de desenho sob o título dos projetos, terminado por uma estrela. Executar só uma vez ao entrar em vista, mantendo os textos estáticos e legíveis. Sem revelações repetidas de todas as seções, parallax, filtros ou dependências novas.
+- Desempenho: reações CSS curtas, observador de visibilidade desconectado após a entrada, geometria reutilizada e interrupção com movimento reduzido ou aba oculta. Nenhum novo loop de rolagem.
+
+Referências efetivamente consultadas: [descrição das microexpressões do Grok Bot no 60fps](https://60fps.design/shots/grok-bot-splash-mascot-expression-animation) para gestos breves de rosto; [catálogo do Annnimate](https://annnimate.com/animations), que apresenta o Scribble Highlighter, como ponto de partida para um traço editorial original. A página individual e os previews não puderam ser observados visualmente; não houve reprodução de movimento, assets ou código dessas referências. O traço, os gestos e os tempos foram desenhados para este portfólio.
+
 Planejamento registrado antes da implementação, em 6 de outubro de 2026.
 
 ## Objetivo

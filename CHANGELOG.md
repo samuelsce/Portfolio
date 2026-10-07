@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.0] - 2026-10-07
+
+### Interações e acabamento
+
+- Mascote acena, inclina a cabeça e pisca ao trocar de idioma. No card, a reação usa o rosto; durante deslocamentos e com o menu aberto, espera o momento adequado.
+- Pouso do personagem maior em tablets, incluindo telas de toque em paisagem. Quando o espaço entre os links é estreito, o pouso passa para abaixo do header.
+- Botão da bancada endireita o quadro no toque, mesmo quando o navegador não foca o botão. Permanece reto após a comemoração; tocar fora, Escape e reset encerram a interação.
+- Traço rosa e estrela desenhados uma vez ao chegar aos projetos, com observador desconectado após a entrada e apresentação estática no modo de movimento reduzido.
+- Frase sobre código, cuidado e rosa removida do rodapé nos dois idiomas.
+
 ## [1.1.0] - 2026-10-07
 
 ### Funcionalidades
@@ -62,6 +72,7 @@ Primeira versão do portfólio de Samuel Santos Cerqueira.
 
 O histórico inicial agrupa a implementação local por responsabilidade. Não representa uma sequência de releases anteriores.
 
+[1.2.0]: https://github.com/samuelsce/Portfolio/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/samuelsce/Portfolio/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/samuelsce/Portfolio/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/samuelsce/Portfolio/compare/v1.0.0...v1.0.1

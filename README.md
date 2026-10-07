@@ -14,11 +14,12 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 
 ## O que explorar
 
-- **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos.
+- **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos. A ação principal endireita a bancada por mouse, toque ou teclado.
 - **Projetos:** contexto, tecnologias, detalhes da implementação e comparação entre ilustrações e capturas reais.
 - **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
 - **Português e inglês:** seleção PT/EN no menu, com preferência salva no navegador e tradução de conteúdo, controles e descrições de acessibilidade.
+- **Detalhes de movimento:** reação do personagem ao trocar de idioma e um traço rosa desenhado na chegada aos projetos. O efeito de entrada usa um observador que se desconecta após a primeira exibição.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -103,11 +104,13 @@ src/
     HeaderStretch.tsx            Superfície do cabeçalho
     RoomIllustration.tsx         Quarto isométrico e iluminação
     Icon.tsx                     Ícones SVG consistentes entre dispositivos
+    SectionStroke.tsx            Traço de entrada acionado por visibilidade
   styles.css                     Base visual e layouts
   refinements.css                Navegação, controles e transições
   mascot.css                     Estados e gestos do personagem
   mascot-adventures.css          Planetinha e interações com a página
   mascot-finish.css              Material, caminhada e acabamento do rig
+  polish.css                     Reações de idioma e acabamento da bancada
 public/projects/                Capturas reais dos projetos
 index.html                      Título e metadados
 .github/workflows/ci.yml         Verificação automática do build

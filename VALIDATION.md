@@ -1,5 +1,22 @@
 # Validação do portfólio
 
+## Toque e acabamento, versão 1.2.0
+
+Verificação em 7 de outubro de 2026, no Edge, em desenvolvimento e no build servido localmente.
+
+- TypeScript e build aprovados. Nenhuma dependência nova; efeitos curtos em CSS e SVG, sem adicionar um loop de rolagem.
+- Reação de idioma conferida no card, no personagem flutuante e durante a saída do card. Selecionar o idioma já ativo não inicia uma reação; com menu aberto, o personagem espera o fechamento.
+- Toque na ação da bancada conferido com o foco retirado explicitamente do botão, reproduzindo a condição que impedia o alinhamento. Quadro reto após o fim da comemoração; toque externo restaura a inclinação. Escape e reset encerram o estado ativo.
+- Mascote de 96 px em larguras de toque de 768, 1024, 1194 e 1366 px, sem colisão com marca ou navegação; tamanho de 60 px preservado no celular de 390 px. Pouso abaixo do header com 104 px aprovado em 651 px. Retorno ao card aprovado em todos esses tamanhos.
+- Traço dos projetos conferido até o estado final; voltar ao topo e entrar novamente não alterou o atributo de entrada. O observador se desconecta após a primeira entrada.
+- Movimento reduzido mantém controles funcionais e traço estático visível. Rodapé conferido sem a frase removida, em PT e EN.
+- Tradução, persistência, preservação de estados, teclado e armazenamento bloqueado revalidados. Ambos os idiomas sem rolagem horizontal de 320 a 1600 px.
+- Regressão de retorno, inversão, resize, menu, pausa, aba oculta e puxada/fechamento aprovada. Na sequência instrumentada do retorno, zero viagens WAAPI recriadas, zero cancelamentos e zero leituras da posição do mascote.
+- Caminhada com pernas em oposição, lupa, planetinha, restauração das travessuras e limites dos grupos gráficos aprovados; zero cortes detectados nos grupos monitorados e zero erros de execução.
+- Capturas em `.publish-staging/polish-tablet-768.png`, `polish-tablet-1024.png`, `polish-tablet-card.png`, `polish-language-reaction.png` e `polish-stroke.png`, ignoradas no Git.
+
+Testes em viewports e toque simulados, sem acesso a um iPad/iPhone físico ou Safari. A área de pintura continua delimitada; o maior tamanho em tablet é intencional e não representa uma medição de FPS no dispositivo.
+
 ## Português e inglês, versão 1.1.0
 
 Verificação em 7 de outubro de 2026, no Edge, em desenvolvimento e no build de produção servido localmente.
