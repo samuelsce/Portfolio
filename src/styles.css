@@ -1,0 +1,8 @@
+:root {
+  font-family: "Space Grotesk", sans-serif;
+  color: #2b1c26;
+  background: #fff8fb;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 1440px; margin: auto; padding: 64px 32px; }
