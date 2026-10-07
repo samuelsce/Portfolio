@@ -1142,7 +1142,7 @@ export default function PageMascot({
     }
     function visibility() {
       portfolio.dataset.pageHidden = String(document.hidden);
-      if (document.hidden) {
+      if (document.hidden || portfolio.dataset.arcadeOpen === "true") {
         pendingLanguage = false;
         clearTimeout(languageTimer);
         cancelAnimationFrame(languageFrame);
@@ -1500,6 +1500,7 @@ export default function PageMascot({
       );
     }
     function point(event: globalThis.PointerEvent) {
+      if (suspended) return;
       if (holding && holding.id === event.pointerId) {
         pendingDrag = { x: event.clientX, y: event.clientY };
         if (!holdFrame) holdFrame = requestAnimationFrame(drag);
@@ -1612,6 +1613,7 @@ export default function PageMascot({
       document.addEventListener("keyup", keyUp);
       document.addEventListener("visibilitychange", visibility);
       window.addEventListener(languageChangeEvent, languageChanged);
+      window.addEventListener("portfolio:arcadechange", visibility);
     }
     measure();
     return () => {
@@ -1643,6 +1645,7 @@ export default function PageMascot({
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", invalidateLayout);
       window.removeEventListener(languageChangeEvent, languageChanged);
+      window.removeEventListener("portfolio:arcadechange", visibility);
       window.removeEventListener("pointermove", point);
       window.removeEventListener("blur", rest);
       document.removeEventListener("focusin", focus);

@@ -8,6 +8,7 @@ import PageMascot from "./components/PageMascot";
 import MascotArtwork from "./components/MascotArtwork";
 import Icon from "./components/Icon";
 import SectionStroke from "./components/SectionStroke";
+import DeferredContributions from "./components/DeferredContributions";
 import { useLanguage, LanguageSwitcher } from "./i18n/LanguageProvider";
 import { englishProjects, englishAcademicProject } from "./i18n/projects";
 
@@ -1000,6 +1001,7 @@ export default function App() {
             </div>
           </div>
         </section>
+        <DeferredContributions motion={motion} />
         <section
           id="contato"
           className="contact-section section-shell"

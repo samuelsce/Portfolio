@@ -1,0 +1,31 @@
+const pt = {
+  title: "Um ano construindo.", description: "Cada quadradinho registra um dia no GitHub.",
+  contributions: "contribuições no último ano", singular: "contribuição", plural: "contribuições",
+  less: "Menos", more: "Mais", updated: "Atualizado em", saved: "Última atualização disponível",
+  retry: "Tentar atualizar", chart: "Calendário de contribuições no GitHub",
+  chartHelp: "Passe sobre um dia ou toque nele. No teclado, use as setas para explorar; Home e End vão ao início e ao fim.",
+  slide: "Deslize para explorar o ano", secret: "Um mascote curioso. Há um segredo por aqui.",
+  secretHint: "Curiosidade combina com esse lugar.", loading: "Carregando calendário", gameLoading: "Abrindo o segredo",
+  gameTitle: "Acenda o planetinha.", gameIntro: "Um pequeno segredo entre os pixels.",
+  gameRules: "Acenda todos os quadrados. Cada toque troca o quadrado e os vizinhos de cima, de baixo e dos lados.",
+  moves: "Toques", lights: "Acesos", best: "Melhor partida", next: "Outro desafio", restart: "Recomeçar",
+  close: "Voltar ao portfólio", won: "Órbita ativada!", wonDetail: "O quadro inteiro acendeu. Missão cumprida.",
+  row: "Linha", column: "coluna", lit: "aceso", unlit: "apagado", board: "Puzzle de luzes, quatro linhas e quatro colunas",
+  keys: "Use as setas para escolher um quadrado e Enter ou Espaço para tocar.",
+};
+const en: Record<keyof typeof pt, string> = {
+  title: "A year of building.", description: "Each square records a day on GitHub.",
+  contributions: "contributions in the last year", singular: "contribution", plural: "contributions",
+  less: "Less", more: "More", updated: "Updated on", saved: "Last available update",
+  retry: "Try updating", chart: "GitHub contribution calendar",
+  chartHelp: "Hover or tap a day. Use the arrow keys to explore; Home and End go to the first and last day.",
+  slide: "Swipe to explore the year", secret: "A curious mascot. There is a secret here.",
+  secretHint: "Curiosity feels at home here.", loading: "Loading calendar", gameLoading: "Opening the secret",
+  gameTitle: "Light up the little planet.", gameIntro: "A small secret among the pixels.",
+  gameRules: "Light every square. Each tap flips that square and its neighbors above, below, left and right.",
+  moves: "Taps", lights: "Lit", best: "Best game", next: "Another puzzle", restart: "Restart",
+  close: "Back to the portfolio", won: "Orbit activated!", wonDetail: "Every square is lit. Mission accomplished.",
+  row: "Row", column: "column", lit: "lit", unlit: "unlit", board: "Light puzzle, four rows and four columns",
+  keys: "Use the arrows to choose a square and Enter or Space to tap it.",
+};
+export const gardenCopy = { pt, en };

@@ -1,0 +1,49 @@
+.contribution-section { padding-block: 84px 88px; min-height: 470px; }
+.garden-placeholder { min-height: 302px; }
+.contribution-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.contribution-heading h2 { margin: 0; font-size: clamp(30px,3.2vw,44px); font-weight: 500; letter-spacing: -1.5px; line-height: 1.15; }
+.contribution-heading p { margin: 16px 0 0; color: #796471; font-size: 17px; line-height: 1.6; }
+.garden-secret { border: 0; padding: 8px; background: none; width: 68px; height: 68px; flex-shrink: 0; border-radius: 50%; }
+.garden-secret .mascot-artwork { display: block; width: 100%; height: 100%; overflow: visible; --mascot-color: var(--pink); }
+.garden-secret[data-taps="1"] .mascot-head { rotate: -9deg; }
+.garden-secret[data-taps="2"] .mascot-head { rotate: 9deg; }
+.garden-secret .mascot-head { transition: rotate 180ms var(--ease-out); transform-origin: 56px 52px; }
+.garden-secret:hover .mascot-smile { stroke-width: 3.5; }
+.contribution-summary { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; margin: 30px 0 24px; }
+.contribution-summary p { margin: 0; color: #796471; font-size: 16px; }
+.contribution-summary strong { font-size: 24px; color: var(--ink); font-weight: 500; padding-right: 5px; }
+.contribution-summary a { color: var(--berry); border-bottom: 1px solid var(--line); padding-block: 10px; }
+.contribution-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: var(--pink) var(--blush); padding: 5px 5px 12px; margin-inline: -5px; }
+.contribution-calendar { display: block; width: 100%; min-width: 740px; overflow: visible; }
+.contribution-calendar:focus-visible { outline: 2px solid var(--berry); outline-offset: 2px; border-radius: 3px; }
+.contribution-month { fill: #796471; font-family: inherit; font-size: 14px; }
+.level-0 { fill: #f2e4ec; background: #f2e4ec; }
+.level-1 { fill: #f5bdd3; background: #f5bdd3; }
+.level-2 { fill: #ed82ae; background: #ed82ae; }
+.level-3 { fill: #bc497b; background: #bc497b; }
+.level-4 { fill: #691b3e; background: #691b3e; }
+.contribution-day { stroke: rgba(105,27,62,.08); stroke-width: .6; }
+.contribution-day.is-selected { stroke: var(--ink); stroke-width: 1.8; }
+.contribution-details { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 12px; }
+.contribution-selected { margin: 0; font-size: 15px; line-height: 1.5; color: #796471; min-height: 24px; }
+.contribution-selected strong { color: var(--ink); font-weight: 500; }
+.contribution-legend { display: flex; align-items: center; gap: 5px; font-size: 13px; color: #796471; }
+.contribution-legend i { width: 12px; height: 12px; border-radius: 2px; }
+.contribution-legend span:first-child { margin-right: 4px; }
+.contribution-legend span:last-child { margin-left: 4px; }
+.contribution-instructions { font-size: 14px; color: #796471; line-height: 1.6; margin: 18px 0 0; max-width: 670px; }
+.contribution-footer { border-top: 1px solid var(--line); margin-top: 24px; padding-top: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: #796471; font-size: 13px; }
+.contribution-footer p { margin: 0; }
+.contribution-footer button { border: 0; background: none; color: var(--berry); text-decoration: underline; min-height: 44px; margin-left: 12px; }
+.contribution-swipe { display: none; }
+.portfolio[data-arcade-open="true"] * { animation-play-state: paused !important; }
+.portfolio[data-arcade-open="true"] .page-mascot { visibility: hidden; }
+@media(max-width: 800px) {
+  .contribution-section { padding-block: 56px; min-height: 470px; }
+  .contribution-details { flex-wrap: wrap; gap: 14px; }
+  .contribution-swipe { display: inline; }
+  .contribution-heading p { font-size: 16px; }
+  .garden-secret { width: 58px; height: 58px; }
+}
+@media(prefers-reduced-motion: reduce) { .garden-secret .mascot-head { transition: none; } }
+.portfolio[data-motion="off"] .garden-secret .mascot-head { transition: none; }
