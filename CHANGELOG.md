@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0] - 2026-10-07
+
+### Funcionalidades
+
+- Calendário anual de contribuições públicas do GitHub depois da seção sobre, com quadradinhos em tons de rosa, detalhes por dia e navegação por mouse, toque e teclado.
+- Consulta pública com validação, cache de uma hora e captura real de segurança. Falha do serviço conserva os dados disponíveis, informa a atualização e permite tentar novamente.
+- Easter egg descoberto com três ativações do rostinho do calendário: puzzle 4×4 do planetinha, com desafios solucionáveis, órbita de vitória, reinício e recorde local.
+- Calendário e jogo traduzidos para PT/EN, com foco visível, alvos de toque e fechamento por Escape. Janela modal mantém o foco e devolve ao botão de descoberta ao fechar.
+
+### Desempenho
+
+- Calendário carregado por proximidade da tela; código e CSS do jogo baixados apenas quando descoberto. Sem dependências novas ou loop contínuo no jogo.
+- Animações da página e controlador do mascote pausados enquanto o jogo está aberto. Efeitos curtos respeitam movimento reduzido e pausa da aba.
+
 ## [1.2.2] - 2026-10-07
 
 ### Correções

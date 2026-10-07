@@ -1,5 +1,21 @@
 # Validação do portfólio
 
+## Calendário e segredo do planetinha, versão 1.3.0
+
+Verificação em 7 de outubro de 2026, no Edge, no build de produção servido localmente.
+
+- TypeScript e build aprovados, sem dependências novas. Calendário e puzzle em chunks separados: cerca de 4,18 kB e 2,08 kB comprimidos, respectivamente; CSS do jogo cerca de 1,37 kB comprimido.
+- Resposta real do serviço público consultada pelo navegador, sem interceptação: 368 dias, 525 contribuições no período, carregamento e jogo aprovados. Captura versionada contém esses dados reais; o calendário exibe semanas completas.
+- Em 320, 390, 768, 1024 e 1600 px, testes com essa resposta como fixture verificaram detalhes por dia, setas/Home/End, um único destaque, tradução, ausência de excesso horizontal e uma única consulta por carregamento. A faixa móvel rola horizontalmente dentro do painel para preservar a leitura dos quadrados.
+- Nenhum chunk do calendário ou jogo solicitado no hero. Aproximação da seção carrega o calendário; apenas a terceira ativação consecutiva do rostinho solicita o jogo.
+- Puzzle solucionado pelas interações reais com os botões nas cinco larguras. Vitória, recorde local, reinício, novo quadro distinto e existência de solução conferidos. Alvos do quadro com pelo menos 44 px; foco por setas e Tab contido na janela.
+- Escape e botão de fechamento restauram rolagem, animações, controlador do mascote e foco do botão de descoberta. Português e inglês aprovados; capturas do calendário e da vitória revisadas em 390 e 1600 px.
+- Resposta malformada conservou a captura real e ofereceu nova tentativa; resposta válida na tentativa seguinte recuperou o estado. Movimento reduzido conservou o jogo funcional sem as animações curtas. Nenhum erro de execução nas verificações.
+- Regressão do mascote aprovada para retorno, inversão, altura da viewport, menu, pausa, visibilidade, ícones e puxada/fechamento do header. Retorno instrumentado manteve zero viagens recriadas, cancelamentos e leituras da posição do personagem.
+- Diagnóstico em `.publish-staging/verify-contribution-garden.cjs`, com testes por fixture e modo `--live-data` para consulta real. Ferramentas e capturas de revisão ignoradas no Git.
+
+Viewports e toque simulados em Edge/Chromium, sem teste em iPhone/iPad físico ou Safari. O serviço de contribuições é externo; a captura local é uma alternativa datada, sem simular atividade nova. Não foi feita medição de FPS no dispositivo.
+
 ## Entrada perceptível do traço, versão 1.2.2
 
 Verificação em 7 de outubro de 2026, no Edge, no build de produção servido localmente.

@@ -19,7 +19,9 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 - **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
 - **Português e inglês:** seleção PT/EN no menu, com preferência salva no navegador e tradução de conteúdo, controles e descrições de acessibilidade.
-- **Detalhes de movimento:** reação do personagem ao trocar de idioma e um traço rosa desenhado na chegada aos projetos. O efeito de entrada usa um observador que se desconecta após a primeira exibição.
+- **Detalhes de movimento:** reação do personagem ao trocar de idioma e um traço rosa desenhado quando o título dos projetos chega à área de leitura. O efeito repete após sair da tela e retornar.
+- **Atividade no GitHub:** calendário de contribuições públicas do último ano em tons de rosa, com consulta por dia usando mouse, toque ou teclado.
+- **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -54,6 +56,19 @@ Dados pessoais, contatos e projetos ficam em `src/data/portfolio.ts`, separados 
 As traduções da interface ficam em `src/i18n/translations.ts`, e as versões em inglês dos projetos em `src/i18n/projects.ts`. O contexto de idioma atualiza textos e metadados sem remontar os componentes: temas, detalhes abertos e título personalizado da bancada são preservados. A persistência usa `localStorage`, com funcionamento em memória quando o navegador bloqueia o armazenamento.
 
 O mascote usa o mesmo desenho no card e na página. Seu controlador coordena as fases de movimento, as reações e as interrupções, enquanto o CSS define os gestos. O deslocamento é separado da animação dos membros e objetos, mantendo a lupa e a órbita ligadas ao personagem.
+
+### Calendário e puzzle
+
+O calendário consulta os dados públicos de `samuelsce` pela [GitHub Contributions API](https://github.com/grubersjoe/github-contributions-api), sem token. Contribuições incluem outras atividades além de commits, por isso o site usa esse termo. A resposta é validada e guardada por uma hora no navegador. Uma captura real em `src/data/contributions-snapshot.json` mantém a seção disponível se o serviço falhar; a data de atualização e uma ação para tentar novamente ficam visíveis.
+
+O componente do calendário é carregado quando a seção se aproxima da tela. O código e o CSS do jogo só são baixados quando o segredo é descoberto. O puzzle altera a célula escolhida e seus vizinhos ortogonais; cada desafio nasce de um quadro completo embaralhado por jogadas válidas, garantindo uma solução. Não há loop de animação ou simulação contínua no jogo.
+
+<details>
+<summary>Como descobrir o segredo</summary>
+
+Clique ou toque três vezes no rostinho ao lado do título do calendário. Acenda todos os quadradinhos para ativar a órbita. Também funciona pelo teclado: Enter no rostinho; setas, Enter e Espaço no quadro; Escape para fechar. As animações da página e o controlador do mascote pausam enquanto o jogo está aberto.
+
+</details>
 
 ### Desempenho
 
@@ -105,12 +120,19 @@ src/
     RoomIllustration.tsx         Quarto isométrico e iluminação
     Icon.tsx                     Ícones SVG consistentes entre dispositivos
     SectionStroke.tsx            Traço de entrada acionado por visibilidade
+    DeferredContributions.tsx    Carregamento do calendário por proximidade
+    ContributionGarden.tsx       Calendário e descoberta do segredo
+    SecretGarden.tsx             Puzzle do planetinha e janela modal
+  data/contributions.ts          Validação, consulta e cache dos dados públicos
+  data/contributions-snapshot.json  Captura real de segurança
   styles.css                     Base visual e layouts
   refinements.css                Navegação, controles e transições
   mascot.css                     Estados e gestos do personagem
   mascot-adventures.css          Planetinha e interações com a página
   mascot-finish.css              Material, caminhada e acabamento do rig
   polish.css                     Reações de idioma e acabamento da bancada
+  contributions.css              Calendário de atividade
+  secret-garden.css              Estilo carregado junto ao jogo
 public/projects/                Capturas reais dos projetos
 index.html                      Título e metadados
 .github/workflows/ci.yml         Verificação automática do build
@@ -134,6 +156,8 @@ As verificações de interação incluem Edge/Chromium com viewports simuladas e
 A pesquisa visual incluiu [Supaste / Navbar Gallery](https://www.navbar.gallery/navbar/supaste), [Yash Fataniya / Footer Design](https://www.footer.design/sites/yash-fataniya), [Rauno / Craft](https://rauno.me/craft) e [Bruno Simon](https://bruno-simon.com/). O portfólio de [Samuel Rizzon](https://www.samuelrizzon.dev/) foi a inspiração inicial para criar uma experiência com personalidade; o [Eye tracker do Bencho](https://bencho.dev/blocks/eye-tracker) inspirou o olhar reativo.
 
 O desenho e a implementação das interações são próprios deste portfólio. As capturas pertencem aos projetos apresentados. A fonte Space Grotesk é distribuída pelo Fontsource sob a licença SIL Open Font License 1.1 indicada no pacote.
+
+A faixa anual de quadradinhos foi adaptada a partir do [calendário de Samuel Rizzon](https://www.samuelrizzon.dev/#graph), com cores, tipografia e interações deste projeto. Os dados vêm da API pública mencionada acima; o jogo usa uma implementação própria da mecânica Lights Out.
 
 ---
 

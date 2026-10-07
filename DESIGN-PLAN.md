@@ -158,3 +158,13 @@ Reutilizar a pesquisa da skill e o olhar do Bencho. Manter papel, rosa, berry, S
 Revisar hero/bancada, os três projetos, Recette, sobre, contato e rodapé entre 320 px e desktop. Aumentar os alvos de toque para 44 px e o campo móvel para 16 px, mantendo as miniaturas na escala atual. Ajustar o espaço entre o controle de iluminação e a ilustração. O menu deve fechar ao sair do breakpoint móvel e ao tocar fora; Escape continua recuperando foco.
 
 Interromper gestos ao ocultar a aba: cancelar callbacks, restaurar controles, capturar posição e suspender atualizações de geometria/olhar. Ao retornar, medir antes de retomar o pouso. Preservar a lupa integrada ao braço, a órbita no corpo, a sombra sob os pés e o retorno contínuo. Não adicionar mais travessuras sem uma necessidade demonstrada na revisão.
+
+## Calendário de contribuições e segredo do planetinha
+
+Reutilizar a skill `frontend-design-references` e a identidade aprovada. A referência efetivamente inspecionada nesta etapa é o [calendário anual de Samuel Rizzon](https://www.samuelrizzon.dev/#graph): faixa horizontal com semanas em colunas e resumo anual. Adaptar essa leitura para Space Grotesk, papel e cinco intensidades de rosa/berry, sem reproduzir sua tipografia, cores ou outros elementos.
+
+Posicionar o calendário depois de sobre e antes do contato. Usar dados públicos reais, detalhes por dia, teclado e faixa com rolagem interna no celular. Denominar os dados “contribuições”, pois o GitHub inclui outras ações além de commits. Mostrar a data da última atualização; preservar uma captura real datada quando o serviço falhar.
+
+O segredo reutiliza o rosto do mascote como um botão discreto ao lado do título. Três ativações revelam um puzzle de luzes 4×4, conectado visualmente aos quadradinhos do calendário. Acender o quadro completo faz aparecer a órbita do planetinha, com uma comemoração breve, sem fala. Janela de papel, quadrados de rosa e controles coerentes com a bancada; recorde local, reinício e novos desafios solucionáveis.
+
+Carregar o calendário só perto da tela e o jogo apenas ao descobri-lo. Não adicionar dependências nem loop de simulação; pausar a página durante o jogo e usar efeitos finitos em CSS/SVG. Respeitar movimento reduzido, foco por teclado, Escape e alvos de toque de 44 px.
