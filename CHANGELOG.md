@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.1] - 2026-10-07
+
+### Correções
+
+- Retorno do mascote ao card mantém uma única trajetória durante a rolagem, atualizando o destino sem cancelar e reiniciar a animação.
+- Removidas as leituras repetidas da posição do mascote durante o retorno; cancelamento preservado para mudança de direção, menu, resize e pausa.
+- Ícones de controles em SVG substituem os símbolos Unicode que apareciam como emojis coloridos no iOS. A estética é compartilhada entre celular e desktop.
+
+### Validação
+
+- TypeScript e build aprovados. Retorno, mudança de direção, alteração de altura da viewport, menu mobile, pausa e puxada/fechamento no desktop verificados no Edge.
+- Na sequência de subida reproduzida, a criação de viagens de retorno caiu de 136 para zero. Isso mede reinícios da animação, sem representar um teste de FPS no iPhone.
+- Limites e detalhes em `VALIDATION.md`.
+
 ## [1.0.0] - 2026-10-07
 
 Primeira versão do portfólio de Samuel Santos Cerqueira.
@@ -22,4 +36,5 @@ Primeira versão do portfólio de Samuel Santos Cerqueira.
 
 O histórico inicial agrupa a implementação local por responsabilidade. Não representa uma sequência de releases anteriores.
 
+[1.0.1]: https://github.com/samuelsce/Portfolio/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/samuelsce/Portfolio/tree/v1.0.0

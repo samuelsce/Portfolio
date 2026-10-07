@@ -172,3 +172,14 @@ Esta revisão substitui o desenho de palitos, a caminhada periódica e a aura de
 - Contraste calculado para os textos principais: `#796471` sobre papel, 5,15:1; sobre a seção rosa, 4,53:1; tinta sobre papel, 15,62:1; berry sobre papel, 10,91:1. Não substitui auditoria automática de todos os estados.
 - Evidências: `artifacts/revisao-final-desktop.png`, `artifacts/revisao-final-lupa-mobile.png`, `artifacts/revisao-final-desktop-lupa.png`, `artifacts/revisao-final-planetinha.png` e `artifacts/revisao-final-mobile-contato.png`. Capturas estáticas e testes em Chromium com viewports simuladas; sem certificação de aparelho físico, Safari ou Firefox.
 - Guia de hospedagem em `PUBLICAR.md`, com fontes oficiais de Vercel, Cloudflare Pages e Vite/GitHub Pages. Nenhum envio ao remoto ou deploy realizado nesta revisão.
+
+## Correção de retorno e ícones no celular (1.0.1)
+
+Verificação em 7 de outubro de 2026, após relato de travamento no iPhone 13. A identidade visual aprovada foi preservada.
+
+- Instrumentação da sequência de subida em Edge com viewport 390 × 844: antes da correção, 136 viagens criadas, 136 cancelamentos e 135 leituras da posição do mascote durante o retorno. Depois, zero nos três contadores. O retorno agora usa um único relógio, seguindo a posição atualizada do card e entregando o personagem original apenas na chegada.
+- Regressões verificadas: inverter a direção durante o retorno, alterar apenas a altura da viewport, abrir e fechar o menu no meio da viagem, desativar animações durante a viagem e reativá-las. Todos terminaram no estado esperado, sem erros de JavaScript. Alterar a altura da viewport simula uma mudança geométrica; não reproduz a interface nativa do Safari.
+- Desktop 1600 × 900: puxada e fechamento do header atravessaram `pulling` e `pushing`, com retorno final ao card.
+- Símbolos decorativos dos controles substituídos por SVGs com `currentColor` e `aria-hidden`. Tema da bancada alterou o switch corretamente. Ícones da bancada conferidos visualmente nas capturas mobile e desktop.
+- `npm run check` e `npm run build` aprovados. Evidências e script de diagnóstico ficam em `.publish-staging/`, ignorada no Git.
+- Teste em Edge/Chromium com viewport mobile simulada. Sem medição de FPS ou validação em iPhone físico/Safari. Os contadores demonstram a remoção dos reinícios, sem certificar desempenho em todos os dispositivos.
