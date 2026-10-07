@@ -1,5 +1,20 @@
 # Validação do portfólio
 
+## Revisão geral e recuperação, versão 1.3.1
+
+Verificação em 7 de outubro de 2026, no Edge, no build de produção servido localmente. Referências e estética anteriores reutilizadas; correções de lógica e estados de falha.
+
+- Revisão em 320, 390, 768, 1024, 1440 e 1920 px com projetos expandidos, capturas reais, inglês e título personalizado de 28 caracteres. Sem excesso horizontal, imagens indisponíveis, âncoras internas inexistentes ou erros de execução. Textos principais entre 17 e 23 px nos estados medidos.
+- Caminhada, arrasto por toque, lupa, órbita, retorno e pausa da cópia escondida aprovados; nenhum corte nos grupos gráficos monitorados. Troca de idioma conservou estado, textos personalizados, controles e mascote, com armazenamento bloqueado também verificado.
+- Falha simulada no download de cada chunk reproduziu o problema anterior: hero e contatos eram removidos, deixando a aplicação vazia. Após a correção, ambos permanecem presentes, com mensagem traduzida, fechamento do erro do jogo e recarregamento recuperando o calendário.
+- Link de pular conteúdo passou a focar `main`; o Tab seguinte chega à ação do hero. Reduzir a janela com EN focado passou a levar o foco ao botão do menu. Vitória do puzzle conserva o foco em “Outro desafio”; Tab seguinte fecha o ciclo dentro da janela.
+- Puzzle revalidado em 320, 390, 768, 1024 e 1600 px: solução, vitória, recorde, reinício, outro desafio, tradução, modal, pausa/retomada, falha de API e movimento reduzido aprovados.
+- Em larguras de toque de 651, 768, 1024 e 1366 px, botões de idioma com pelo menos 44×44 px, sem sobreposição entre marca e navegação ou excesso horizontal.
+- URL canônica e `og:url` conferidos no HTML; robots e sitemap servidos com HTTP 200 e endereço oficial correto. Nenhuma garantia de indexação ou posicionamento em buscadores decorre dessa verificação.
+- Diagnósticos em `.publish-staging/audit-portfolio.cjs` e `.publish-staging/audit-edge-cases.cjs`, ignorados no Git. TypeScript e build aprovados; nenhuma dependência ou loop de animação novo.
+
+Testes em viewports e toque simulados em Edge/Chromium. Sem medição de FPS ou teste em aparelhos físicos e Safari.
+
 ## Calendário e segredo do planetinha, versão 1.3.0
 
 Verificação em 7 de outubro de 2026, no Edge, no build de produção servido localmente.

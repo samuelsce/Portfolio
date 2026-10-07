@@ -63,6 +63,8 @@ O calendário consulta os dados públicos de `samuelsce` pela [GitHub Contributi
 
 O componente do calendário é carregado quando a seção se aproxima da tela. O código e o CSS do jogo só são baixados quando o segredo é descoberto. O puzzle altera a célula escolhida e seus vizinhos ortogonais; cada desafio nasce de um quadro completo embaralhado por jogadas válidas, garantindo uma solução. Não há loop de animação ou simulação contínua no jogo.
 
+Falhas no download desses módulos são isoladas por um limite de erro: os projetos e os contatos continuam disponíveis, com mensagem PT/EN e opção para recarregar. Essa recuperação é diferente da alternativa por captura real usada quando a API de contribuições falha.
+
 <details>
 <summary>Como descobrir o segredo</summary>
 
@@ -81,6 +83,8 @@ Na sequência de rolagem instrumentada da versão 1.0.2, as leituras de posiçã
 ### Acessibilidade
 
 A interface inclui link para pular conteúdo, navegação semântica, foco visível, estados acessíveis nos controles e operação por teclado. O mascote também permite pegar, mover e soltar pelo teclado.
+
+O link para pular conteúdo transfere o foco ao elemento principal. Ao reduzir a janela, o foco de um controle da navegação que será ocultado passa ao botão do menu. No puzzle, vencer transfere o foco para uma ação habilitada, mantendo a navegação na janela modal.
 
 A preferência `prefers-reduced-motion` é respeitada no carregamento. O controle da bancada permite escolher o movimento na página, e as mudanças de tema, formato e captura mantêm seus estados acessíveis. No celular, os controles principais têm alvos de toque de pelo menos 44 px.
 
@@ -123,6 +127,7 @@ src/
     DeferredContributions.tsx    Carregamento do calendário por proximidade
     ContributionGarden.tsx       Calendário e descoberta do segredo
     SecretGarden.tsx             Puzzle do planetinha e janela modal
+    LazyLoadBoundary.tsx         Isolamento e recuperação de falhas dos módulos
   data/contributions.ts          Validação, consulta e cache dos dados públicos
   data/contributions-snapshot.json  Captura real de segurança
   styles.css                     Base visual e layouts
@@ -134,6 +139,8 @@ src/
   contributions.css              Calendário de atividade
   secret-garden.css              Estilo carregado junto ao jogo
 public/projects/                Capturas reais dos projetos
+public/robots.txt               Orientação de rastreamento e endereço do sitemap
+public/sitemap.xml              Endereço canônico do portfólio
 index.html                      Título e metadados
 .github/workflows/ci.yml         Verificação automática do build
 ```
@@ -143,6 +150,8 @@ Para atualizar a apresentação, comece por `src/data/portfolio.ts` e mantenha a
 ## Publicação e documentação
 
 O site está publicado em **[samuelsce.dev](https://samuelsce.dev)** na **Cloudflare Workers**, com atualização a partir do repositório. O GitHub Actions executa a instalação e o build em pushes para `main` e pull requests; a publicação é feita pela integração da Cloudflare.
+
+URL canônica, `og:url`, robots e sitemap usam esse domínio. Ao migrar o endereço do site, atualize esses arquivos junto aos links públicos da documentação.
 
 - [DESIGN-PLAN.md](DESIGN-PLAN.md): conceito, planejamento visual e referências iniciais.
 - [VALIDATION.md](VALIDATION.md): verificações, evidências e limites dos testes.

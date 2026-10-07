@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.1] - 2026-10-07
+
+### Correções e revisão
+
+- Falha ao baixar os módulos do calendário ou do puzzle fica isolada ao recurso, com mensagem traduzida e recuperação por recarregamento. Uma falha nesses downloads deixava toda a página vazia.
+- Vitória do puzzle leva o foco para “Outro desafio” antes de os quadrados desativados interromperem a navegação por teclado.
+- Link para pular conteúdo foca o elemento principal. Ao passar da navegação desktop para o menu móvel, o foco migra do controle escondido para o botão do menu.
+- Botões PT/EN com alvos de pelo menos 44 px também em tablets e outros dispositivos de toque.
+- URL canônica e Open Graph apontam para `samuelsce.dev`; arquivos de sitemap e robots disponíveis no build estático.
+- Responsividade, idiomas, imagens, âncoras e encaixe dos objetos do mascote revisados. Estética, desenhos, trajetórias e carregamento sob demanda preservados, sem dependências novas.
+
 ## [1.3.0] - 2026-10-07
 
 ### Funcionalidades
