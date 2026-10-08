@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1] - 2026-10-08
+
+### Identificação do cabeçalho
+
+- Marca “samuel / studio” substituída por Samuel Santos, com o traçado do S do favicon integrado à primeira letra do nome. Quadrado rosa separado e estilos antigos removidos.
+- Nome completo da marca preservado no celular, tablet e desktop; link de retorno ao início e identificação acessível mantidos.
+
 ## [1.4.0] - 2026-10-08
 
 ### Conteúdo e projetos

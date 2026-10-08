@@ -681,12 +681,21 @@ export default function App() {
             href="#inicio"
             aria-label={`${profile.name}, ${t.home}`}
           >
-            <span className="brand-mark" aria-hidden="true">
-              s.
-            </span>
-            <span>
-              samuel<span className="brand-studio">/ studio</span>
-            </span>
+            <span className="sr-only">S</span>
+            <svg
+              className="brand-initial"
+              viewBox="13 13 35 41"
+              aria-hidden="true"
+              fill="none"
+            >
+              <path
+                d="M43 20c-4-4-20-5-20 3 0 9 21 4 21 16 0 11-21 12-27 3"
+                stroke="currentColor"
+                strokeWidth="6"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span>amuel Santos</span>
           </a>
           <button
             ref={menuButton}

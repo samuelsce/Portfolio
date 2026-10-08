@@ -1,5 +1,12 @@
 # Validação do portfólio
 
+## Identificação do cabeçalho, versão 1.4.1
+
+- TypeScript e build de produção aprovados. SVG reutiliza o traçado do favicon, sem dependências ou animações adicionais.
+- Cabeçalho conferido em PT/EN nas larguras 320, 390, 650, 651, 768, 850, 851, 1024, 1440 e 1600 px. Marca contida e sem sobreposição com menu ou navegação; sem excesso horizontal.
+- Capturas de desktop e menu móvel revisadas. Idiomas, estados dos controles, continuidade do mascote, teclado e armazenamento bloqueado aprovados pelo diagnóstico existente `verify-language.cjs`.
+- Verificação em Edge/Chromium com viewports simulados; sem teste em aparelhos físicos ou Safari.
+
 ## Conteúdo do currículo e Sentinel, versão 1.4.0
 
 - TypeScript e build de produção aprovados. Sem dependências, consultas externas ou loops de animação adicionais.
