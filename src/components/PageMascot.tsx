@@ -30,6 +30,7 @@ type Phase =
 type Reaction =
   | "discovery"
   | "typing"
+  | "coffee"
   | "language"
   | "wave"
   | "curious"
@@ -379,11 +380,12 @@ export default function PageMascot({
     function creativeChanged(event: Event) {
       if (!motion || suspended || menuActive) return;
       const kind = (event as CustomEvent<CreativeReaction>).detail;
-      if (!["typing", "discovery", "proud"].includes(kind)) return;
+      if (!["typing", "discovery", "proud", "coffee"].includes(kind)) return;
       const now = performance.now();
       if (kind === "typing" && now - lastCreative < 1500) return;
       lastCreative = now;
-      if (current === "observing") react(kind, kind === "discovery" ? 1650 : 1250);
+      const duration = kind === "coffee" ? 3400 : kind === "discovery" ? 1650 : 1250;
+      if (current === "observing") react(kind, duration);
       else if (current === "docked" && anchor) {
         const card = anchor;
         clearTimeout(creativeTimer);
@@ -393,7 +395,7 @@ export default function PageMascot({
           creativeFrame = 0;
           if (closed || suspended || current !== "docked") return;
           card.dataset.interactionReaction = kind;
-          creativeTimer = setTimeout(() => delete card.dataset.interactionReaction, kind === "discovery" ? 1650 : 1250);
+          creativeTimer = setTimeout(() => delete card.dataset.interactionReaction, duration);
         });
       }
     }
@@ -1577,7 +1579,7 @@ export default function PageMascot({
         return;
       }
       // These controls already emit a specific reaction from CreativeMotion.
-      if (control.matches(".name-play, .chrome-secret, .project-demo, .agenda-days button")) return;
+      if (control.matches(".name-play, .chrome-secret, .agenda-days button")) return;
       if (control.matches(".room-light-toggle, .theme-control")) {
         react(
           control.getAttribute("aria-checked") === "true" ? "night" : "dazzled",

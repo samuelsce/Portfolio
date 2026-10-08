@@ -1,5 +1,11 @@
 # Samuel Studio — plano de design
 
+## Descobertas e movimento automático, 8 de outubro de 2026
+
+Revisão após o usuário rejeitar a gravidade zero. Preservar os três toques na estrela, a identidade existente e as referências de descoberta por toques do 60fps já consultadas. Substituir a flutuação de quadros por uma constelação própria em SVG, com um S desenhado e o planeta do mascote, delimitada à bancada e encerrada automaticamente. Segundo segredo: escrever café/coffee no campo da ideia faz o personagem tomar café, sem fala ou emoji.
+
+Projetos passam a iniciar e repetir suas sequências enquanto estiverem na área de leitura, sem botões de reprodução. Um timeout por quadro visível, com intervalo de descanso e cancelamento completo ao sair da tela, ocultar a aba, abrir o puzzle ou desativar movimento. Reentrada e retomada devem funcionar sem acumular relógios. Reutilizar os pontos do gráfico, os dez sinais de partículas e o desenho do mascote. Não animar o texto das descrições, a posição dos quadros ou a largura do layout.
+
 ## Interações e descoberta, 8 de outubro de 2026
 
 Preservar rosa, papel e amora, Space Grotesk, composição, janela reta e conteúdo profissional. A ousadia fica nas peças que respondem ao visitante, sem reintroduzir legendas, cursor decorativo ou textos removidos.

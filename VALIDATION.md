@@ -1,5 +1,14 @@
 # Validação do portfólio
 
+## Reprodução automática e descobertas, versão 1.6.0
+
+- TypeScript e build de produção aprovados. JavaScript principal: 101,53 KB gzip; CSS principal: 18,28 KB gzip. Aproximadamente 1 KB adicional de JavaScript comprimido em relação à versão 1.5.0, sem dependências ou consultas externas adicionais.
+- Quatro quadros iniciam sem clique, repetem enquanto visíveis e reiniciam ao retornar à área de leitura. Fora da tela não mantêm reprodução nem relógio; pausa por evento de visibilidade simulado e desativação de movimento conferidas. Em cada controlador, as 33 leituras de pontos do LinkWatch acontecem somente na primeira reprodução, incluindo após a repetição automática.
+- Verificações funcionais em 390, 768 e 1440 px. Em 390 px, CPU limitada em 4× no Chromium; o exercício não limita GPU, representa hardware específico ou mede FPS no Safari.
+- Constelação: três acionamentos pelo teclado, fechamento por Escape e temporizador, restauração de foco/inert e preservação do título. Estrelas, face rosa e xícara contidas nas áreas gráficas em 320, 390, 768 e 1440 px, com capturas revisadas. Idioma não interrompe o segredo; jogo existente, tema escuro e retomada automática aprovados.
+- Segredo do café reconhece café/cafe/coffee, termina e mantém uma versão estática com movimento reduzido. Sem emoji ou diálogo visual do personagem. Caminhada, arrasto por toque, lupa, planetinha, travessuras, menu, retorno e olhar aprovados, sem cortes nos grupos gráficos monitorados.
+- Layout PT/EN aprovado de 320 a 1920 px, sem excesso horizontal ou erros de execução. Diagnósticos em `.publish-staging/verify-automatic-secrets.cjs`, `.publish-staging/review-new-secrets.cjs`, `review-content-layout.cjs`, `verify-animation-perf.cjs` e `verify-creative-lifecycle.cjs`. Testes em Edge/Chromium com viewport, toque e visibilidade simulados, sem validação em aparelhos físicos ou Safari.
+
 ## Movimento e descoberta, versão 1.5.0
 
 - TypeScript e build de produção aprovados. Sem dependências ou consultas externas adicionais. JavaScript principal: 100,53 KB gzip, cerca de 3 KB acima da versão anterior; CSS principal: 18,06 KB gzip. Tamanho de bundle não equivale a FPS.

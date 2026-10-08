@@ -268,6 +268,19 @@ function MascotArtwork({
               />
             </g>
           </g>
+          <g className="mascot-coffee" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M85 58q7 16-3 19" stroke="#b9557d" strokeWidth="7" />
+            <path d="M85 59q6 14-3 17" stroke="#f18bb0" strokeWidth="4.5" />
+            <g className="coffee-cup">
+              <path d="M81 69h3a4 4 0 0 1 0 8h-3" stroke="#e7cdd8" strokeWidth="2.8" />
+              <path d="M66 67h16v12q0 5-8 5t-8-5Z" fill="#fff8fb" stroke="#b88a9f" strokeWidth="1" />
+              <ellipse cx="74" cy="67" rx="8" ry="2.1" fill="#8a5262" stroke="#e7cdd8" strokeWidth="1" />
+              <path d="M69 71v7" stroke="#fff" strokeWidth="1.4" />
+              <path className="coffee-steam" d="M71 61q-4-4 0-8m6 8q-4-4 0-8" stroke="#b9557d" strokeWidth="1.5" />
+            </g>
+            <ellipse cx="82" cy="76" rx="4.5" ry="3.2" fill="#f393b6" stroke="#bf557d" />
+            <path d="M81 74v3m2-3v3" stroke="#a54268" strokeWidth=".7" />
+          </g>
           {!docked && (
             <>
               <Orbit front />

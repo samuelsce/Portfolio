@@ -2,7 +2,8 @@ import { memo, useEffect, useRef } from "react";
 import { creativeReaction } from "./creative-events";
 import { useLanguage } from "../i18n/LanguageProvider";
 
-type Rig = { visible: boolean; seen: boolean; animations: Set<Animation>; gravity: Set<Animation> };
+type Timer = ReturnType<typeof setTimeout>;
+type Rig = { visible: boolean; animations: Set<Animation>; timer?: Timer; traceFrames?: Keyframe[] };
 const spring = "cubic-bezier(.2,.7,.2,1)";
 
 // Every clock belongs to a visible piece or a finite gesture. No idle frame loop.
@@ -18,20 +19,29 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
     const name = portfolio.querySelector<HTMLElement>(".name-play")!;
     const bench = portfolio.querySelector<HTMLElement>(".workbench")!;
     const secret = bench.querySelector<HTMLElement>(".chrome-secret")!;
+    const preview = bench.querySelector<HTMLElement>(".idea-preview")!;
+    const scene = bench.querySelector<HTMLElement>(".constellation-scene")!;
     const rigs = new Map<HTMLElement, Rig>();
     const gestures = new Set<Animation>();
+    const sky = new Set<Animation>();
     const jobs = new Set<ReturnType<typeof setTimeout>>();
     let taps = 0, lastTap = 0, lastName = -Infinity, particleTurn = 0;
-    let gravityTimer: ReturnType<typeof setTimeout> | undefined;
-    let gravityUntil = 0;
+    let skyTimer: Timer | undefined, coffeeTimer: Timer | undefined;
+    let coffeeWord = false;
     let active = true;
+    const canRun = () => motion && !document.hidden && portfolio.dataset.arcadeOpen !== "true";
     function later(delay: number, fn: () => void) {
       const timer = setTimeout(() => { jobs.delete(timer); if (active) fn(); }, delay);
       jobs.add(timer);
       return timer;
     }
+    function clearJob(timer?: Timer) {
+      if (timer === undefined) return;
+      clearTimeout(timer);
+      jobs.delete(timer);
+    }
     function animate(node: Element | null, frames: Keyframe[], duration: number, bucket = gestures, delay = 0) {
-      if (!node || !motion || document.hidden || portfolio.dataset.arcadeOpen === "true") return;
+      if (!node || !canRun()) return;
       const animation = node.animate(frames, { duration, delay, easing: spring });
       bucket.add(animation);
       const done = () => bucket.delete(animation);
@@ -50,7 +60,7 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
         animate(letter, [{ translate: "0 0", rotate: "0deg" }, { translate: "0 -.13em", rotate: `${i % 2 ? 3 : -3}deg`, offset: .32 }, { translate: "0 .025em", rotate: "0deg", offset: .7 }, { translate: "0 0", rotate: "0deg" }], 700, gestures, i * 45);
     }
     function burst(target: Element, count = 6) {
-      if (!motion || document.hidden) return;
+      if (!canRun()) return;
       const r = target.getBoundingClientRect();
       const x = Math.min(innerWidth - 18, Math.max(18, r.left + r.width / 2));
       const y = Math.min(innerHeight - 18, Math.max(18, r.top + r.height / 2));
@@ -66,7 +76,7 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
     }
     function demo(art: HTMLElement, explicit = false) {
       const rig = rigs.get(art);
-      if (!rig?.visible || !motion || document.hidden) return;
+      if (!rig?.visible || !canRun()) return;
       cancel(rig.animations);
       const run = (selector: string, frames: Keyframe[], duration = 1000, stagger = 90, delay = 0) => {
         art.querySelectorAll(selector).forEach((node, i) => animate(node, frames, duration, rig.animations, delay + i * stagger));
@@ -82,16 +92,16 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
         run(".room-plant", [{ rotate: "0deg" }, { rotate: "-6deg", offset: .28 }, { rotate: "4deg", offset: .55 }, { rotate: "-2deg", offset: .8 }, { rotate: "0deg" }], 1600);
       } else if (art.closest(".project-linkwatch")) {
         run(".chart-trace", [{ strokeDasharray: "1", strokeDashoffset: "1" }, { strokeDasharray: "1", strokeDashoffset: "0" }], 1600);
-        const trace = art.querySelector<SVGPathElement>(".chart-trace");
-        if (trace) {
+        if (!rig.traceFrames) {
+          const trace = art.querySelector<SVGPathElement>(".chart-trace")!;
           const length = trace.getTotalLength();
-          // Sample once per play; follow the actual drawing without frame-by-frame reads.
-          const frames = Array.from({ length: 33 }, (_, i) => {
+          // Cache drawing coordinates across automatic repetitions.
+          rig.traceFrames = Array.from({ length: 33 }, (_, i) => {
             const p = trace.getPointAtLength(length * i / 32);
             return { translate: `${p.x}px ${p.y - 83}px`, opacity: i === 0 || i === 32 ? 0 : 1, offset: i / 32 };
           });
-          animate(art.querySelector(".chart-probe"), frames, 1600, rig.animations);
         }
+        animate(art.querySelector(".chart-probe"), rig.traceFrames, 1600, rig.animations);
         run(".monitor-metrics > div", lift, 900, 140);
       } else {
         run(".sentinel-node", lift, 800, 450);
@@ -103,36 +113,62 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
         status.current!.textContent = copy.current.demoStatus;
       }
     }
-    function finishGravity() {
-      clearTimeout(gravityTimer);
-      jobs.delete(gravityTimer!);
-      gravityUntil = 0;
-      for (const rig of rigs.values()) cancel(rig.gravity);
-      delete portfolio.dataset.zeroGravity;
+    function stopRig(rig: Rig) {
+      clearJob(rig.timer);
+      rig.timer = undefined;
+      cancel(rig.animations);
+    }
+    function scheduleRig(art: HTMLElement, rig: Rig, delay = 6800) {
+      clearJob(rig.timer);
+      rig.timer = undefined;
+      if (!rig.visible || !canRun()) return;
+      rig.timer = later(delay, () => {
+        rig.timer = undefined;
+        if (!rig.visible || !canRun()) return;
+        demo(art);
+        scheduleRig(art, rig);
+      });
+    }
+    function finishSky() {
+      clearJob(skyTimer);
+      skyTimer = undefined;
+      cancel(sky);
+      delete portfolio.dataset.constellation;
+      preview.inert = false;
       secret.setAttribute("aria-pressed", "false");
     }
-    function floatRig(node: HTMLElement, rig: Rig) {
-      const remaining = gravityUntil - performance.now();
-      if (!motion || !rig.visible || remaining < 600 || rig.gravity.size) return;
-      const pieces = node === bench ? ".art-ring, .art-spark" : ".barber-agenda, .monitor-window, .sentinel-panel, .room-plant";
-      for (const [i, piece] of Array.from(node.querySelectorAll(pieces)).entries())
-        animate(piece, [{ translate: "0 0", rotate: "0deg" }, { translate: `0 ${-14 - i * 4}px`, rotate: `${i % 2 ? -7 : 7}deg`, offset: .24 }, { translate: "0 -9px", rotate: "-3deg", offset: .48 }, { translate: "0 -16px", rotate: "4deg", offset: .72 }, { translate: "0 0", rotate: "0deg" }], remaining, rig.gravity);
-    }
-    function gravity() {
-      if (portfolio.dataset.zeroGravity === "true") { finishGravity(); cancel(gestures); return; }
-      portfolio.dataset.zeroGravity = "true";
+    function constellation() {
+      if (portfolio.dataset.constellation === "true") { finishSky(); return; }
+      portfolio.dataset.constellation = "true";
+      preview.inert = true;
       secret.setAttribute("aria-pressed", "true");
-      status.current!.textContent = copy.current.gravityFound;
+      status.current!.textContent = copy.current.constellationFound;
       creativeReaction("discovery");
-      wave();
       burst(secret, 8);
-      gravityUntil = performance.now() + 8600;
-      for (const [node, rig] of rigs) floatRig(node, rig);
-      gravityTimer = later(8800, finishGravity);
+      animate(scene.querySelector(".constellation-trace"), [{ strokeDasharray: "1", strokeDashoffset: "1" }, { strokeDasharray: "1", strokeDashoffset: "0" }], 2300, sky);
+      scene.querySelectorAll(".constellation-star").forEach((node, i) => {
+        animate(node, [{ opacity: .2, scale: ".6" }, { opacity: 1, scale: "1.25", offset: .28 }, { opacity: .7, scale: "1", offset: .55 }, { opacity: 1, scale: "1" }], 2600, sky, i * 180);
+      });
+      animate(scene.querySelector(".constellation-comet"), [{ translate: "90px -50px", opacity: 0 }, { translate: "0 0", opacity: 1, offset: .3 }, { translate: "-130px 90px", opacity: 0 }], 1300, sky, 2400);
+      animate(scene.querySelector(".constellation-planet"), [{ translate: "0 0" }, { translate: "0 -6px", offset: .3 }, { translate: "0 3px", offset: .7 }, { translate: "0 0" }], 6000, sky);
+      skyTimer = later(8000, finishSky);
+    }
+    function input(event: Event) {
+      if (!(event.target instanceof HTMLInputElement) || !event.target.closest(".idea-input")) return;
+      const word = event.target.value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      const isCoffee = word === "cafe" || word === "coffee";
+      if (isCoffee && !coffeeWord) {
+        clearJob(coffeeTimer);
+        bench.dataset.coffee = "true";
+        creativeReaction("coffee");
+        status.current!.textContent = copy.current.coffeeFound;
+        coffeeTimer = later(3600, () => { delete bench.dataset.coffee; coffeeTimer = undefined; });
+      } else if (!isCoffee) creativeReaction("typing");
+      coffeeWord = isCoffee;
     }
     function click(event: MouseEvent) {
       if (!(event.target instanceof Element)) return;
-      const target = event.target.closest<HTMLElement>(".name-play, .chrome-secret, .project-demo, .agenda-days button, .idea-action");
+      const target = event.target.closest<HTMLElement>(".name-play, .chrome-secret, .agenda-days button, .idea-action");
       if (!target) return;
       if (target.matches(".name-play")) { wave(); creativeReaction("proud"); }
       else if (target.matches(".chrome-secret")) {
@@ -143,12 +179,16 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
           if (gestures.has(old)) { old.cancel(); gestures.delete(old); }
         }
         animate(target, [{ rotate: "0deg", scale: "1" }, { rotate: `${45 * taps}deg`, scale: "1.2", offset: .4 }, { rotate: "0deg", scale: "1" }], 500);
-        if (taps === 3 || portfolio.dataset.zeroGravity === "true") { taps = 0; gravity(); }
+        if (taps === 3 || portfolio.dataset.constellation === "true") { taps = 0; constellation(); }
       } else if (target.matches(".idea-action")) { burst(target); }
       else {
         const art = target.closest<HTMLElement>(".project-art");
         // React commits the selected day before reading the new illustration.
-        if (art) queueMicrotask(() => { if (active) demo(art, true); });
+        if (art) queueMicrotask(() => {
+          if (!active) return;
+          demo(art, true);
+          scheduleRig(art, rigs.get(art)!);
+        });
       }
     }
     function enter(event: PointerEvent) {
@@ -156,29 +196,43 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
     }
     function stop() {
       cancel(gestures);
-      finishGravity();
-      for (const rig of rigs.values()) cancel(rig.animations);
+      finishSky();
+      clearJob(coffeeTimer);
+      coffeeTimer = undefined;
+      delete bench.dataset.coffee;
+      for (const rig of rigs.values()) stopRig(rig);
     }
-    function visibility() { if (document.hidden || portfolio.dataset.arcadeOpen === "true") stop(); }
+    function key(event: KeyboardEvent) { if (event.key === "Escape") finishSky(); }
+    function visibility() {
+      if (document.hidden || portfolio.dataset.arcadeOpen === "true") stop();
+      else for (const [node, rig] of rigs) if (node !== bench) scheduleRig(node, rig, 500);
+    }
     let observer: IntersectionObserver | undefined;
     if (motion && "IntersectionObserver" in window) {
       observer = new IntersectionObserver(entries => {
         for (const entry of entries) {
           const node = entry.target as HTMLElement, rig = rigs.get(node)!;
-          rig.visible = entry.isIntersecting && entry.intersectionRatio >= .18;
-          if (!rig.visible) { cancel(rig.animations); cancel(rig.gravity); }
-          else {
-            if (!rig.seen && node !== bench) { rig.seen = true; demo(node); }
-            if (gravityUntil) floatRig(node, rig);
-          }
+          const visible = entry.isIntersecting && entry.intersectionRatio >= (node === bench ? .18 : .4);
+          if (visible === rig.visible) continue;
+          rig.visible = visible;
+          if (!visible) {
+            stopRig(rig);
+            if (node === bench) { finishSky(); delete bench.dataset.coffee; }
+          } else if (node !== bench) scheduleRig(node, rig, 350);
         }
-      }, { threshold: .18, rootMargin: "-90px 0px -40px 0px" });
+      }, { threshold: [.18, .4], rootMargin: "-90px 0px -70px 0px" });
     }
     for (const node of [bench, ...portfolio.querySelectorAll<HTMLElement>(".project-art")]) {
-      rigs.set(node, { visible: !observer, seen: false, animations: new Set(), gravity: new Set() });
+      rigs.set(node, { visible: !observer, animations: new Set() });
       observer?.observe(node);
     }
     portfolio.addEventListener("click", click);
+    portfolio.addEventListener("input", input);
+    document.addEventListener("keydown", key);
+    if (motion) later(650, () => {
+      const r = name.getBoundingClientRect();
+      if (r.top >= 0 && r.bottom < innerHeight) wave();
+    });
     if (motion) portfolio.addEventListener("pointerover", enter, { passive: true });
     document.addEventListener("visibilitychange", visibility);
     window.addEventListener("portfolio:arcadechange", visibility);
@@ -189,6 +243,8 @@ const CreativeMotion = memo(function CreativeMotion({ motion }: { motion: boolea
       jobs.clear();
       observer?.disconnect();
       portfolio.removeEventListener("click", click);
+      portfolio.removeEventListener("input", input);
+      document.removeEventListener("keydown", key);
       portfolio.removeEventListener("pointerover", enter);
       document.removeEventListener("visibilitychange", visibility);
       window.removeEventListener("portfolio:arcadechange", visibility);

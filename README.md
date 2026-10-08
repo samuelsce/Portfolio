@@ -15,14 +15,15 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 ## O que explorar
 
 - **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos. A janela permanece reta; a ação principal anima a ideia por mouse, toque ou teclado.
-- **Projetos:** contexto, tecnologias, detalhes da implementação e ilustrações interativas com controles de tema. Cada quadro tem uma demonstração animada que pode ser repetida; na agenda do BarberAg, também é possível selecionar o dia.
+- **Projetos:** contexto, tecnologias, detalhes da implementação e ilustrações com controles de tema. As demonstrações começam e se repetem automaticamente enquanto o quadro está na área de leitura, com intervalos de descanso. Na agenda do BarberAg, também é possível selecionar o dia.
 - **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
 - **Português e inglês:** seleção PT/EN no menu, com preferência salva no navegador e tradução de conteúdo, controles e descrições de acessibilidade.
 - **Detalhes de movimento:** nome que reage em onda, personagem atento à edição da ideia, reações à troca de idioma e às demonstrações, partículas na ativação e traço desenhado quando Projetos chega à área de leitura.
 - **Atividade no GitHub:** calendário de contribuições públicas do último ano em tons de rosa, com consulta por dia usando mouse, toque ou teclado.
 - **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
-- **Gravidade zero:** uma segunda descoberta na bancada faz órbitas e ilustrações flutuarem temporariamente, com uma reação especial do mascote.
+- **Constelação:** três toques na estrela revelam um céu com um S desenhado, estrelas e o planeta do mascote, dentro da bancada.
+- **Pausa para café:** uma palavra no campo da ideia revela uma xícara e uma reação silenciosa do personagem.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -72,7 +73,7 @@ Falhas no download desses módulos são isoladas por um limite de erro: os proje
 
 Clique ou toque três vezes no rostinho ao lado do título do calendário. Acenda todos os quadradinhos para ativar a órbita. Também funciona pelo teclado: Enter no rostinho; setas, Enter e Espaço no quadro; Escape para fechar. As animações da página e o controlador do mascote pausam enquanto o jogo está aberto.
 
-Na bancada do hero, três toques rápidos na estrela da janela ativam gravidade zero por alguns segundos. Role até os projetos durante o efeito para vê-los flutuar. Um novo toque na estrela encerra o efeito. As duas descobertas também funcionam pelo teclado.
+Na bancada do hero, três toques rápidos na estrela da janela revelam uma constelação por oito segundos. Um novo toque na estrela ou Escape encerra a cena antes. O gesto também funciona com Enter ou Espaço. Escrever `café`, `cafe` ou `coffee` no campo da ideia revela a pausa para café do mascote por alguns segundos. Nenhuma descoberta altera a preferência de tema ou o título escolhido pelo visitante.
 
 </details>
 
@@ -82,7 +83,7 @@ A geometria dos elementos fixos é reutilizada durante a rolagem e recalculada q
 
 Animações da cópia escondida e do card fora da tela pausam. Ao sair da aba, o controlador suspende as interações e restaura os controles alterados pelo mascote. A pintura do personagem tem uma área delimitada com espaço para membros e objetos.
 
-O controlador de movimento criativo usa um observador de visibilidade compartilhado, sequências WAAPI finitas e um pool de dez partículas. Não mantém um loop de frame ocioso. As leituras de geometria do gráfico acontecem uma vez por reprodução; seus pontos são entregues ao navegador como keyframes. Sequências cancelam fora da área de leitura, com a aba oculta, com o puzzle aberto ou com movimento desativado. Na preferência inicial de movimento reduzido, a descoberta da bancada mantém apenas a mudança estática da grade.
+O controlador de movimento criativo usa um observador de visibilidade compartilhado, sequências WAAPI finitas e um pool de dez partículas. Cada quadro visível mantém no máximo um timeout para a próxima sequência, com cerca de cinco segundos de descanso entre reproduções. Não há loop de frame ocioso. Os 33 pontos do gráfico são calculados e reutilizados durante a vida do controlador. Animações e relógios cancelam fora da área de leitura, com a aba oculta, com o puzzle aberto ou com movimento desativado; retomam com apenas um relógio por quadro. Na preferência inicial de movimento reduzido, os segredos mantêm versões estáticas.
 
 Na sequência de rolagem instrumentada da versão 1.0.2, as leituras de posição passaram de **4.296 para 1.074**, cerca de **75% menos chamadas**. Esse resultado mede trabalho do código em uma sequência específica, não um ganho equivalente de FPS. Método, evidências e limites estão em [VALIDATION.md](VALIDATION.md).
 
@@ -126,6 +127,8 @@ src/
   components/
     PageMascot.tsx               Estados, movimentos e interações do mascote
     MascotArtwork.tsx            Desenho compartilhado do personagem
+    CreativeMotion.tsx           Sequências automáticas e descobertas da bancada
+    ConstellationScene.tsx       Constelação em SVG revelada pela estrela
     HeaderStretch.tsx            Superfície do cabeçalho
     RoomIllustration.tsx         Quarto isométrico e iluminação
     Icon.tsx                     Ícones SVG consistentes entre dispositivos
@@ -143,6 +146,7 @@ src/
   mascot-finish.css              Material, caminhada e acabamento do rig
   polish.css                     Reações de idioma e acabamento da bancada
   contributions.css              Calendário de atividade
+  creative.css                   Respostas, constelação e pausa para café
   secret-garden.css              Estilo carregado junto ao jogo
 public/projects/                Capturas de referência arquivadas
 public/robots.txt               Orientação de rastreamento e endereço do sitemap

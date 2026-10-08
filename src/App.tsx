@@ -11,7 +11,7 @@ import Icon from "./components/Icon";
 import SectionStroke from "./components/SectionStroke";
 import DeferredContributions from "./components/DeferredContributions";
 import CreativeMotion from "./components/CreativeMotion";
-import { creativeReaction } from "./components/creative-events";
+import ConstellationScene from "./components/ConstellationScene";
 import { useLanguage, LanguageSwitcher } from "./i18n/LanguageProvider";
 import { englishProjects, englishAcademicProject } from "./i18n/projects";
 
@@ -170,6 +170,7 @@ const Workbench = memo(function Workbench({
         </div>
         <div className={`preview-stage ${dark ? "is-dark" : ""}`}>
           <div className="stage-grid" aria-hidden="true" />
+          <ConstellationScene />
           <div
             className={`idea-preview ${format === "poster" ? "is-poster" : ""} ${celebrate ? "is-celebrating" : ""}`}
             style={{ "--idea-radius": `${radius}px` } as CSSProperties}
@@ -261,7 +262,7 @@ const Workbench = memo(function Workbench({
         <input
           maxLength={28}
           value={idea ?? t.defaultIdea}
-          onChange={(e) => { setIdea(e.target.value); creativeReaction("typing"); }}
+          onChange={(e) => setIdea(e.target.value)}
         />
       </label>
       <div className="bench-motion-row">
@@ -415,10 +416,8 @@ function BarberIllustration() {
 
 const Project = memo(function Project({
   project,
-  motion,
 }: {
   project: (typeof projects)[number];
-  motion: boolean;
 }) {
   const { t, language } = useLanguage();
   const copy = language === "pt" ? project : englishProjects[project.id];
@@ -433,9 +432,6 @@ const Project = memo(function Project({
         <div className="art-toolbar">
           <span>{project.name}</span>
           <div className="art-tools">
-            <button className="project-demo" aria-label={`${t.playDemo}: ${project.name}`} title={t.playDemo} disabled={!motion}>
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 10 7-10 7Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /></svg>
-            </button>
           {project.id === "roomlab" ? (
             <button
               className="room-light-toggle"
@@ -831,7 +827,7 @@ export default function App() {
           </div>
           <div className="projects-list">
             {projects.map((project) => (
-              <Project key={project.id} project={project} motion={motion} />
+              <Project key={project.id} project={project} />
             ))}
           </div>
           <AcademicProject />

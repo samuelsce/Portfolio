@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.0] - 2026-10-08
+
+### Reprodução automática e novos segredos
+
+- Quadros iniciam suas demonstrações na área de leitura e repetem automaticamente a cada 6,8 segundos, com descanso entre sequências. Reentrada e retomada também funcionam; botões de reprodução removidos.
+- Gravidade zero substituída por uma constelação em SVG dentro da bancada. Preservados os três toques na estrela, com S desenhado, estrelas, cometa e planeta. Cena encerra em oito segundos, com Escape, novo toque, saída da tela ou pausa.
+- Novo segredo ao escrever café/cafe/coffee no campo da ideia: xícara, mão e vapor integrados ao desenho compartilhado e reação silenciosa do mascote. Versão estática quando movimento está desativado.
+- Um timeout por quadro visível, cancelamento de animações e relógios fora da tela, aba oculta, puzzle e movimento desativado. Pontos do gráfico reutilizados nas repetições; sem bibliotecas ou loop de frame novo.
+- Controles da bancada preservados, conteúdo escondido retirado da sequência de foco durante a constelação e estados/avisos traduzidos em PT/EN.
+
 ## [1.5.0] - 2026-10-08
 
 ### Movimento e descoberta
