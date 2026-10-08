@@ -110,7 +110,7 @@ html {
 .preview-stage {
   height: 430px;
   min-height: 430px;
-  padding: 22px 14px 40px;
+  padding: 22px 14px;
 }
 .idea-preview {
   transition:

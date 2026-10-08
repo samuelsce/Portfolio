@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.3] - 2026-10-07
+
+### Correções
+
+- Removidos título decorativo da janela, cursor ilustrado e sua legenda em PT/EN.
+- Monograma da seção Sobre recupera tamanho e tipografia originais; regras destinadas à legenda removida estavam afetando o único filho restante.
+- Card centralizado verticalmente após a remoção da legenda da bancada. Estrela do card posicionada sem reservar uma linha vazia; margens dos controles externos alinhadas.
+- Estilos do cursor e traduções sem uso removidos, sem alteração no controlador do mascote ou novas dependências.
+
 ## [1.3.2] - 2026-10-07
 
 ### Conteúdo

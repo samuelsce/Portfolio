@@ -1,5 +1,13 @@
 # Validação do portfólio
 
+## Layout após remoção das legendas, versão 1.3.3
+
+- Build de produção e TypeScript aprovados. PT/EN revisados em 320, 390, 768, 1024, 1440 e 1920 px, sem excesso horizontal ou erros de execução.
+- Monograma com Space Grotesk e fonte de 48 px no celular e 57 px nas demais larguras; regra da antiga legenda não atinge mais o símbolo.
+- Centro vertical do card alinhado ao centro da bancada, com diferença inferior a 1 px nas larguras medidas. Ausência de título da janela e cursor conferida.
+- Interação de dar vida à ideia endireita a janela em todos os tamanhos. Controles, idiomas, persistência, teclado e continuidade do mascote aprovados pelo diagnóstico existente.
+- Capturas das seções Projetos, Sobre, GitHub e Contato revisadas em 390 e 1440 px. Diagnósticos em `.publish-staging/review-content-layout.cjs` e `.publish-staging/verify-language.cjs`; verificação em Edge simulado.
+
 ## Revisão de conteúdo, versão 1.3.2
 
 - TypeScript e build de produção aprovados. Sem dependências novas ou alteração no controlador do mascote.

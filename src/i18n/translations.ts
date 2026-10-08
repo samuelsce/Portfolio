@@ -1,11 +1,9 @@
 export const pt = {
-  "windowTitle": "ideia.em.construção",
   "cardMascot": "Mascote no card. Segure e arraste para mover. No teclado, Enter pega e solta; setas movem, Escape devolve. Espaço também permite segurar.",
   "defaultIdea": "Uma boa ideia",
   "startsHere": "começa aqui.",
   "ideaAlive": "Ideia ganhou vida!",
   "bringToLife": "Dar vida à ideia",
-  "you": "você :)",
   "ideaStatus": "Sua ideia ganhou vida. Experimente outro formato ou tema.",
   "formatLabel": "Formato da interface",
   "card": "Card",
@@ -112,13 +110,11 @@ export const pt = {
 export type Translation = Record<keyof typeof pt, string>;
 
 export const en: Translation = {
-  "windowTitle": "idea.in.progress",
   "cardMascot": "Mascot in the card. Hold and drag to move. With a keyboard, Enter picks up and releases; arrow keys move, Escape returns it. Space also lets you hold it.",
   "defaultIdea": "A good idea",
   "startsHere": "starts here.",
   "ideaAlive": "Your idea is alive!",
   "bringToLife": "Bring it to life",
-  "you": "you :)",
   "ideaStatus": "Your idea came to life. Try another format or theme.",
   "formatLabel": "Interface format",
   "card": "Card",

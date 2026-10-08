@@ -186,7 +186,6 @@ const Workbench = memo(function Workbench({
             <i />
             <i />
           </span>
-          <span>{t.windowTitle}</span>
           <span className="chrome-symbol" aria-hidden="true">
             <Icon name="asterisk" />
           </span>
@@ -223,17 +222,6 @@ const Workbench = memo(function Workbench({
               <Arrow />
             </button>
           </div>
-          <span className="cursor-sticker" aria-hidden="true">
-            <svg viewBox="0 0 30 36">
-              <path
-                d="M3 2v28l7-7 6 11 6-3-6-11 11-1Z"
-                fill="#291b24"
-                stroke="#fff7fa"
-                strokeWidth="2"
-              />
-            </svg>
-            <span>{t.you}</span>
-          </span>
           <span className="sr-only" role="status">
             {celebrate
               ? t.ideaStatus

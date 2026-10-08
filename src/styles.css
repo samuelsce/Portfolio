@@ -310,7 +310,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px 28px 47px;
+  padding: 28px;
   background: #f8dbe7;
   overflow: hidden;
   transition: background 0.3s;
@@ -338,6 +338,9 @@ p {
   position: relative;
 }
 .idea-top {
+  position: absolute;
+  top: 16px;
+  right: 16px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -446,26 +449,6 @@ p {
   font-size: 8px;
   color: #87576d;
 }
-.cursor-sticker {
-  position: absolute;
-  right: 30px;
-  bottom: 63px;
-  z-index: 2;
-  transform: rotate(8deg);
-}
-.cursor-sticker svg {
-  width: 30px;
-  height: 36px;
-  margin-bottom: 2px;
-}
-.cursor-sticker span {
-  display: block;
-  background: var(--berry);
-  color: var(--paper);
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 10px;
-}
 .bench-controls {
   display: flex;
   align-items: center;
@@ -526,7 +509,7 @@ p {
   gap: 10px;
   font-size: 10px;
   color: #796471;
-  margin: 29px 0 0 8px;
+  margin: 20px 0 0;
 }
 .bench-bottom > span {
   display: flex;
@@ -1010,12 +993,6 @@ p {
   height: 78px;
   padding-bottom: 14px;
   transform: rotate(-12deg);
-}
-.about-signature > span:last-child {
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: 14px;
-  line-height: 1.4;
 }
 .about-copy .about-lead {
   font-size: 23px;
@@ -1817,9 +1794,6 @@ p {
     width: 63px;
     margin-bottom: 10px;
   }
-  .about-signature > span:last-child {
-    font-size: 11px;
-  }
   .about-copy .about-lead {
     font-size: 21px;
     max-width: 340px;
@@ -2013,9 +1987,6 @@ p {
 .contact-copy {
   min-width: 0;
 }
-.cursor-sticker {
-  pointer-events: none;
-}
 .radius-control > span:last-child {
   color: #795567;
 }
@@ -2030,20 +2001,12 @@ p {
   }
   .preview-stage {
     min-height: 340px;
-    padding: 20px 28px 35px;
-  }
-}
-@media (max-width: 850px) {
-  .cursor-sticker {
-    display: none;
+    padding: 28px;
   }
 }
 @media (max-width: 650px) {
   .hero h1 {
     font-size: clamp(80px, 24.2vw, 145px);
-  }
-  .cursor-sticker {
-    display: none;
   }
 }
 /* Reading sizes apply after the responsive layouts so small screens retain
@@ -2159,7 +2122,7 @@ p {
 .bench-bottom {
   flex-wrap: wrap;
   gap: 4px 12px;
-  margin-top: 27px;
+  margin-top: 20px;
 }
 .idea-input {
   flex-wrap: wrap;
@@ -2172,7 +2135,7 @@ p {
   padding: 10px 12px;
 }
 .bench-motion-row {
-  margin: 12px 0 0 8px;
+  margin: 12px 0 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2285,9 +2248,6 @@ html:has(.portfolio[data-motion="off"]) {
     position: static;
     display: flex;
     margin-top: 22px;
-  }
-  .about-signature > span:last-child {
-    font-size: 14px;
   }
   .site-footer > span:nth-child(2) {
     margin-left: 0;
