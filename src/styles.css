@@ -1043,7 +1043,7 @@ p {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 70px;
-  align-items: center;
+  align-items: start;
 }
 .contact-main h2 {
   font-size: clamp(58px, 6.9vw, 104px);
@@ -1052,7 +1052,7 @@ p {
   line-height: 1.06;
 }
 .contact-copy {
-  padding-left: 28px;
+  padding: clamp(8px, 1vw, 12px) 0 0;
 }
 .contact-copy > p {
   font-size: 15px;
@@ -1119,16 +1119,6 @@ p {
   font-size: 9px;
   color: #8b7180;
 }
-.footer-signoff {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.footer-signoff svg {
-  width: 11px;
-  height: 11px;
-  color: var(--berry);
-}
 .project-barberag .project-art {
   background: #f2ceda;
   padding: 55px 25px 42px;
@@ -1139,15 +1129,6 @@ p {
   align-items: center;
   justify-content: center;
   gap: 20px;
-}
-.barber-symbol {
-  width: 94px;
-  color: #8f3655;
-  transform: rotate(-15deg);
-  flex-shrink: 0;
-}
-.barber-symbol svg {
-  width: 100%;
 }
 .barber-agenda {
   width: 300px;
@@ -1806,6 +1787,9 @@ p {
     grid-template-columns: 1fr;
     gap: 23px;
   }
+  .contact-copy {
+    padding-top: 0;
+  }
   .contact-main h2 {
     font-size: clamp(64px, 17vw, 92px);
     letter-spacing: -3.8px;
@@ -1840,11 +1824,6 @@ p {
   .site-footer > span:nth-child(2) {
     margin-left: auto;
   }
-  .footer-signoff {
-    flex-basis: 100%;
-    justify-content: center;
-    margin-top: 6px;
-  }
   .idea-preview.is-poster {
     width: 265px;
   }
@@ -1859,9 +1838,6 @@ p {
   }
 }
 @media (max-width: 850px) {
-  .barber-symbol {
-    width: 50px;
-  }
   .barber-illustration {
     gap: 9px;
   }
@@ -1891,9 +1867,6 @@ p {
   .project-roomlab .project-art,
   .project-roomlab .project-info {
     order: 0;
-  }
-  .barber-symbol {
-    width: 56px;
   }
   .barber-agenda {
     width: 250px;
@@ -1954,9 +1927,6 @@ p {
   }
   .about-copy .about-lead {
     font-size: 19px;
-  }
-  .barber-symbol {
-    width: 35px;
   }
 }
 .hero-copy,
@@ -2227,9 +2197,6 @@ html:has(.portfolio[data-motion="off"]) {
   }
   .site-footer > span:nth-child(2) {
     margin-left: 0;
-  }
-  .footer-signoff {
-    justify-content: flex-start;
   }
   .stage-hint {
     font-size: 10px;

@@ -358,31 +358,6 @@ function BarberIllustration() {
       role="img"
       aria-label={t.barberLabel}
     >
-      <div className="barber-symbol" aria-hidden="true">
-        <svg viewBox="0 0 100 100" fill="none">
-          <circle
-            cx="29"
-            cy="71"
-            r="13"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <circle
-            cx="70"
-            cy="71"
-            r="13"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            d="m36 61 40-48M63 61 24 13"
-            stroke="currentColor"
-            strokeWidth="4"
-            strokeLinecap="round"
-          />
-          <circle cx="50" cy="43" r="4" fill="currentColor" />
-        </svg>
-      </div>
       <div className="barber-agenda">
         <div className="agenda-heading">
           <span>
@@ -961,9 +936,6 @@ export default function App() {
       <footer className="site-footer section-shell">
         <span>
           © {new Date().getFullYear()} {profile.fullName}
-        </span>
-        <span className="footer-signoff">
-          {t.signoff} <Spark />
         </span>
       </footer>
       <PageMascot

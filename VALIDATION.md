@@ -1,5 +1,13 @@
 # Validação do portfólio
 
+## Painel e alinhamento de contato, versão 1.3.5
+
+- TypeScript e build de produção aprovados. Sem dependências ou loops de animação adicionais.
+- PT/EN conferidos em 320, 390, 768, 1024, 1440 e 1920 px, sem excesso horizontal ou erros de execução.
+- Painel ampliado do BarberAg contido no quadro nas seis larguras, com 420 px de largura externa no desktop. Controle de tema escuro/claro aprovado nos dois idiomas.
+- Tesoura e despedida do rodapé ausentes no DOM. Contato sem recuo lateral, com título e bloco de texto alinhados pelo topo em duas colunas; empilhamento móvel preservado.
+- Capturas do BarberAg e do contato revisadas em 390 e 1440 px. Diagnóstico atualizado em `.publish-staging/review-content-layout.cjs`, em Edge/Chromium com viewports simulados; sem teste em aparelho físico ou Safari.
+
 ## Simplificação dos quadros, versão 1.3.4
 
 - TypeScript e build de produção aprovados, sem dependências novas.

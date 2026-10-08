@@ -418,7 +418,6 @@ html {
 }
 .barber-agenda,
 .monitor-illustration,
-.barber-symbol,
 .agenda-days .selected-day,
 .monitor-top,
 .agenda-slot,
@@ -455,9 +454,6 @@ html {
   border-color: #715064;
   color: #ffedf5;
   box-shadow: 0 12px 24px #140c1940;
-}
-.illustration-dark .barber-symbol {
-  color: #ed95bc;
 }
 .illustration-dark
   :is(
@@ -638,6 +634,29 @@ html {
   .barber-agenda {
     min-width: 0;
   }
+}
+
+/* The schedule occupies the space previously shared with a decorative symbol. */
+.barber-agenda {
+  width: min(420px, calc(100% - 20px));
+  padding: clamp(18px, 2vw, 26px);
+}
+.agenda-heading > span:first-child {
+  font-size: clamp(25px, 2.2vw, 30px);
+}
+.agenda-mini {
+  font-size: 9px;
+}
+.agenda-days,
+.agenda-slot,
+.agenda-free {
+  font-size: 10px;
+}
+.agenda-slot strong {
+  font-size: 12px;
+}
+.agenda-slot div > span {
+  font-size: 9px;
 }
 
 /* Comfortable touch targets without enlarging the miniature illustrations. */

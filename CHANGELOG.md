@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.5] - 2026-10-07
+
+### Ajustes de apresentação
+
+- Removida a tesoura decorativa do BarberAg. Painel de agenda ampliado e centralizado, com tipografia maior e dimensões limitadas ao quadro em todas as larguras.
+- Retirada a despedida do rodapé em português e inglês, incluindo o símbolo e os estilos correspondentes.
+- Seção de contato alinha título e texto pelo topo no desktop e tablet, sem recuo lateral no bloco de contato. Empilhamento móvel preservado.
+- Controles de tema e interações do mascote mantidos. Sem dependências ou animações adicionais.
+
 ## [1.3.4] - 2026-10-07
 
 ### Ajustes de apresentação
