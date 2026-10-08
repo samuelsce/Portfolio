@@ -15,13 +15,14 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 ## O que explorar
 
 - **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos. A janela permanece reta; a ação principal anima a ideia por mouse, toque ou teclado.
-- **Projetos:** contexto, tecnologias, detalhes da implementação e ilustrações interativas com controles de tema.
+- **Projetos:** contexto, tecnologias, detalhes da implementação e ilustrações interativas com controles de tema. Cada quadro tem uma demonstração animada que pode ser repetida; na agenda do BarberAg, também é possível selecionar o dia.
 - **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
 - **Português e inglês:** seleção PT/EN no menu, com preferência salva no navegador e tradução de conteúdo, controles e descrições de acessibilidade.
-- **Detalhes de movimento:** reação do personagem ao trocar de idioma e um traço rosa desenhado quando o título dos projetos chega à área de leitura. O efeito repete após sair da tela e retornar.
+- **Detalhes de movimento:** nome que reage em onda, personagem atento à edição da ideia, reações à troca de idioma e às demonstrações, partículas na ativação e traço desenhado quando Projetos chega à área de leitura.
 - **Atividade no GitHub:** calendário de contribuições públicas do último ano em tons de rosa, com consulta por dia usando mouse, toque ou teclado.
 - **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
+- **Gravidade zero:** uma segunda descoberta na bancada faz órbitas e ilustrações flutuarem temporariamente, com uma reação especial do mascote.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -71,6 +72,8 @@ Falhas no download desses módulos são isoladas por um limite de erro: os proje
 
 Clique ou toque três vezes no rostinho ao lado do título do calendário. Acenda todos os quadradinhos para ativar a órbita. Também funciona pelo teclado: Enter no rostinho; setas, Enter e Espaço no quadro; Escape para fechar. As animações da página e o controlador do mascote pausam enquanto o jogo está aberto.
 
+Na bancada do hero, três toques rápidos na estrela da janela ativam gravidade zero por alguns segundos. Role até os projetos durante o efeito para vê-los flutuar. Um novo toque na estrela encerra o efeito. As duas descobertas também funcionam pelo teclado.
+
 </details>
 
 ### Desempenho
@@ -78,6 +81,8 @@ Clique ou toque três vezes no rostinho ao lado do título do calendário. Acend
 A geometria dos elementos fixos é reutilizada durante a rolagem e recalculada quando o layout muda. Atualizações do olhar e da caminhada são aplicadas aos grupos SVG que as utilizam, evitando escritas repetidas. Componentes visuais são memoizados para reduzir renderizações em mudanças de estado alheias.
 
 Animações da cópia escondida e do card fora da tela pausam. Ao sair da aba, o controlador suspende as interações e restaura os controles alterados pelo mascote. A pintura do personagem tem uma área delimitada com espaço para membros e objetos.
+
+O controlador de movimento criativo usa um observador de visibilidade compartilhado, sequências WAAPI finitas e um pool de dez partículas. Não mantém um loop de frame ocioso. As leituras de geometria do gráfico acontecem uma vez por reprodução; seus pontos são entregues ao navegador como keyframes. Sequências cancelam fora da área de leitura, com a aba oculta, com o puzzle aberto ou com movimento desativado. Na preferência inicial de movimento reduzido, a descoberta da bancada mantém apenas a mudança estática da grade.
 
 Na sequência de rolagem instrumentada da versão 1.0.2, as leituras de posição passaram de **4.296 para 1.074**, cerca de **75% menos chamadas**. Esse resultado mede trabalho do código em uma sequência específica, não um ganho equivalente de FPS. Método, evidências e limites estão em [VALIDATION.md](VALIDATION.md).
 
@@ -170,6 +175,8 @@ O desenho e a implementação das interações são próprios deste portfólio. 
 A faixa anual de quadradinhos foi adaptada a partir do [calendário de Samuel Rizzon](https://www.samuelrizzon.dev/#graph), com cores, tipografia e interações deste projeto. Os dados vêm da API pública mencionada acima; o jogo usa uma implementação própria da mecânica Lights Out.
 
 O quadro do Sentinel aproveita a hierarquia de linhas e divisórias do [Stacked List do useLayouts](https://uselayouts.com/docs/components/stacked-list). A implementação em HTML/CSS e SVG é própria, com a paleta do portfólio e um diagrama do fluxo de ingestão implementado, sem copiar código ou assets do exemplo.
+
+As respostas do nome e da bancada usam como referência a troca de formas por toque do [Heat Map do Bencho](https://bencho.dev/blocks/heat-word). A descoberta por toques repetidos foi informada pela descrição do [easter egg Ultracode no 60fps](https://60fps.design/shots/claude-ultracode-effort-selection-easter-egg-tap-interaction); o vídeo não foi observado. Sequências, ilustrações e lógica são próprias, sem reutilizar código, filtros ou assets desses exemplos.
 
 ---
 

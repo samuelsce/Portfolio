@@ -1,5 +1,17 @@
 # Samuel Studio — plano de design
 
+## Interações e descoberta, 8 de outubro de 2026
+
+Preservar rosa, papel e amora, Space Grotesk, composição, janela reta e conteúdo profissional. A ousadia fica nas peças que respondem ao visitante, sem reintroduzir legendas, cursor decorativo ou textos removidos.
+
+- Nome: letras respondem em uma onda curta ao toque, teclado ou entrada do ponteiro. O texto permanece legível e selecionável, sem mudar o layout.
+- Projetos: demonstrações finitas próprias, acionadas na entrada e por um controle discreto de reprodução. Agenda com seleção de dia, gráfico que desenha uma leitura, quarto com resposta do monitor e planta, Sentinel com percurso SDK → API → banco, sem simular funcionalidades planejadas.
+- Mascote: reação de descoberta com cambalhota e gesto de atenção enquanto a ideia é editada. Coordenar com o controlador existente, sem interromper trajetórias, arrasto ou travessuras.
+- Segredo: três toques na estrela da janela revelam gravidade zero por alguns segundos. Objetos das ilustrações sobem e voltam, letras ondulam e pequenos sinais orbitais aparecem; sem girar ou inclinar a janela do hero.
+- Implementação: CSS/WAAPI em transform e opacity, pool limitado de partículas e IntersectionObserver compartilhado. Sem dependências, varredura por frame, parallax global ou eventos de movimento no toque. Cancelar ao sair da tela, fechar a aba, abrir um jogo ou desativar movimento.
+
+Referências consultadas: [Heat Map do Bencho](https://bencho.dev/blocks/heat-word), com preview e troca de forma por toque observados, para resposta tátil e progressiva; [Eye Tracker do Bencho](https://bencho.dev/blocks/eye-tracker), preview e controle de tema inspecionados, para atenção do personagem; [Claude Ultracode do 60fps](https://60fps.design/shots/claude-ultracode-effort-selection-easter-egg-tap-interaction), descrição consultada para descoberta por toques repetidos (vídeo não observado). Sem copiar código, filtros ou assets.
+
 ## Refinamento de toque, idioma e movimento independente
 
 Revisão de 7 de outubro de 2026, conforme os testes do usuário em iPad. Preservar a paleta, tipografia, composição e funções existentes. Nova leitura da skill frontend-design-references e de sua referência complementar frontend-design.

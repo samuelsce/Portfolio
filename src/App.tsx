@@ -10,6 +10,8 @@ import MascotArtwork from "./components/MascotArtwork";
 import Icon from "./components/Icon";
 import SectionStroke from "./components/SectionStroke";
 import DeferredContributions from "./components/DeferredContributions";
+import CreativeMotion from "./components/CreativeMotion";
+import { creativeReaction } from "./components/creative-events";
 import { useLanguage, LanguageSwitcher } from "./i18n/LanguageProvider";
 import { englishProjects, englishAcademicProject } from "./i18n/projects";
 
@@ -162,9 +164,9 @@ const Workbench = memo(function Workbench({
             <i />
             <i />
           </span>
-          <span className="chrome-symbol" aria-hidden="true">
+          <button className="chrome-symbol chrome-secret" aria-label={t.chromeSecret} aria-pressed="false" title={t.chromeSecret}>
             <Icon name="asterisk" />
-          </span>
+          </button>
         </div>
         <div className={`preview-stage ${dark ? "is-dark" : ""}`}>
           <div className="stage-grid" aria-hidden="true" />
@@ -259,7 +261,7 @@ const Workbench = memo(function Workbench({
         <input
           maxLength={28}
           value={idea ?? t.defaultIdea}
-          onChange={(e) => setIdea(e.target.value)}
+          onChange={(e) => { setIdea(e.target.value); creativeReaction("typing"); }}
         />
       </label>
       <div className="bench-motion-row">
@@ -319,11 +321,14 @@ function MonitorIllustration() {
           <svg viewBox="0 0 480 130" fill="none" aria-hidden="true">
             <path d="M0 30h480M0 65h480M0 100h480" stroke="#ebe6f1" />
             <path
+              className="chart-trace"
+              pathLength="1"
               d="m0 83 20-5 20 11 20-25 20 8 20-3 20 8 20-11 20 7 20-32 20 19 20-4 20 19 20-8 20-6 20 11 20-36 20 21 20-7 20 13 20-3 20-13 20 7 20-9 20 5"
               stroke="#8872bb"
               strokeWidth="3"
               strokeLinejoin="round"
             />
+            <g className="chart-probe"><circle cx="0" cy="83" r="7" fill="var(--pink)" /><circle cx="0" cy="83" r="3" fill="var(--berry)" /></g>
           </svg>
           <div className="chart-hours">
             <span>00:00</span>
@@ -353,10 +358,11 @@ function MonitorIllustration() {
 
 function BarberIllustration() {
   const { t } = useLanguage();
+  const [day, setDay] = useState(2);
   return (
     <div
       className="barber-illustration"
-      role="img"
+      role="group"
       aria-label={t.barberLabel}
     >
       <div className="barber-agenda">
@@ -372,15 +378,11 @@ function BarberIllustration() {
             {t.wellOrganized}
           </span>
         </div>
-        <div className="agenda-days" aria-hidden="true">
-          <span>{t.mon}</span>
-          <span>{t.tue}</span>
-          <span className="selected-day">{t.wed}</span>
-          <span>{t.thu}</span>
-          <span>{t.fri}</span>
+        <div className="agenda-days" role="group" aria-label={t.demoDay}>
+          {[t.mon, t.tue, t.wed, t.thu, t.fri].map((label, index) => <button key={index} className={day === index ? "selected-day" : ""} aria-pressed={day === index} onClick={() => setDay(index)}>{label}</button>)}
         </div>
         <div className="agenda-slot">
-          <span>09:00</span>
+          <span>{["08:30", "09:30", "09:00", "10:00", "08:00"][day]}</span>
           <div>
             <strong>{t.cutStyle}</strong>
             <span>{t.sampleTime}</span>
@@ -390,7 +392,7 @@ function BarberIllustration() {
           </span>
         </div>
         <div className="agenda-slot">
-          <span>10:30</span>
+          <span>{["10:00", "11:00", "10:30", "11:30", "09:30"][day]}</span>
           <div>
             <strong>{t.beardCare}</strong>
             <span>{t.sampleTime}</span>
@@ -400,7 +402,7 @@ function BarberIllustration() {
           </span>
         </div>
         <div className="agenda-free">
-          <span>11:30</span>
+          <span>{["11:00", "12:00", "11:30", "12:30", "10:30"][day]}</span>
           <span>{t.roomForNext}</span>
           <span aria-hidden="true">
             <Icon name="plus" />
@@ -413,8 +415,10 @@ function BarberIllustration() {
 
 const Project = memo(function Project({
   project,
+  motion,
 }: {
   project: (typeof projects)[number];
+  motion: boolean;
 }) {
   const { t, language } = useLanguage();
   const copy = language === "pt" ? project : englishProjects[project.id];
@@ -428,6 +432,10 @@ const Project = memo(function Project({
       >
         <div className="art-toolbar">
           <span>{project.name}</span>
+          <div className="art-tools">
+            <button className="project-demo" aria-label={`${t.playDemo}: ${project.name}`} title={t.playDemo} disabled={!motion}>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 10 7-10 7Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /></svg>
+            </button>
           {project.id === "roomlab" ? (
             <button
               className="room-light-toggle"
@@ -455,6 +463,7 @@ const Project = memo(function Project({
               {illustrationDark ? t.lightMode : t.darkMode}
             </button>
           )}
+          </div>
         </div>
         <div className="project-visual">
           <div className="visual-layer illustration-layer is-active">
@@ -758,9 +767,11 @@ export default function App() {
           aria-labelledby="hero-title"
         >
           <div className="hero-copy">
-            <h1 id="hero-title">
-              <span className="hero-greeting">{t.hello}</span>samuel
-              <span className="name-period">.</span>
+            <h1 id="hero-title" aria-label={`${t.hello} Samuel Santos`}>
+              <span className="hero-greeting">{t.hello}</span>
+              <button className="name-play" aria-label={t.namePlay} title={t.namePlay}>
+                <span aria-hidden="true">{"samuel.".split("").map((letter, index) => <span key={index} className={`name-letter ${letter === "." ? "name-period" : ""}`}>{letter}</span>)}</span>
+              </button>
             </h1>
             <p className="hero-description">
               {t.heroLead}
@@ -820,7 +831,7 @@ export default function App() {
           </div>
           <div className="projects-list">
             {projects.map((project) => (
-              <Project key={project.id} project={project} />
+              <Project key={project.id} project={project} motion={motion} />
             ))}
           </div>
           <AcademicProject />
@@ -971,6 +982,7 @@ export default function App() {
         onAwayChange={setMascotAway}
         onHeaderChange={setHeaderSurface}
       />
+      <CreativeMotion motion={motion} />
     </div>
   );
 }

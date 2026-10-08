@@ -267,6 +267,7 @@ function RoomIllustration({ night }: { night: boolean }) {
         {[108, 100, 92].map((height, index) => (
           <polyline
             key={height}
+            className="room-code-line"
             points={face(
               [76, 59.3, height],
               [index === 1 ? 111 : 100, 59.3, height],

@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0] - 2026-10-08
+
+### Movimento e descoberta
+
+- Nome do hero responde com uma onda de letras por mouse, toque ou teclado, sem mover o layout.
+- Quatro demonstrações finitas nos projetos, iniciadas na entrada em vista e repetidas pelo botão de reprodução: agenda do BarberAg, monitor e planta do RoomLab, leitura do gráfico do LinkWatch e percurso de ingestão do Sentinel.
+- Dias da agenda do BarberAg passam a ser selecionáveis, com horários ilustrativos e estados acessíveis. O ponto do LinkWatch segue a geometria real do gráfico, calculada uma vez por reprodução.
+- Mascote reage à edição da ideia e à reprodução dos quadros. Descobrir o novo segredo provoca uma cambalhota, com enquadramento próprio para o rosto no card.
+- Três toques na estrela da janela revelam gravidade zero: grade se transforma, órbitas flutuam e quadros visíveis respondem por alguns segundos. Novos quadros participam ao entrar na tela durante o efeito; janela do hero permanece reta.
+- Animações WAAPI com duração limitada, observador compartilhado e dez partículas reutilizadas. Cancelamento fora da tela, na ocultação da aba, ao abrir o puzzle e ao desativar movimento; sem bibliotecas, consultas externas ou loops de frame adicionais.
+- Novos controles, estados e anúncios acessíveis em português e inglês. Temas, arrasto, caminhada, travessuras e puzzle preservados.
+
 ## [1.4.2] - 2026-10-08
 
 - Inicial de Santos também usa o traçado do S do favicon, com alinhamento e espaçamento iguais à inicial de Samuel.

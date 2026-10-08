@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { HeaderSurface } from "./HeaderStretch";
 import MascotArtwork from "./MascotArtwork";
 import { languageChangeEvent, useLanguage } from "../i18n/LanguageProvider";
+import { creativeReactionEvent } from "./creative-events";
+import type { CreativeReaction } from "./creative-events";
 
 type Point = { x: number; y: number; size: number };
 type Phase =
@@ -26,6 +28,8 @@ type Phase =
   | "waiting"
   | "reappearing";
 type Reaction =
+  | "discovery"
+  | "typing"
   | "language"
   | "wave"
   | "curious"
@@ -157,6 +161,9 @@ export default function PageMascot({
     let languageTimer: ReturnType<typeof setTimeout> | undefined;
     let languageFrame = 0;
     let pendingLanguage = false;
+    let creativeTimer: ReturnType<typeof setTimeout> | undefined;
+    let creativeFrame = 0;
+    let lastCreative = -Infinity;
     let idleTimer: ReturnType<typeof setTimeout> | undefined;
     let holdTimer: ReturnType<typeof setTimeout> | undefined;
     let furyTimer: ReturnType<typeof setTimeout> | undefined;
@@ -368,6 +375,27 @@ export default function PageMascot({
       // Queue the gesture while navigation or a trajectory has priority.
       pendingLanguage = true;
       languageGreeting();
+    }
+    function creativeChanged(event: Event) {
+      if (!motion || suspended || menuActive) return;
+      const kind = (event as CustomEvent<CreativeReaction>).detail;
+      if (!["typing", "discovery", "proud"].includes(kind)) return;
+      const now = performance.now();
+      if (kind === "typing" && now - lastCreative < 1500) return;
+      lastCreative = now;
+      if (current === "observing") react(kind, kind === "discovery" ? 1650 : 1250);
+      else if (current === "docked" && anchor) {
+        const card = anchor;
+        clearTimeout(creativeTimer);
+        cancelAnimationFrame(creativeFrame);
+        delete card.dataset.interactionReaction;
+        creativeFrame = requestAnimationFrame(() => {
+          creativeFrame = 0;
+          if (closed || suspended || current !== "docked") return;
+          card.dataset.interactionReaction = kind;
+          creativeTimer = setTimeout(() => delete card.dataset.interactionReaction, kind === "discovery" ? 1650 : 1250);
+        });
+      }
     }
 
     function observe() {
@@ -1141,6 +1169,9 @@ export default function PageMascot({
       portfolio.dataset.pageHidden = String(document.hidden);
       if (document.hidden || portfolio.dataset.arcadeOpen === "true") {
         pendingLanguage = false;
+        clearTimeout(creativeTimer);
+        cancelAnimationFrame(creativeFrame);
+        if (anchor) delete anchor.dataset.interactionReaction;
         clearTimeout(languageTimer);
         cancelAnimationFrame(languageFrame);
         if (anchor) delete anchor.dataset.languageReaction;
@@ -1545,6 +1576,8 @@ export default function PageMascot({
         walk(() => settle());
         return;
       }
+      // These controls already emit a specific reaction from CreativeMotion.
+      if (control.matches(".name-play, .chrome-secret, .project-demo, .agenda-days button")) return;
       if (control.matches(".room-light-toggle, .theme-control")) {
         react(
           control.getAttribute("aria-checked") === "true" ? "night" : "dazzled",
@@ -1614,6 +1647,7 @@ export default function PageMascot({
       document.addEventListener("keyup", keyUp);
       document.addEventListener("visibilitychange", visibility);
       window.addEventListener(languageChangeEvent, languageChanged);
+      window.addEventListener(creativeReactionEvent, creativeChanged);
       window.addEventListener("portfolio:arcadechange", visibility);
     }
     measure();
@@ -1626,6 +1660,9 @@ export default function PageMascot({
       cancelAnimationFrame(reactionFrame);
       clearTimeout(reactionTimer);
       clearTimeout(languageTimer);
+      clearTimeout(creativeTimer);
+      cancelAnimationFrame(creativeFrame);
+      if (anchor) delete anchor.dataset.interactionReaction;
       cancelAnimationFrame(languageFrame);
       if (anchor) delete anchor.dataset.languageReaction;
       clearTimeout(idleTimer);
@@ -1646,6 +1683,7 @@ export default function PageMascot({
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", invalidateLayout);
       window.removeEventListener(languageChangeEvent, languageChanged);
+      window.removeEventListener(creativeReactionEvent, creativeChanged);
       window.removeEventListener("portfolio:arcadechange", visibility);
       window.removeEventListener("pointermove", point);
       window.removeEventListener("blur", rest);

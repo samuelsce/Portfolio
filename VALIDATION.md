@@ -1,5 +1,15 @@
 # Validação do portfólio
 
+## Movimento e descoberta, versão 1.5.0
+
+- TypeScript e build de produção aprovados. Sem dependências ou consultas externas adicionais. JavaScript principal: 100,53 KB gzip, cerca de 3 KB acima da versão anterior; CSS principal: 18,06 KB gzip. Tamanho de bundle não equivale a FPS.
+- Nome operável por teclado, reação à edição, descoberta por três toques, continuidade da gravidade durante a rolagem, seleção de dia e horários, dez partículas limitadas e quatro demonstrações conferidos em 390, 768 e 1440 px. Sequências terminam, cancelam fora da tela e são removidas ao desativar movimento. Sem corte no rosto durante a cambalhota do card, excesso horizontal ou erros de execução.
+- Em 390 px, diagnóstico executado com limitação de CPU de 4× pelo protocolo do Chromium. Esse exercício confere respostas e término sob carga simulada; não representa um iPhone, não limita a GPU e não mede FPS no Safari.
+- Pausa por evento de visibilidade simulada, troca de idioma durante a descoberta, reprodução com tema escuro e cancelamento ao abrir o puzzle real aprovados. Movimento reduzido mantém os controles de dia e a descoberta estática, desabilitando as reproduções.
+- Diagnósticos anteriores de layout PT/EN aprovados em 320, 390, 768, 1024, 1440 e 1920 px; diagnóstico de idioma aprovado entre 320 e 1600 px, incluindo limites de menu, teclado e armazenamento bloqueado. Arrasto por toque, caminhada com passos opostos, lupa, órbita, travessuras, menu, retorno ao card e olhar aprovados, sem corte nos grupos gráficos monitorados.
+- Capturas de hero, descoberta, quatro quadros e tema escuro revisadas em celular, tablet e desktop. Verificações em Edge/Chromium com viewports e toque simulados; sem teste em aparelhos físicos ou Safari.
+- Novos diagnósticos em `.publish-staging/verify-creative-motion.cjs` e `.publish-staging/verify-creative-lifecycle.cjs`; resultados em `.publish-staging/creative-motion-results.json`. Demais evidências nos diagnósticos existentes `review-content-layout.cjs`, `verify-language.cjs` e `verify-animation-perf.cjs`.
+
 ## Duas iniciais do cabeçalho, versão 1.4.2
 
 - TypeScript e build de produção aprovados. As duas iniciais reutilizam o traçado do favicon e compartilham tamanho e alinhamento.

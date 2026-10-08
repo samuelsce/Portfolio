@@ -13,6 +13,7 @@ import "./mascot-adventures.css";
 import "./mascot-finish.css";
 import "./polish.css";
 import "./contributions.css";
+import "./creative.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

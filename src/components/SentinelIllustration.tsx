@@ -49,6 +49,7 @@ function FlowArrow() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+      <circle className="sentinel-packet" cx="3" cy="12" r="3" fill="currentColor" />
     </svg>
   );
 }

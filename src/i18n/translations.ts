@@ -1,4 +1,10 @@
 export const pt = {
+  "namePlay": "Samuel. Toque para animar o nome",
+  "chromeSecret": "Explorar a estrela da bancada",
+  "playDemo": "Animar demonstração",
+  "demoDay": "Dia da agenda de exemplo",
+  "demoStatus": "Demonstração ilustrativa reproduzida. Nenhum dado real foi alterado.",
+  "gravityFound": "Você descobriu a gravidade zero! Os objetos voltam ao lugar em alguns segundos.",
   "cardMascot": "Mascote no card. Segure e arraste para mover. No teclado, Enter pega e solta; setas movem, Escape devolve. Espaço também permite segurar.",
   "defaultIdea": "Uma boa ideia",
   "startsHere": "começa aqui.",
@@ -113,6 +119,12 @@ export const pt = {
 export type Translation = Record<keyof typeof pt, string>;
 
 export const en: Translation = {
+  "namePlay": "Samuel. Tap to animate the name",
+  "chromeSecret": "Explore the workbench star",
+  "playDemo": "Animate demo",
+  "demoDay": "Sample schedule day",
+  "demoStatus": "Illustrative demo played. No real data was changed.",
+  "gravityFound": "You discovered zero gravity! Objects return to their places in a few seconds.",
   "cardMascot": "Mascot in the card. Hold and drag to move. With a keyboard, Enter picks up and releases; arrow keys move, Escape returns it. Space also lets you hold it.",
   "defaultIdea": "A good idea",
   "startsHere": "starts here.",

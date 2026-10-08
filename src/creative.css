@@ -1,0 +1,125 @@
+.name-play {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.name-letter { display: inline-block; transform-origin: 50% 80%; }
+.name-play:focus-visible { outline-offset: 10px; border-radius: 12px; }
+.chrome-secret {
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: none;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  margin-block: -12px;
+  margin-right: -10px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  color: inherit;
+}
+.chrome-secret .ui-icon { width: 19px; height: 19px; }
+.chrome-secret:hover { color: var(--berry); }
+.chrome-secret[aria-pressed="true"] { color: var(--pink); }
+.portfolio[data-zero-gravity="true"] .stage-grid {
+  background-image: radial-gradient(circle, #c3658b 1px, transparent 1.5px);
+  background-size: 30px 30px;
+}
+.art-tools { display: flex; align-items: center; gap: 8px; }
+.project-demo {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 7px;
+  flex-shrink: 0;
+  border: 1px solid #c4abb6;
+  border-radius: 5px;
+  color: #691b3e;
+  background: #fff8fb;
+}
+.project-demo svg { width: 18px; height: 18px; }
+.project-demo:hover { background: #f8dbe7; }
+.project-demo:disabled { opacity: .4; cursor: default; }
+.illustration-dark .project-demo { color: #f4d7e4; background: #392b37; border-color: #826275; }
+.agenda-days > button {
+  font: inherit;
+  color: inherit;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  min-width: 0;
+  flex: 1;
+}
+.agenda-days > button:hover { background: #ef75a326; }
+.agenda-days > button:focus-visible { outline-offset: 2px; }
+.chart-probe, .sentinel-packet { opacity: 0; }
+.chart-probe { transform-box: view-box; }
+.creative-particles { position: fixed; inset: 0; pointer-events: none; z-index: 35; overflow: hidden; }
+.creative-particles > svg {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  color: var(--pink);
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+.creative-particles > svg:nth-child(3n) { color: var(--berry); width: 9px; height: 9px; }
+.page-mascot[data-reaction="discovery"] .mascot-body,
+.portfolio .art-dot[data-interaction-reaction="discovery"] .mascot-body {
+  animation: creative-mascot-flip 1550ms cubic-bezier(.25,.6,.2,1) both;
+  transform-origin: 56px 63px;
+}
+.page-mascot[data-reaction="discovery"] .mascot-delight { animation: mascot-sparkle 1550ms both; }
+.portfolio .art-dot[data-interaction-reaction="discovery"] .mascot-body {
+  animation-name: creative-card-spin;
+  transform-origin: 56px 52px;
+}
+.page-mascot[data-reaction="typing"] .mascot-head,
+.portfolio .art-dot[data-interaction-reaction="typing"] .mascot-head {
+  animation: creative-reading 1250ms ease-in-out both;
+}
+.portfolio .art-dot[data-interaction-reaction="proud"] .mascot-head { animation: mascot-language-nod 1100ms both; }
+.portfolio .art-dot[data-interaction-reaction="proud"] .eye-right { animation: mascot-hello-wink 1100ms both; }
+@keyframes creative-mascot-flip {
+  0% { transform: translateY(0) rotate(0deg) scale(1); }
+  14% { transform: translateY(2px) rotate(-8deg) scale(1.03,.97); }
+  38% { transform: translateY(-3px) rotate(-175deg) scale(.78); }
+  56% { transform: translateY(-3px) rotate(-285deg) scale(.78); }
+  70% { transform: translateY(-2px) rotate(-360deg) scale(1); }
+  84% { transform: translateY(2px) rotate(-360deg) scale(1.02,.98); }
+  100% { transform: translateY(0) rotate(-360deg) scale(1); }
+}
+@keyframes creative-reading {
+  0%, 100% { rotate: 0deg; }
+  30% { rotate: 8deg; }
+  68% { rotate: -5deg; }
+}
+@keyframes creative-card-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  16% { transform: rotate(-12deg) scale(.8); }
+  40% { transform: rotate(-165deg) scale(.65); }
+  62% { transform: rotate(-285deg) scale(.65); }
+  82% { transform: rotate(-360deg) scale(.82); }
+  100% { transform: rotate(-360deg) scale(1); }
+}
+@media (max-width: 650px), (pointer: coarse) {
+  .project-demo { width: 44px; height: 44px; }
+  .art-tools { gap: 6px; }
+  .agenda-days > button { min-height: 44px; padding-inline: 3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art-dot[data-interaction-reaction] * { animation: none !important; }
+}
+.portfolio[data-motion="off"] .art-dot[data-interaction-reaction] * { animation: none !important; }
