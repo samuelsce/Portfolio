@@ -1,5 +1,5 @@
 const pt = {
-  title: "Um ano construindo.", description: "Cada quadradinho registra um dia no GitHub.",
+  title: "Atividade no GitHub.",
   contributions: "contribuições no último ano", singular: "contribuição", plural: "contribuições",
   less: "Menos", more: "Mais", updated: "Atualizado em", saved: "Última atualização disponível",
   retry: "Tentar atualizar", chart: "Calendário de contribuições no GitHub",
@@ -16,7 +16,7 @@ const pt = {
   loadHelp: "O restante do portfólio continua disponível. Recarregue a página para tentar novamente.", reload: "Recarregar página",
 };
 const en: Record<keyof typeof pt, string> = {
-  title: "A year of building.", description: "Each square records a day on GitHub.",
+  title: "GitHub activity.",
   contributions: "contributions in the last year", singular: "contribution", plural: "contributions",
   less: "Less", more: "More", updated: "Updated on", saved: "Last available update",
   retry: "Try updating", chart: "GitHub contribution calendar",

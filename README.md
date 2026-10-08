@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/samuelsce/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/samuelsce/Portfolio/actions/workflows/ci.yml)
 
-Portfólio de **Samuel Santos Cerqueira**, desenvolvedor front-end em São Paulo, Brasil. Um estúdio de interfaces com projetos reais, uma bancada interativa e um mascote que acompanha a navegação.
+Portfólio de **Samuel Santos Cerqueira**, desenvolvedor full-stack em início de carreira, em São Paulo, Brasil. Apresenta projetos com interfaces, APIs, autenticação e bancos de dados, além de uma bancada interativa e um mascote que acompanha a navegação. O perfil também descreve o uso de IA como apoio ao desenvolvimento, com revisão e validação das soluções.
 
 **[Visite samuelsce.dev](https://samuelsce.dev)** · [LinkedIn](https://www.linkedin.com/in/samuelsce/) · [E-mail](mailto:samuelsantosmft7@gmail.com)
 

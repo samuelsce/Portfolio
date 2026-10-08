@@ -177,18 +177,6 @@ const Workbench = memo(function Workbench({
       onPointerMove={followPointer}
       onPointerLeave={restGaze}
     >
-      <div className="bench-note">
-        <span className="handwritten">{t.benchNote}</span>
-        <svg viewBox="0 0 90 45" aria-hidden="true">
-          <path
-            d="M2 7c38-17 58 8 55 27m-10-8 10 10 10-12"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
       <div
         className={`studio-window ${benchActive ? "is-engaged" : ""} ${celebrate ? "is-activated" : ""}`}
       >
@@ -210,7 +198,6 @@ const Workbench = memo(function Workbench({
             style={{ "--idea-radius": `${radius}px` } as CSSProperties}
           >
             <div className="idea-top">
-              <span>{t.experiment}</span>
               <Spark />
             </div>
             <div className="idea-art" key={celebrationId}>
@@ -236,9 +223,6 @@ const Workbench = memo(function Workbench({
               <Arrow />
             </button>
           </div>
-          <span className="stage-hint">
-            {t.stageHint}
-          </span>
           <span className="cursor-sticker" aria-hidden="true">
             <svg viewBox="0 0 30 36">
               <path
@@ -302,9 +286,6 @@ const Workbench = memo(function Workbench({
         </div>
       </div>
       <div className="bench-bottom">
-        <span>
-          <span className="live-dot" /> {t.labOpen}
-        </span>
         <button onClick={reset}>
           {t.reset}
           <span aria-hidden="true">
@@ -695,7 +676,6 @@ function AcademicProject() {
         <div>
           <p className="academic-category">{t.academicCategory}</p>
           <h3 id="recette-title">{academicProject.name}</h3>
-          <span className="academic-origin">{t.academicOrigin}</span>
         </div>
       </div>
       <div className="academic-copy">
@@ -895,7 +875,6 @@ export default function App() {
                 />
               </svg>
               {t.location}
-              <span>{t.buildingWeb}</span>
             </div>
           </div>
           <Workbench
@@ -905,7 +884,6 @@ export default function App() {
           />
         </section>
         <div className="section-transition section-shell">
-          <span>{t.pixel}</span>
           <span>
             {t.scroll}
             <span aria-hidden="true">
@@ -920,17 +898,11 @@ export default function App() {
         >
           <div className="section-heading">
             <div>
-              <span className="section-kicker">{t.projectsKicker}</span>
               <h2 id="projects-title" className="projects-heading-title">
                 {t.projectsTitle}
                 <SectionStroke motion={motion} />
               </h2>
             </div>
-            <p>
-              {t.projectsLead}
-              <br />
-              {t.projectsSupport}
-            </p>
           </div>
           <div className="projects-list">
             {projects.map((project) => (
@@ -956,7 +928,6 @@ export default function App() {
         >
           <div className="section-shell about-layout">
             <div className="about-heading">
-              <span className="section-kicker">{t.aboutKicker}</span>
               <h2 id="about-title">
                 {t.niceToMeet}
                 <br />
@@ -966,11 +937,6 @@ export default function App() {
                 <span className="signature-loop" aria-hidden="true">
                   s.
                 </span>
-                <span>
-                  {t.curiosity}
-                  <br />
-                  {t.constructionMode}
-                </span>
               </div>
             </div>
             <div className="about-copy">
@@ -979,6 +945,9 @@ export default function App() {
               </p>
               <p>
                 {t.aboutFocus}
+              </p>
+              <p>
+                {t.aboutAI}
               </p>
               <p>
                 {t.aboutEducation}
@@ -1012,7 +981,6 @@ export default function App() {
           aria-labelledby="contact-title"
         >
           <div className="contact-prelude">
-            <span>{t.conversation}</span>
             <Spark />
           </div>
           <div className="contact-main">

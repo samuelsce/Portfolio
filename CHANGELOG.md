@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.2] - 2026-10-07
+
+### Conteúdo
+
+- Removidas legendas decorativas do hero, das seções e do calendário em PT/EN. Projetos e atividade no GitHub passam a ter títulos diretos; controles, ilustrações e animações mantidos.
+- Apresentação e metadados atualizados para desenvolvimento full-stack em início de carreira, com tecnologias de back-end e descrição do uso de IA como apoio ao desenvolvimento e revisão de código.
+- Descrições dos projetos mais objetivas. Participação no front-end do BarberAg e limites atuais do LinkWatch continuam explícitos.
+- Orientações do calendário permanecem acessíveis a leitores de tela, sem ocupar espaço visual. Alinhamento dos elementos remanescentes ajustado após a remoção das legendas.
+
 ## [1.3.1] - 2026-10-07
 
 ### Correções e revisão

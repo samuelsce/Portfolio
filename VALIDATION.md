@@ -1,5 +1,13 @@
 # Validação do portfólio
 
+## Revisão de conteúdo, versão 1.3.2
+
+- TypeScript e build de produção aprovados. Sem dependências novas ou alteração no controlador do mascote.
+- Layout, âncoras, capturas reais e controles conferidos em 320, 390, 768, 1024, 1440 e 1920 px, sem excesso horizontal, imagens ausentes ou erros de execução.
+- Troca e persistência de idioma, estado da bancada/projetos, continuidade do mascote, navegação por teclado e armazenamento bloqueado aprovados. PT/EN conferidos de 320 a 1600 px.
+- Capturas de desktop e celular revisadas após a retirada dos textos. Instruções do calendário preservadas com `sr-only` e `aria-describedby`.
+- Diagnósticos existentes em `.publish-staging/audit-portfolio.cjs` e `.publish-staging/verify-language.cjs`, com expectativas de metadados atualizadas. Verificação em Edge/Chromium simulado, sem teste em aparelho físico.
+
 ## Revisão geral e recuperação, versão 1.3.1
 
 Verificação em 7 de outubro de 2026, no Edge, no build de produção servido localmente. Referências e estética anteriores reutilizadas; correções de lógica e estados de falha.

@@ -112,7 +112,7 @@ export default function ContributionGarden({ motion }: { motion: boolean }) {
   const activeDay = selected ?? data.days.at(-1)!;
   return <>
     <div className="contribution-heading">
-      <div><h2 id="contribution-title">{copy.title}</h2><p>{copy.description}</p></div>
+      <div><h2 id="contribution-title">{copy.title}</h2></div>
       <button className="garden-secret" ref={trigger} onClick={discover} data-taps={taps} aria-label={copy.secret} title={copy.secret}>
         <MascotArtwork docked />
       </button>
@@ -124,7 +124,7 @@ export default function ContributionGarden({ motion }: { motion: boolean }) {
       <p className="contribution-selected" role="status" aria-live="polite">{date.format(new Date(`${activeDay.date}T00:00:00Z`))}: <strong>{activeDay.count} {activeDay.count === 1 ? copy.singular : copy.plural}</strong></p>
       <div className="contribution-legend" aria-hidden="true"><span>{copy.less}</span>{[0,1,2,3,4].map(level => <i key={level} className={`level-${level}`} />)}<span>{copy.more}</span></div>
     </div>
-    <p className="contribution-instructions" id="calendar-help">{copy.chartHelp}</p>
+    <p className="sr-only" id="calendar-help">{copy.chartHelp}</p>
     <div className="contribution-footer"><p>{failed ? copy.saved : copy.updated} <time dateTime={data.fetchedAt}>{date.format(new Date(data.fetchedAt))}</time>{failed && <button onClick={retry} disabled={loading}>{loading ? copy.loading : copy.retry}</button>}</p><span className="contribution-swipe">{copy.slide}</span></div>
   </>;
 }
