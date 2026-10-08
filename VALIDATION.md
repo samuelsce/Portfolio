@@ -1,5 +1,14 @@
 # Validação do portfólio
 
+## Simplificação dos quadros, versão 1.3.4
+
+- TypeScript e build de produção aprovados, sem dependências novas.
+- PT/EN conferidos em 320, 390, 768, 1024, 1440 e 1920 px. Janela reta antes e depois da ativação e do reinício; card centralizado e sem excesso horizontal.
+- Ausência da estrela pequena adicional, botões de captura, legendas conceituais e imagens de captura confirmada no DOM. Ilustrações revisadas visualmente em 390 e 1440 px; controles de tema e iluminação conservados.
+- Traço com largura mínima de 240 px, limite responsivo e maior espessura. Em 390 px, disparo por visibilidade, duração perceptível, repetição ao retornar, pausa, tradução e movimento reduzido aprovados pelo diagnóstico existente.
+- Idiomas, persistência, estados dos controles, teclado, armazenamento bloqueado e continuidade do mascote conferidos. Reação de inspeção agora acionada pela abertura dos detalhes do projeto.
+- Diagnósticos em `.publish-staging/review-content-layout.cjs`, `.publish-staging/verify-language.cjs` e `.publish-staging/verify-section-stroke.cjs`. Edge/Chromium com viewports simulados; sem teste em aparelhos físicos ou Safari.
+
 ## Layout após remoção das legendas, versão 1.3.3
 
 - Build de produção e TypeScript aprovados. PT/EN revisados em 320, 390, 768, 1024, 1440 e 1920 px, sem excesso horizontal ou erros de execução.

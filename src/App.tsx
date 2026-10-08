@@ -65,7 +65,6 @@ const Workbench = memo(function Workbench({
   const [radius, setRadius] = useState(24);
   const [idea, setIdea] = useState<string | null>(null);
   const [celebrate, setCelebrate] = useState(false);
-  const [benchActive, setBenchActive] = useState(false);
   const [celebrationId, setCelebrationId] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const benchRef = useRef<HTMLDivElement>(null);
@@ -132,30 +131,9 @@ const Workbench = memo(function Workbench({
     },
     [],
   );
-  useEffect(() => {
-    if (!benchActive) return;
-    function outside(event: globalThis.PointerEvent) {
-      if (
-        event.target instanceof Node &&
-        !benchRef.current?.contains(event.target)
-      ) {
-        setBenchActive(false);
-      }
-    }
-    function escape(event: KeyboardEvent) {
-      if (event.key === "Escape") setBenchActive(false);
-    }
-    document.addEventListener("pointerdown", outside, { passive: true });
-    window.addEventListener("keydown", escape);
-    return () => {
-      document.removeEventListener("pointerdown", outside);
-      window.removeEventListener("keydown", escape);
-    };
-  }, [benchActive]);
   function play() {
     if (timer.current) clearTimeout(timer.current);
     setCelebrate(true);
-    setBenchActive(true);
     setCelebrationId((current) => current + 1);
     timer.current = setTimeout(() => setCelebrate(false), 2200);
   }
@@ -165,7 +143,6 @@ const Workbench = memo(function Workbench({
     setRadius(24);
     setIdea(null);
     setCelebrate(false);
-    setBenchActive(false);
     if (timer.current) clearTimeout(timer.current);
     restGaze();
   }
@@ -177,9 +154,7 @@ const Workbench = memo(function Workbench({
       onPointerMove={followPointer}
       onPointerLeave={restGaze}
     >
-      <div
-        className={`studio-window ${benchActive ? "is-engaged" : ""} ${celebrate ? "is-activated" : ""}`}
-      >
+      <div className={`studio-window ${celebrate ? "is-activated" : ""}`}>
         <div className="window-chrome">
           <span className="window-dots" aria-hidden="true">
             <i />
@@ -196,9 +171,6 @@ const Workbench = memo(function Workbench({
             className={`idea-preview ${format === "poster" ? "is-poster" : ""} ${celebrate ? "is-celebrating" : ""}`}
             style={{ "--idea-radius": `${radius}px` } as CSSProperties}
           >
-            <div className="idea-top">
-              <Spark />
-            </div>
             <div className="idea-art" key={celebrationId}>
               <div className="art-ring ring-one" aria-hidden="true" />
               <div className="art-ring ring-two" aria-hidden="true" />
@@ -471,17 +443,16 @@ const Project = memo(function Project({
   const { t, language } = useLanguage();
   const copy = language === "pt" ? project : englishProjects[project.id];
   const [expanded, setExpanded] = useState(false);
-  const [showScreenshot, setShowScreenshot] = useState(false);
   const [roomNight, setRoomNight] = useState(false);
   const [illustrationDark, setIllustrationDark] = useState(false);
   return (
     <article className={`project project-${project.id}`}>
       <div
-        className={`project-art ${showScreenshot ? "showing-screenshot" : ""} ${illustrationDark && !showScreenshot ? "illustration-dark" : ""}`}
+        className={`project-art ${illustrationDark ? "illustration-dark" : ""}`}
       >
         <div className="art-toolbar">
           <span>{project.name}</span>
-          {project.id === "roomlab" && !showScreenshot ? (
+          {project.id === "roomlab" ? (
             <button
               className="room-light-toggle"
               role="switch"
@@ -494,7 +465,7 @@ const Project = memo(function Project({
               </span>{" "}
               {roomNight ? t.nightLight : t.dayLight}
             </button>
-          ) : !showScreenshot ? (
+          ) : (
             <button
               className="room-light-toggle illustration-theme-toggle"
               role="switch"
@@ -507,16 +478,10 @@ const Project = memo(function Project({
               </span>
               {illustrationDark ? t.lightMode : t.darkMode}
             </button>
-          ) : (
-            <span aria-hidden="true">{t.actualInterface}</span>
           )}
         </div>
         <div className="project-visual">
-          <div
-            className={`visual-layer illustration-layer ${!showScreenshot ? "is-active" : ""}`}
-            aria-hidden={showScreenshot}
-            inert={showScreenshot}
-          >
+          <div className="visual-layer illustration-layer is-active">
             {project.id === "barberag" ? (
               <BarberIllustration />
             ) : project.id === "roomlab" ? (
@@ -525,47 +490,6 @@ const Project = memo(function Project({
               <MonitorIllustration />
             )}
           </div>
-          {project.image && (
-            <div
-              className={`visual-layer screenshot-layer ${showScreenshot ? "is-active" : ""}`}
-              aria-hidden={!showScreenshot}
-              inert={!showScreenshot}
-            >
-              <img
-                className="project-screenshot"
-                src={`${import.meta.env.BASE_URL}${project.image}`}
-                alt={copy.imageAlt}
-                loading="lazy"
-                width={
-                  project.id === "roomlab"
-                    ? 1440
-                    : project.id === "barberag"
-                      ? 1265
-                      : 1280
-                }
-                height={project.id === "roomlab" ? 1061 : 728}
-              />
-            </div>
-          )}
-        </div>
-        <div className="art-bottom">
-          <span className="illustration-label">
-            {showScreenshot
-              ? t.actualProject
-              : t.conceptProject}
-          </span>
-          {project.image && (
-            <button
-              className="screenshot-toggle"
-              aria-pressed={showScreenshot}
-              onClick={() => setShowScreenshot(!showScreenshot)}
-            >
-              {showScreenshot ? t.viewIllustration : t.viewInterface}
-              <span aria-hidden="true">
-                <Icon name={showScreenshot ? "asterisk" : "image"} />
-              </span>
-            </button>
-          )}
         </div>
       </div>
       <div className="project-info">

@@ -268,14 +268,11 @@ p {
   border-radius: 13px;
   overflow: hidden;
   background: #fff9fb;
-  transform: rotate(-3deg);
+  transform: none;
   box-shadow:
     7px 12px 0 #f2e2e8,
     7px 12px 0 1px #ead3dc;
   transition: transform 0.35s;
-}
-.studio-window:focus-within {
-  transform: rotate(0deg);
 }
 .window-chrome {
   height: 43px;
@@ -336,22 +333,6 @@ p {
     background 0.3s,
     border-radius 0.25s;
   position: relative;
-}
-.idea-top {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  font-size: 8px;
-  color: #8a6074;
-}
-.idea-top svg {
-  width: 14px;
-  height: 14px;
-  color: var(--berry);
 }
 .idea-art {
   height: 125px;
@@ -559,12 +540,8 @@ p {
   background: #504151;
   color: #fff7fa;
 }
-.is-dark .idea-top,
 .is-dark .stage-hint {
   color: #e8c9d8;
-}
-.is-dark .idea-top svg {
-  color: var(--pink);
 }
 .is-dark .idea-action {
   background: var(--pink);
@@ -1634,7 +1611,7 @@ p {
     font-size: 14px;
   }
   .studio-window {
-    transform: rotate(-2deg);
+    transform: none;
   }
   .preview-stage {
     min-height: 340px;
@@ -2081,7 +2058,6 @@ p {
   box-shadow: none;
 }
 .window-chrome,
-.idea-top,
 .stage-hint {
   font-size: 11px;
 }
@@ -2167,11 +2143,11 @@ p {
 @keyframes studio-arrive {
   from {
     opacity: 0;
-    transform: translateY(18px) rotate(-7deg) scale(0.96);
+    transform: translateY(18px) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateY(0) rotate(-3deg) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 .portfolio[data-motion="off"] *,

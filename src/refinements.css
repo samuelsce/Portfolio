@@ -84,14 +84,10 @@ html {
   transform: scaleX(1);
 }
 .studio-window {
-  --window-angle: -3deg;
-  transform: rotate(var(--window-angle));
+  transform: none;
   transition:
     transform 420ms var(--ease-out),
     box-shadow 420ms var(--ease-out);
-}
-.studio-window:focus-within {
-  transform: rotate(0);
 }
 .portfolio[data-motion="on"] .studio-window {
   animation: studio-settle 800ms var(--ease-out) backwards;
@@ -99,12 +95,11 @@ html {
 @keyframes studio-settle {
   from {
     opacity: 0;
-    transform: translateY(12px) rotate(calc(var(--window-angle) - 2deg))
-      scale(0.985);
+    transform: translateY(12px) scale(0.985);
   }
   to {
     opacity: 1;
-    transform: translateY(0) rotate(var(--window-angle)) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 .preview-stage {
@@ -353,9 +348,6 @@ html {
   html {
     scroll-padding-top: 100px;
   }
-  .studio-window {
-    --window-angle: -2deg;
-  }
   .site-header nav.nav-open {
     flex-wrap: wrap;
   }
@@ -375,11 +367,11 @@ html {
   }
 }
 
-/* Keep both views in one stable frame so they can crossfade in either direction. */
+/* Keep the illustration in a stable frame below the theme controls. */
 .project .project-art {
   height: 470px;
   min-height: 470px;
-  padding: 66px 24px 80px;
+  padding: 76px 24px 28px;
   transition: background-color 400ms ease;
 }
 .project-visual {
@@ -623,7 +615,7 @@ html {
   .project .project-art {
     height: 420px;
     min-height: 420px;
-    padding: 66px 16px 100px;
+    padding: 76px 16px 28px;
   }
   .project-roomlab .project-art {
     height: 390px;

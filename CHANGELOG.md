@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.4] - 2026-10-07
+
+### Ajustes de apresentação
+
+- Janela do hero permanece reta na entrada, no foco e na ativação. Removidos estado e eventos que alternavam a inclinação.
+- Retirada a estrela pequena adicional do card; estrela junto ao mascote e símbolo da janela preservados.
+- Traço animado de Projetos ampliado, com limite responsivo, mantendo o disparo por visibilidade e movimento reduzido.
+- Removidos troca para captura real e legenda conceitual dos quadros de projetos. Ilustrações reenquadradas abaixo dos controles de tema.
+- Reação de inspeção do mascote passa à abertura dos detalhes do projeto. Controles de tema, iluminação e demais interações preservados.
+
 ## [1.3.3] - 2026-10-07
 
 ### Correções

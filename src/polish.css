@@ -1,8 +1,4 @@
-/* Touch activation has the same intentional straightening as keyboard focus. */
-.studio-window:is(.is-activated, .is-engaged) {
-  --window-angle: 0deg;
-  transform: rotate(0deg);
-}
+/* Activation only animates the chrome dots; the window stays upright. */
 .studio-window.is-activated .window-dots i {
   animation: studio-dot-pop 650ms var(--ease-out);
 }
@@ -28,8 +24,9 @@
   position: absolute;
   left: 0;
   bottom: -20px;
-  width: 100%;
-  height: 30px;
+  width: clamp(240px, 35vw, 420px);
+  max-width: calc(100vw - 40px);
+  height: 32px;
   overflow: visible;
   color: var(--pink);
   pointer-events: none;
@@ -37,7 +34,7 @@
 .section-stroke-line,
 .section-stroke-flourish {
   stroke: currentColor;
-  stroke-width: 2.4;
+  stroke-width: 2.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }

@@ -788,7 +788,7 @@ export default function PageMascot({
       // Nearby visual controls only. Human focus and navigation have priority.
       const controls = Array.from(
         document.querySelectorAll<HTMLButtonElement>(
-          ".project-art .room-light-toggle, .project-art .screenshot-toggle, .workbench .theme-control",
+          ".project-art .room-light-toggle, .workbench .theme-control",
         ),
       ).filter(
         (node) =>
@@ -1057,12 +1057,9 @@ export default function PageMascot({
         )
         .find((node) => !element!.contains(node));
       const art = underneath?.closest(".project-art");
-      const droppedReaction: Reaction = art?.classList.contains(
-        "showing-screenshot",
-      )
-        ? "inspect"
-        : art?.querySelector(".room-night") ||
-            art?.classList.contains("illustration-dark")
+      const droppedReaction: Reaction =
+        art?.querySelector(".room-night") ||
+        art?.classList.contains("illustration-dark")
           ? "night"
           : art
             ? "curious"
@@ -1553,13 +1550,17 @@ export default function PageMascot({
           control.getAttribute("aria-checked") === "true" ? "night" : "dazzled",
           1800,
         );
-      } else if (control.matches(".screenshot-toggle")) {
-        react(
-          control.getAttribute("aria-pressed") === "true"
-            ? "inspect"
-            : "curious",
-          2000,
-        );
+      } else if (control.matches(".project-detail-toggle")) {
+        // Read the committed disclosure state after React processes the click.
+        queueMicrotask(() => {
+          if (closed) return;
+          react(
+            control.getAttribute("aria-expanded") === "true"
+              ? "inspect"
+              : "curious",
+            2000,
+          );
+        });
       } else if (control.matches(".copy-contact, .idea-action")) {
         react("proud", 1600);
       } else react("curious");
@@ -1569,7 +1570,7 @@ export default function PageMascot({
       const art = event.target.closest(".project-visual");
       if (art && art !== lastPreview) {
         lastPreview = art;
-        react(art.closest(".showing-screenshot") ? "inspect" : "curious", 1600);
+        react("curious", 1600);
       } else if (!art) lastPreview = null;
     }
     function rest() {

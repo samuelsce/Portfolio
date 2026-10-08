@@ -15,7 +15,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 ## O que explorar
 
 - **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos. A ação principal endireita a bancada por mouse, toque ou teclado.
-- **Projetos:** contexto, tecnologias, detalhes da implementação e comparação entre ilustrações e capturas reais.
+- **Projetos:** contexto, tecnologias, detalhes da implementação e ilustrações interativas com controles de tema.
 - **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
 - **Português e inglês:** seleção PT/EN no menu, com preferência salva no navegador e tradução de conteúdo, controles e descrições de acessibilidade.
@@ -138,14 +138,14 @@ src/
   polish.css                     Reações de idioma e acabamento da bancada
   contributions.css              Calendário de atividade
   secret-garden.css              Estilo carregado junto ao jogo
-public/projects/                Capturas reais dos projetos
+public/projects/                Capturas de referência arquivadas
 public/robots.txt               Orientação de rastreamento e endereço do sitemap
 public/sitemap.xml              Endereço canônico do portfólio
 index.html                      Título e metadados
 .github/workflows/ci.yml         Verificação automática do build
 ```
 
-Para atualizar a apresentação, comece por `src/data/portfolio.ts` e mantenha as traduções em `src/i18n/` correspondentes. As capturas ficam em `public/projects/`. Os metadados iniciais estão em `index.html`; ao carregar a aplicação, são atualizados pelo idioma escolhido.
+Para atualizar a apresentação, comece por `src/data/portfolio.ts` e mantenha as traduções em `src/i18n/` correspondentes. Os quadros apresentam ilustrações interativas; as capturas de referência permanecem arquivadas em `public/projects/`. Os metadados iniciais estão em `index.html`; ao carregar a aplicação, são atualizados pelo idioma escolhido.
 
 ## Publicação e documentação
 
