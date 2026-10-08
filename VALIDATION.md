@@ -1,5 +1,14 @@
 # Validação do portfólio
 
+## Conteúdo do currículo e Sentinel, versão 1.4.0
+
+- TypeScript e build de produção aprovados. Sem dependências, consultas externas ou loops de animação adicionais.
+- Conteúdo profissional atualizado a partir do currículo fornecido. Escopo atual do Sentinel conferido no README público do projeto em 8 de outubro de 2026: API, ingestão e SDK implementados; processamento do worker, detecções e dashboard ainda planejados.
+- Quatro projetos e Recette presentes. PT/EN conferidos em 320, 390, 768, 1024, 1440 e 1920 px, sem excesso horizontal ou erros de execução.
+- Diagrama do Sentinel contido no quadro nas seis larguras, sem excesso interno de texto. Temas claro/escuro, detalhes expansíveis, descrição acessível e tradução aprovados. Capturas do novo quadro em 390 e 1440 px e da seção Sobre revisadas.
+- Troca de idioma conserva os detalhes abertos e o tema do Sentinel, os estados dos demais projetos e a continuidade do mascote. Metadados, persistência, navegação por teclado e fallback com armazenamento bloqueado aprovados.
+- Diagnósticos existentes atualizados em `.publish-staging/review-content-layout.cjs` e `.publish-staging/verify-language.cjs`. Edge/Chromium com viewports e toque simulados; sem teste em aparelhos físicos ou Safari.
+
 ## Painel e alinhamento de contato, versão 1.3.5
 
 - TypeScript e build de produção aprovados. Sem dependências ou loops de animação adicionais.

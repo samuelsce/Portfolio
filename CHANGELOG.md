@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.4.0] - 2026-10-08
+
+### Conteúdo e projetos
+
+- Sentinel incluído como quarto projeto, com repositório, stack, detalhes técnicos e status em desenvolvimento. API, identidade, ingestão e SDK distinguidos de worker, detecções e dashboard ainda planejados.
+- Novo quadro representa o fluxo implementado SDK Node.js → API Fastify → PostgreSQL, com temas claro e escuro e descrição acessível. Composição em linhas inspirada no Stacked List do useLayouts, adaptada à identidade existente, sem reutilizar código ou assets.
+- BarberAg passa a destacar clientes e usuários reais, manutenção do produto, publicação na Netlify, metadados e sitemap. LinkWatch ganha detalhes de concorrência, isolamento, transações, proteção SSRF e testes. RoomLab menciona importação/exportação, acessibilidade, testes e publicação.
+- Perfil atualizado para full-stack júnior, localização em Mauá e busca por oportunidades sem a frase de primeira experiência. Inglês para leitura técnica e uso de ChatGPT/Codex com análise e validação explicitados.
+- Fastify, SQL, Vitest, Playwright, Docker e GitHub Actions adicionados às tecnologias. Traduções PT/EN, metadados e README correspondentes atualizados.
+- Ilustração estática em HTML/CSS e SVG, sem dependências novas, consultas externas ou loops adicionais de animação.
+
 ## [1.3.5] - 2026-10-07
 
 ### Ajustes de apresentação

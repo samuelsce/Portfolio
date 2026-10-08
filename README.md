@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/samuelsce/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/samuelsce/Portfolio/actions/workflows/ci.yml)
 
-Portfólio de **Samuel Santos Cerqueira**, desenvolvedor full-stack em início de carreira, em São Paulo, Brasil. Apresenta projetos com interfaces, APIs, autenticação e bancos de dados, além de uma bancada interativa e um mascote que acompanha a navegação. O perfil também descreve o uso de IA como apoio ao desenvolvimento, com revisão e validação das soluções.
+Portfólio de **Samuel Santos Cerqueira**, desenvolvedor full-stack júnior, em Mauá, São Paulo, Brasil. Apresenta projetos com interfaces, APIs, autenticação, bancos de dados e testes automatizados, além de uma bancada interativa e um mascote que acompanha a navegação. O perfil também descreve o uso de ChatGPT e Codex como apoio ao desenvolvimento, com revisão e validação das soluções.
 
 **[Visite samuelsce.dev](https://samuelsce.dev)** · [LinkedIn](https://www.linkedin.com/in/samuelsce/) · [E-mail](mailto:samuelsantosmft7@gmail.com)
 
@@ -14,7 +14,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 
 ## O que explorar
 
-- **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos. A ação principal endireita a bancada por mouse, toque ou teclado.
+- **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos. A janela permanece reta; a ação principal anima a ideia por mouse, toque ou teclado.
 - **Projetos:** contexto, tecnologias, detalhes da implementação e ilustrações interativas com controles de tema.
 - **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
@@ -28,9 +28,10 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 
 | Projeto | Contexto e participação |
 | --- | --- |
-| [BarberAg](https://barberag.com.br/) | Produto em produção para gestão e agendamento de barbearias. Atuo no front-end e na experiência de uso, em colaboração com a equipe de back-end. Código privado. |
+| [BarberAg](https://barberag.com.br/) | SaaS próprio em produção, com clientes e usuários reais. Desenvolvo e mantenho o front-end de gestão e agendamento de barbearias em colaboração com a equipe de back-end. Código privado. |
 | [RoomLab](https://github.com/samuelsce/RoomLab) | Editor de quartos e setups em 2D e 3D, com histórico de alterações, persistência local e compartilhamento por link. [Demonstração](https://samuelsce.github.io/RoomLab/). |
-| [LinkWatch](https://github.com/samuelsce/LinkWatch) | Monitor de disponibilidade de sites e APIs, com latência, incidentes e página pública de status. Implementação com avaliação local; hospedagem e OAuth real ainda pendentes. |
+| [LinkWatch](https://github.com/samuelsce/LinkWatch) | Monitor de sites e APIs com worker HTTP, isolamento entre contas, proteção SSRF e testes unitários, de integração e E2E. Avaliação local; hospedagem e OAuth real ainda pendentes. |
+| [Sentinel](https://github.com/samuelsce/Sentinel) | Monitoramento de segurança em desenvolvimento. API, sessões, permissões, ingestão transacional e SDK Node.js implementados; processamento pelo worker, detecções e dashboard ainda planejados. |
 | [Recette](https://github.com/Gab-sousa/recette-web) | Primeiro projeto e TCC desenvolvido em equipe. Atuei principalmente no front-end com HTML, CSS e JavaScript, com contribuições em Python e Django. |
 
 As tecnologias dos projetos são apresentadas individualmente no site. A stack deste repositório está abaixo.
@@ -167,6 +168,8 @@ A pesquisa visual incluiu [Supaste / Navbar Gallery](https://www.navbar.gallery/
 O desenho e a implementação das interações são próprios deste portfólio. As capturas pertencem aos projetos apresentados. A fonte Space Grotesk é distribuída pelo Fontsource sob a licença SIL Open Font License 1.1 indicada no pacote.
 
 A faixa anual de quadradinhos foi adaptada a partir do [calendário de Samuel Rizzon](https://www.samuelrizzon.dev/#graph), com cores, tipografia e interações deste projeto. Os dados vêm da API pública mencionada acima; o jogo usa uma implementação própria da mecânica Lights Out.
+
+O quadro do Sentinel aproveita a hierarquia de linhas e divisórias do [Stacked List do useLayouts](https://uselayouts.com/docs/components/stacked-list). A implementação em HTML/CSS e SVG é própria, com a paleta do portfólio e um diagrama do fluxo de ingestão implementado, sem copiar código ou assets do exemplo.
 
 ---
 

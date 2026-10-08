@@ -731,6 +731,103 @@ html {
 .language-switcher button[aria-pressed="false"]:hover {
   background: var(--blush);
 }
+
+/* Sentinel shows the implemented ingestion flow, without simulated metrics. */
+.project-sentinel .project-art {
+  background: #f1e1e9;
+}
+.project-sentinel .illustration-dark {
+  background: #312332;
+}
+.sentinel-panel {
+  --sentinel-paper: #fff8fb;
+  --sentinel-rule: #e7cbd8;
+  --sentinel-muted: #806173;
+  --sentinel-accent: #691b3e;
+  width: min(100%, 440px);
+  min-width: 0;
+  padding: clamp(18px, 2vw, 26px);
+  background: var(--sentinel-paper);
+  border: 1px solid var(--sentinel-rule);
+  border-radius: 12px;
+  box-shadow: 0 12px 24px #762b4a12;
+  color: var(--ink);
+  transition: background-color 400ms ease, border-color 400ms ease, color 400ms ease;
+}
+.sentinel-heading {
+  margin-bottom: 22px;
+  font-size: clamp(19px, 2vw, 25px);
+  font-weight: 500;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
+}
+.sentinel-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--sentinel-rule);
+}
+.sentinel-flow > svg {
+  width: 20px;
+  height: 20px;
+  color: var(--sentinel-muted);
+}
+.sentinel-node {
+  display: grid;
+  gap: 5px;
+  text-align: center;
+}
+.sentinel-node strong {
+  font-size: clamp(13px, 1.3vw, 17px);
+  font-weight: 500;
+}
+.sentinel-node span {
+  font-size: clamp(9.5px, 1vw, 12px);
+  color: var(--sentinel-muted);
+}
+.sentinel-api strong {
+  color: var(--sentinel-accent);
+}
+.sentinel-capabilities > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--sentinel-rule);
+  font-size: clamp(10.5px, 1vw, 13px);
+  line-height: 1.4;
+}
+.sentinel-capabilities > div:last-child {
+  padding-bottom: 0;
+  border: 0;
+}
+.sentinel-capabilities > div > span:last-child {
+  max-width: 45%;
+  text-align: right;
+  color: var(--sentinel-accent);
+}
+.illustration-dark .sentinel-panel {
+  --sentinel-paper: #261b27;
+  --sentinel-rule: #715064;
+  --sentinel-muted: #dbc4d2;
+  --sentinel-accent: #f4a5c7;
+  color: #ffedf5;
+  box-shadow: 0 12px 24px #140c1940;
+}
+@media (min-width: 851px) {
+  .project-sentinel {
+    grid-template-columns: 1fr 1.25fr;
+  }
+  .project-sentinel .project-art {
+    order: 2;
+  }
+  .project-sentinel .project-info {
+    order: 1;
+  }
+}
 @media (pointer: coarse) {
   .language-switcher button {
     min-width: 44px;

@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent } from "react";
 import { academicProject, profile, projects } from "./data/portfolio";
 import RoomIllustration from "./components/RoomIllustration";
+import SentinelIllustration from "./components/SentinelIllustration";
 import HeaderStretch from "./components/HeaderStretch";
 import type { HeaderSurface } from "./components/HeaderStretch";
 import PageMascot from "./components/PageMascot";
@@ -461,6 +462,8 @@ const Project = memo(function Project({
               <BarberIllustration />
             ) : project.id === "roomlab" ? (
               <RoomIllustration night={roomNight} />
+            ) : project.id === "sentinel" ? (
+              <SentinelIllustration />
             ) : (
               <MonitorIllustration />
             )}
@@ -839,6 +842,7 @@ export default function App() {
               <p>
                 {t.aboutEducation}
               </p>
+              <p>{t.aboutLanguages}</p>
               <div className="toolbox">
                 <h3>{t.toolbox}</h3>
                 <ul>
