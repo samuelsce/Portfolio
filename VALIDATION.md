@@ -1,5 +1,10 @@
 # Validação do portfólio
 
+## Pausa da cópia escondida, versão 1.6.1
+
+- Build e TypeScript aprovados. JavaScript principal: 101,54 KB gzip; CSS: 18,29 KB gzip.
+- Durante a constelação, todas as animações da cópia escondida do card pausam, o movimento do mouse não atualiza o olhar escondido e Escape restaura o card com os controles habilitados. Diagnóstico específico aprovado em `.publish-staging/verify-constellation-pause.cjs`.
+
 ## Reprodução automática e descobertas, versão 1.6.0
 
 - TypeScript e build de produção aprovados. JavaScript principal: 101,53 KB gzip; CSS principal: 18,28 KB gzip. Aproximadamente 1 KB adicional de JavaScript comprimido em relação à versão 1.5.0, sem dependências ou consultas externas adicionais.

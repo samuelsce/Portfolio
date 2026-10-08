@@ -85,6 +85,7 @@ const Workbench = memo(function Workbench({
     if (
       !motion ||
       mascotAway ||
+      benchRef.current?.closest<HTMLElement>(".portfolio")?.dataset.constellation === "true" ||
       event.pointerType !== "mouse" ||
       !mascotRef.current
     )

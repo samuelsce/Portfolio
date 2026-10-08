@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.1] - 2026-10-08
+
+- Cópia do mascote e animações do card pausam enquanto a constelação ocupa a bancada. O acompanhamento do mouse também ignora o rosto escondido; ao fechar a cena, os controles e o movimento retomam normalmente.
+
 ## [1.6.0] - 2026-10-08
 
 ### Reprodução automática e novos segredos
