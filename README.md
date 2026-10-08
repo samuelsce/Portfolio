@@ -1,4 +1,4 @@
-# Samuel Studio
+# Samuel Santos
 
 [![Build](https://github.com/samuelsce/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/samuelsce/Portfolio/actions/workflows/ci.yml)
 
