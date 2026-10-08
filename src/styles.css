@@ -126,6 +126,9 @@ p {
   flex-shrink: 0;
   margin-right: 0.04em;
 }
+.brand-surname {
+  margin-left: 0.24em;
+}
 .site-header nav {
   display: flex;
   align-items: center;

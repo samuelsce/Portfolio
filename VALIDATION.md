@@ -1,5 +1,11 @@
 # Validação do portfólio
 
+## Duas iniciais do cabeçalho, versão 1.4.2
+
+- TypeScript e build de produção aprovados. As duas iniciais reutilizam o traçado do favicon e compartilham tamanho e alinhamento.
+- Diagnóstico PT/EN aprovado de 320 a 1600 px, incluindo os limites de menu e tablet. Sem sobreposição da marca com a navegação ou excesso horizontal; estados e navegação por teclado preservados.
+- Captura de desktop revisada em Edge/Chromium simulado.
+
 ## Identificação do cabeçalho, versão 1.4.1
 
 - TypeScript e build de produção aprovados. SVG reutiliza o traçado do favicon, sem dependências ou animações adicionais.

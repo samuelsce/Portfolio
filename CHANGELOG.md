@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.4.2] - 2026-10-08
+
+- Inicial de Santos também usa o traçado do S do favicon, com alinhamento e espaçamento iguais à inicial de Samuel.
+
 ## [1.4.1] - 2026-10-08
 
 ### Identificação do cabeçalho

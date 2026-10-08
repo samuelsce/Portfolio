@@ -695,7 +695,22 @@ export default function App() {
                 strokeLinecap="round"
               />
             </svg>
-            <span>amuel Santos</span>
+            <span>amuel</span>
+            <span className="sr-only"> S</span>
+            <svg
+              className="brand-initial brand-surname"
+              viewBox="13 13 35 41"
+              aria-hidden="true"
+              fill="none"
+            >
+              <path
+                d="M43 20c-4-4-20-5-20 3 0 9 21 4 21 16 0 11-21 12-27 3"
+                stroke="currentColor"
+                strokeWidth="6"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span>antos</span>
           </a>
           <button
             ref={menuButton}
