@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.11.0] - 2026-10-09
+
+### Articulação, continuidade e profundidade
+
+- Moonwalk reconstruído com quadril, joelho, tornozelo e sapato conectados. Apoio na ponta e sola deslizante usam o mesmo relógio da trajetória; preparação, troca de peso, acomodação, virada, pose e reverência seguem uma sequência finita.
+- A virada conserva o volume da cabeça e leva o rosto ao lado oculto. Chapéus têm aba posterior/frontal, material e sombra de contato sobre a cabeça, sem movimento de entrada independente do encaixe. Luva acompanha a mesma mão.
+- Mascote compartilhado ganha luz e contorno suaves, mãos com volume e joelhos que flexionam durante a caminhada. A identidade, conteúdo e composição permanecem os mesmos; personagens das cenas maiores em telas com espaço.
+- Toddy ganha quatro patas de dois segmentos, apoio compensado pelo movimento do corpo, ritmo de corrida conforme a distância, frenagem gradual, olhar de despedida e saída contínua. Mordida, arremesso e regras dos jogos preservados.
+- Baú apoiado no convés; pés do mascote compartilham o balanço do barco enquanto cabeça e braços equilibram o gesto. Chapéu da alternativa estática também repousa no convés.
+- Ativação manual de movimento passa a valer também nas cenas, jogos e reações quando o sistema prefere movimento reduzido. O estado inicial continua respeitando essa preferência.
+- Keyframes nativos calculados antes das cenas; tracks cancelados liberados, limpeza no encerramento, carregamento sob demanda e nenhuma dependência, motor 3D, mídia externa ou loop de simulação novos.
+
 ## [1.10.0] - 2026-10-08
 
 ### Apoios, modelos e coreografia

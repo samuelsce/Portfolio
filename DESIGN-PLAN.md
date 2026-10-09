@@ -1,5 +1,15 @@
 # Samuel Santos: plano de design
 
+## Articulação e profundidade, 9 de outubro de 2026
+
+Preservar a composição, Space Grotesk e os tokens papel #fff7fa, rosa #ef75a3, amora #691b3e e tinta #291b24. O problema principal é continuidade física: pernas inteiras traduzidas, sapatos girando sem o tornozelo e relógios diferentes para deslize e passos. Refazer a dança com quadril, joelho e tornozelo ligados; preparar keyframes finitos de dois segmentos, sincronizados com a trajetória no mesmo relógio do navegador. Sustentar uma ponta enquanto a outra sola desliza, trocar o peso e acomodar os pés antes do giro. Não adicionar um motor 3D ou loop de física.
+
+Chapéus ficam no rig da cabeça, com sombra de contato, aba posterior e aba frontal; luva fica na mão. Modelar volume por gradientes, luz lateral e oclusão discreta, sem blur animado. A virada deve sugerir uma esfera e ocultar o rosto ao passar por trás, em vez de achatar todo o personagem como papel. Melhorar a continuidade da corrida, frenagem, salto e virada do Toddy e o balanço compartilhado de barco, mascote e baú. Preservar as regras e dificuldade dos jogos; o desenho compartilhado melhora também seus personagens.
+
+Referência nova: [Melius, 60fps](https://60fps.design/appsites/melius-hero-3d-assets-explode-animation), exemplo aberto no navegador e frame renderizado observado. Adaptar apenas a noção de volume e profundidade ordenada; não reproduzir a entrada explosiva nem seu layout. Reutilizar o olhar do [Bencho](https://bencho.dev/blocks/eye-tracker), a [instrução de moonwalk](https://howcast.com/videos/499387-how-to-dance-like-michael-jackson-hip-hop-how-to/) e o desenho de elevação de Going Merry já consultados na revisão anterior.
+
+Validar reprodução natural, além de poses pausadas: continuidade tornozelo/sapato, ponta apoiada, ritmo e acessórios durante preparação, dança, virada e reverência. Conferir desktop, toque, 320–1440 px, preferência de movimento reduzido e ativação manual, cancelamento, pequenos scrolls, retorno do ator e custo dos pacotes carregados sob demanda. Nenhuma promessa de FPS ou validação em aparelhos Apple físicos sem medi-los.
+
 ## Apoios, mordida e coreografia, 8 de outubro de 2026
 
 Preservar papel #fff7fa, rosa #ef75a3, amora #691b3e, tinta #291b24 e Space Grotesk. Refinar apenas as descobertas e os jogos: formas claras mesmo em tamanho pequeno e gestos com apoio, antecipação e continuação. Sem áudio, biografia, texto decorativo ou mídia externa.

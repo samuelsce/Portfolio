@@ -16,7 +16,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 
 - **Bancada interativa:** alternância entre card e cartaz, temas claro e escuro, edição de título e ajuste dos cantos. A janela permanece reta; a ação principal anima a ideia por mouse, toque ou teclado.
 - **Projetos:** contexto, tecnologias, detalhes da implementação e ilustrações com controles de tema. As demonstrações começam e se repetem automaticamente enquanto o quadro está na área de leitura, com intervalos de descanso. Na agenda do BarberAg, também é possível selecionar o dia.
-- **Mascote:** olhar reativo, expressões, arrasto, caminhada, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
+- **Mascote:** desenho compartilhado com luz e volume em SVG, olhar reativo, expressões, arrasto, caminhada com joelhos articulados, lupa e o modo planetinha, com intervenções temporárias nos controles visuais. As escolhas do visitante têm prioridade.
 - **Navegação responsiva:** menu móvel e cabeçalho com coreografia própria em telas largas.
 - **Português e inglês:** seleção PT/EN no menu, com preferência salva no navegador e tradução de conteúdo, controles e descrições de acessibilidade.
 - **Detalhes de movimento:** nome que reage em onda, personagem atento à edição da ideia, reações à troca de idioma e às demonstrações, partículas na ativação e traço desenhado quando Projetos chega à área de leitura.
@@ -24,7 +24,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 - **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
 - **Constelação:** três toques na estrela revelam um céu com um S desenhado, estrelas e o planeta do mascote, dentro da bancada.
 - **Pausa para café:** uma palavra no campo da ideia revela uma xícara e uma reação silenciosa do personagem.
-- **Descobertas pela página:** veleiro com proa de carneiro, velas e baú articulados; moonwalk com apoio na ponta, meias, sapatos e visitantes na janela do RoomLab e o Toddy correndo para buscar um ossinho com o mascote. Basquete, saltos entre ilhas e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
+- **Descobertas pela página:** veleiro com proa de carneiro e apoio no convés; moonwalk com pernas articuladas, passos e deslize sincronizados, chapéu e luva presos ao personagem; visitantes na janela do RoomLab e Toddy correndo para buscar um ossinho com o mascote. Basquete, saltos entre ilhas e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -59,7 +59,7 @@ Dados pessoais, contatos e projetos ficam em `src/data/portfolio.ts`, separados 
 
 As traduções da interface ficam em `src/i18n/translations.ts`, e as versões em inglês dos projetos em `src/i18n/projects.ts`. O contexto de idioma atualiza textos e metadados sem remontar os componentes: temas, detalhes abertos e título personalizado da bancada são preservados. A persistência usa `localStorage`, com funcionamento em memória quando o navegador bloqueia o armazenamento.
 
-O mascote usa o mesmo desenho no card e na página. Seu controlador coordena as fases de movimento, as reações e as interrupções, enquanto o CSS define os gestos. O deslocamento é separado da animação dos membros e objetos, mantendo a lupa e a órbita ligadas ao personagem. Nas descobertas, chapéus, luva e sapatos são ligados aos grupos do desenho original. O osso do Toddy fica entre a mandíbula e o focinho, e a preparação do arremesso acompanha o ponto da mão antes de liberar a bola. As trajetórias são finitas e calculadas antes da reprodução, sem leituras de posição por frame.
+O mascote usa o mesmo desenho no card e na página. Seu controlador coordena fases, reações e interrupções; CSS e animações nativas definem os gestos. A lupa, órbita, chapéus e luva pertencem aos grupos do personagem. Na dança, dois segmentos por perna ligam quadril, joelho e tornozelo ao sapato, com keyframes calculados antes da reprodução e sincronizados com o deslize. O mesmo princípio articula as patas do Toddy; o osso fica entre mandíbula e focinho. A preparação do arremesso acompanha a mão antes de liberar a bola. Não há leitura de posição por frame nas trajetórias dessas cenas.
 
 ### Calendário e puzzle
 
