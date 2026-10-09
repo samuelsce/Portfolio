@@ -69,7 +69,7 @@ function RoomIllustration({ night }: { night: boolean }) {
     <svg
       className={`room-illustration ${night ? "room-night" : ""}`}
       viewBox="70 35 500 425"
-      role="img"
+      role="group"
       aria-labelledby="room-illustration-title"
     >
       <title id="room-illustration-title">
@@ -131,7 +131,7 @@ function RoomIllustration({ night }: { night: boolean }) {
         stroke="var(--room-trim)"
         strokeWidth="3"
       />
-      <g className="room-window">
+      <g className="room-window secret-room-window" data-secret="ghosts" role="button" tabIndex={0} aria-label={t.roomWindowExplore} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); event.currentTarget.dispatchEvent(new MouseEvent("click", { bubbles: true })); } }}>
         <polygon
           points={face(
             [133, 0, 65],

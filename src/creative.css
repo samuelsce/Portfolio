@@ -11,6 +11,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 .name-letter { display: inline-block; transform-origin: 50% 80%; }
+.secret-dots { border: 0; background: transparent; padding: 12px 8px; margin-left: -8px; min-height: 44px; min-width: 44px; align-items: center; border-radius: 7px; }
+.secret-signature { background: transparent; color: inherit; font-family: inherit; cursor: pointer; }
+.secret-tech { background: transparent; border: 0; color: inherit; font: inherit; padding: 10px 13px; margin: -10px -13px; border-radius: inherit; min-height: 44px; }
+.secret-contact { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; background: transparent; border: 0; border-radius: 10px; }
+.secret-room-window { cursor: pointer; outline-offset: 5px; }
+.secret-room-window:focus-visible { outline: 2px solid var(--berry); }
 .personal-loading { position: fixed; z-index: 200; inset: auto 24px 24px; width: min(430px,calc(100% - 48px)); margin-inline: auto; border: 1px solid var(--line); padding: 20px; border-radius: 12px; background: var(--paper); color: var(--ink); box-shadow: 0 8px 30px #291b2420; }
 .personal-loading > button { display: block; margin-top: 12px; padding: 10px 14px; min-height: 44px; border: 1px solid var(--line); background: transparent; border-radius: 8px; }
 .portfolio[data-arcade-open="true"] *, .portfolio[data-arcade-open="true"] *::before, .portfolio[data-arcade-open="true"] *::after { animation-play-state: paused !important; }

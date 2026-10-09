@@ -1,5 +1,15 @@
 # Validação do portfólio
 
+## Descobertas espalhadas pela página, versão 1.8.0
+
+- TypeScript e build de produção aprovados. JS principal: 102,98 KB gzip; CSS principal: 18,54 KB gzip. Cenas separadas: 6,31 KB JS e 2,02 KB CSS gzip; jogos separados: 4,12 KB JS e 1,64 KB CSS gzip; traduções compartilhadas: 1,21 KB JS gzip. Módulos ausentes no carregamento inicial e baixados somente na descoberta correspondente. Sem dependências, mídia ou serviços externos novos. Tamanho de arquivo não representa FPS.
+- Diagnóstico de seis entradas em 390, 768 e 1440 px: viagem, noite/ghosts, Toddy/ossinho, alvos, basquete e ponte. O próprio mascote é reservado pelas três cenas; chapéu e luva ligados à cabeça/mão, ossinho entregue ao cachorro, encerramento e remoção dos acessórios conferidos. Rolagem pequena mantém a fase e a sequência. Capturas de cenas e jogos revisadas; sem excesso horizontal, menus de histórias, pratos ou erros de execução.
+- Basquete começa ativo, aceita toque na bola, bloqueia novo tiro durante a trajetória e confere cinco bolas com 15 pontos na mira central. Ponte encaixa diretamente por toque, desfaz e completa as 18 casas com sete peças. Alvos conferem três acertos e devolvem o foco antes de remover o último botão.
+- Em 390 px, CPU limitada em 4× no Chromium: continuidade da rolagem e da mudança de altura da janela, menu, aba oculta, saída da tela, Escape e entrega do mascote a partir da posição atual aprovados. Descoberta durante a navegação, troca para inglês e alvos pelo teclado conferidos. Simulação não representa um iPhone ou iPad físico, não limita GPU e não mede FPS no Safari.
+- Em 320 px, preferência de movimento reduzido e armazenamento bloqueado: Toddy estático com ossinho, sem animações ativas, e ponte completa por toque. Falha de download da cena isolada, com retorno ao portfólio. Diagnósticos em `.publish-staging/verify-distributed-secrets.cjs` e `verify-secret-lifecycle.cjs`.
+- Revisão final em `.publish-staging/verify-secret-final.cjs`: janela do RoomLab reconhecida como botão e operada pelo teclado; desativação do movimento restaura a bancada; sombra oculta durante voo/barco; acessórios, estado de voo e gestos removidos ao terminar; olhar volta a acompanhar as variáveis de seu controlador após a despedida do Toddy.
+- Regressões existentes aprovadas: PT/EN de 320 a 1600 px, persistência/armazenamento bloqueado, estados dos projetos/bancada; arrasto por toque, passos opostos, lupa, planetinha, travessuras, menu, retorno e olhar; constelação, café, pausa por visibilidade simulada e puzzle. Nenhum corte nos grupos do mascote monitorados. Verificação em Edge/Chromium; sem validação em aparelho físico ou Safari.
+
 ## Segredos pessoais e minigames, versão 1.7.0
 
 - TypeScript e build de produção aprovados. JS principal: 102,35 KB gzip, cerca de 0,81 KB acima da versão 1.6.1; CSS principal: 18,41 KB gzip. Coleção pessoal separada: 10,12 KB JS e 2,86 KB CSS gzip, baixados somente na descoberta. Sem dependências ou serviços externos novos. Tamanho de arquivo não representa FPS.

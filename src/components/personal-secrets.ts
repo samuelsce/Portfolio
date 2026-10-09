@@ -1,14 +1,13 @@
-export const personalTopics = ["voyage", "ghosts", "basketball", "blocks", "valorant", "bahia", "toddy"] as const;
-export type PersonalTopic = typeof personalTopics[number];
-const words: Record<string, PersonalTopic> = {
-  onepiece: "voyage", luffy: "voyage", naruto: "voyage", chapeudepalha: "voyage",
-  ghosts: "ghosts", michaeljackson: "ghosts", mj: "ghosts", moonwalk: "ghosts",
-  basquete: "basketball", basketball: "basketball", kyrie: "basketball", cash: "basketball",
-  minecraft: "blocks", bedwars: "blocks", skywars: "blocks", "189": "blocks",
-  valorant: "valorant", ascendente: "valorant", ascendant: "valorant",
-  bahia: "bahia", acaraje: "bahia", yakisoba: "bahia", camarao: "bahia", shrimp: "bahia",
-  toddy: "toddy",
-};
-export function personalWord(value: string): PersonalTopic | undefined {
-  return words[value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "")];
+export type MomentKind = "voyage" | "ghosts" | "toddy" | "aim";
+export type GameKind = "basketball" | "blocks";
+export type SecretKind = MomentKind | GameKind;
+export type SecretRequest = { kind: SecretKind; source: HTMLElement | SVGElement; id: number };
+export type ActorPoint = { x: number; y: number; size: number };
+export type ActorClaim = { root: HTMLElement; origin: ActorPoint; release: (point: ActorPoint) => void };
+export type ActorRequest = { kind: MomentKind; cancel: () => void; claim?: ActorClaim };
+export const actorRequestEvent = "portfolio:actorrequest";
+export function claimActor(kind: MomentKind, cancel: () => void): ActorClaim | undefined {
+  const request: ActorRequest = { kind, cancel };
+  window.dispatchEvent(new CustomEvent(actorRequestEvent, { detail: request }));
+  return request.claim;
 }

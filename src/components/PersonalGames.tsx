@@ -17,7 +17,7 @@ function readRecord() {
 export function ThreePointGame({ motion }: { motion: boolean }) {
   const { language } = useLanguage();
   const c = personalCopy[language].basketball;
-  const [phase, setPhase] = useState<ShotPhase>("ready");
+  const [phase, setPhase] = useState<ShotPhase>("aiming");
   const [shots, setShots] = useState(0), [points, setPoints] = useState(0);
   const [best, setBest] = useState(readRecord);
   const [assist, setAssist] = useState(false), [stillAim, setStillAim] = useState(.5);
@@ -110,13 +110,14 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
         <g ref={ball} className="shot-ball"><circle cx="149" cy="208" r="12" fill="#dc9461" stroke="#694630" strokeWidth="1.5" /><path d="M137 208h24m-12-12v24m-8-20c9 3 9 13 0 16m16-16c-9 3-9 13 0 16" fill="none" stroke="#694630" /></g>
       </svg>
       <div ref={player} className="court-player"><MascotArtwork /></div>
+      <button className="court-shoot-zone" aria-label={c.action} onClick={shoot} disabled={phase === "flying"} />
     </div>
     <p className="game-instructions">{c.ready}</p>
     <div className="shot-meter" ref={meter} role="img" aria-label={c.aim} data-still={still}>
       <span className="shot-zone" /><span className="shot-marker" ref={marker} style={still ? { left: `${stillAim * 100}%`, transform: "translateX(-50%)" } : undefined} />
     </div>
     <div className="game-score"><span>{c.attempts} <strong>{shots}/5</strong></span><span>{c.points} <strong>{points}</strong></span><span>{c.best} <strong>{best}</strong></span></div>
-    <div className="game-feedback" role="status">{phase === "ready" ? c.aiming : phase === "aiming" && shots === 0 ? c.aiming : `${hit ? c.swish : c.miss}${phase === "done" ? ` ${c.end}` : ""}`}</div>
+    <div className="game-feedback" role="status">{phase === "flying" ? c.flying : shots === 0 ? c.aiming : `${hit ? c.swish : c.miss}${phase === "done" ? ` ${c.end}` : ""}`}</div>
     <button className="personal-action shoot-action" onClick={shoot} disabled={phase === "flying"}>{phase === "ready" ? c.start : phase === "done" ? personalCopy[language].restart : c.action}</button>
     <label className="still-aim"><input type="checkbox" checked={still} disabled={!motion || phase === "flying"} onChange={event => setAssist(event.target.checked)} />{c.assist}</label>
     {still && <div className="still-choices" role="group" aria-label={c.aim}>{[c.left, c.center, c.right].map((label, i) => <button key={i} aria-pressed={stillAim === i / 2} disabled={phase === "flying"} onClick={() => setStillAim(i / 2)}>{label}</button>)}</div>}
@@ -162,9 +163,9 @@ export function BridgeGame() {
   return <div className="bridge-game">
     <div className="bridge-islands" aria-hidden="true"><svg viewBox="0 0 420 82"><path d="m25 32 45-18 45 18-45 17Z" fill="#7d9870" /><path d="m25 32 45 17v25L25 54Z" fill="#9c705b" /><path d="m70 49 45-17v22L70 74Z" fill="#715242" /><path d="m300 32 45-18 45 18-45 17Z" fill="#7d9870" /><path d="m300 32 45 17v25l-45-20Z" fill="#9c705b" /><path d="m345 49 45-17v22l-45 20Z" fill="#715242" /><path d="M70 30v-17h28v13H70" fill="#ed9daf" /><path d="M345 30v-17h-28v13h28" fill="#93b6c2" /><path d="m140 46 140 0" stroke="#c29ab0" strokeWidth="2" strokeDasharray="4 6" /></svg></div>
     <div ref={grid} className="bridge-board" role="group" aria-label={c.title} data-won={won}>
-      {board.map((occupied, cell) => <button key={cell} data-cell={cell} data-filled={occupied} data-preview={Boolean(footprint?.includes(cell))} aria-label={`${c.cell} ${Math.floor(cell / 6) + 1}, ${cell % 6 + 1}: ${occupied ? c.filled : c.empty}`} aria-pressed={selected === cell} tabIndex={selected === cell ? 0 : -1} onFocus={() => setSelected(cell)} onClick={() => setSelected(cell)} onKeyDown={event => key(event, cell)} disabled={won} />)}
+      {board.map((occupied, cell) => <button key={cell} data-cell={cell} data-filled={occupied} data-preview={Boolean(footprint?.includes(cell))} aria-label={`${c.cell} ${Math.floor(cell / 6) + 1}, ${cell % 6 + 1}: ${occupied ? c.filled : c.empty}`} aria-pressed={selected === cell} tabIndex={selected === cell ? 0 : -1} onFocus={() => setSelected(cell)} onPointerEnter={event => { if (event.pointerType === "mouse") setSelected(cell); }} onClick={() => { setSelected(cell); place(cell); }} onKeyDown={event => key(event, cell)} disabled={won} />)}
     </div>
-    <div className="bridge-piece" aria-label={`${size} ${c.pieces}, ${vertical ? c.vertical : c.horizontal}`}><div data-vertical={vertical}>{Array.from({ length: size }, (_, i) => <i key={i} />)}</div><span>{won ? c.won : `${c.pieces}: ${18 - board.filter(Boolean).length}`}</span></div>
+    <div className="bridge-piece" aria-label={`${c.piece}: ${size}, ${vertical ? c.vertical : c.horizontal}`}><div data-vertical={vertical}>{Array.from({ length: size }, (_, i) => <i key={i} />)}</div><span>{won ? c.won : `${c.pieces}: ${18 - board.filter(Boolean).length}`}</span></div>
     <p className="game-instructions">{c.choose}</p>
     <div className="game-feedback" role="status">{won ? c.won : message === "choose" ? "" : c[message]}</div>
     <div className="bridge-controls"><button onClick={() => setVertical(v => !v)} disabled={won}>{c.action}</button><button className="personal-action" onClick={() => place()} disabled={won}>{c.place}</button><button onClick={() => { setHistory(old => old.slice(0, -1)); setMessage("choose"); }} disabled={turn === 0}>{c.undo}</button><button ref={restart} onClick={() => { setHistory([Array<boolean>(18).fill(false)]); setVertical(false); setMessage("choose"); }}>{personalCopy[language].restart}</button></div>

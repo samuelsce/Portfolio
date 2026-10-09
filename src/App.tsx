@@ -161,11 +161,11 @@ const Workbench = memo(function Workbench({
     >
       <div className={`studio-window ${celebrate ? "is-activated" : ""}`}>
         <div className="window-chrome">
-          <span className="window-dots" aria-hidden="true">
+          <button className="window-dots secret-dots" data-secret="voyage" aria-label={t.windowExplore}>
             <i />
             <i />
             <i />
-          </span>
+          </button>
           <button className="chrome-symbol chrome-secret" aria-label={t.chromeSecret} aria-pressed="false" title={t.chromeSecret}>
             <Icon name="asterisk" />
           </button>
@@ -767,7 +767,7 @@ export default function App() {
           <div className="hero-copy">
             <h1 id="hero-title" aria-label={`${t.hello} Samuel Santos`}>
               <span className="hero-greeting">{t.hello}</span>
-              <button className="name-play" aria-label={t.namePlay} title={t.namePlay}>
+              <button className="name-play" data-secret="basketball" aria-label={t.namePlay} title={t.namePlay}>
                 <span aria-hidden="true">{"samuel.".split("").map((letter, index) => <span key={index} className={`name-letter ${letter === "." ? "name-period" : ""}`}>{letter}</span>)}</span>
               </button>
             </h1>
@@ -857,9 +857,9 @@ export default function App() {
                 Samuel.
               </h2>
               <div className="about-signature">
-                <span className="signature-loop" aria-hidden="true">
+                <button className="signature-loop secret-signature" data-secret="toddy" aria-label={t.signatureExplore}>
                   s.
-                </span>
+                </button>
               </div>
             </div>
             <div className="about-copy">
@@ -880,7 +880,7 @@ export default function App() {
                 <h3>{t.toolbox}</h3>
                 <ul>
                   {profile.technologies.map((tech) => (
-                    <li key={tech}>{tech}</li>
+                    <li key={tech}>{tech === "Git" ? <button className="secret-tech" data-secret="blocks">{tech}</button> : tech}</li>
                   ))}
                 </ul>
               </div>
@@ -905,7 +905,7 @@ export default function App() {
           aria-labelledby="contact-title"
         >
           <div className="contact-prelude">
-            <Spark />
+            <button className="secret-contact" data-secret="aim" aria-label={t.contactExplore}><Spark /></button>
           </div>
           <div className="contact-main">
             <h2 id="contact-title">

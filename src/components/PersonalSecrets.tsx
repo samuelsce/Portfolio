@@ -1,75 +1,68 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../i18n/LanguageProvider";
 import LazyLoadBoundary, { LoadFailure } from "./LazyLoadBoundary";
-import { personalWord } from "./personal-secrets";
-import type { PersonalTopic } from "./personal-secrets";
+import type { SecretKind, SecretRequest } from "./personal-secrets";
 const PersonalArcade = lazy(() => import("./PersonalArcade"));
+const SecretMoments = lazy(() => import("./SecretMoments"));
+const counts: Record<SecretKind, number> = { voyage: 3, ghosts: 1, toddy: 2, basketball: 3, blocks: 2, aim: 2 };
 
-// Only this small discovery listener enters the initial bundle. The stories,
-// artwork, games and their stylesheet are fetched after a real discovery.
+// Discovery stays tiny. Each game or on-page performance has a separate lazy
+// bundle; there is no menu of secrets and no word scanner in the idea field.
 export default function PersonalSecrets({ motion }: { motion: boolean }) {
   const { language } = useLanguage();
-  const [topic, setTopic] = useState<PersonalTopic | null>(null);
-  const trigger = useRef<HTMLElement | null>(null);
-  const open = useRef(false);
+  const [request, setRequest] = useState<SecretRequest | null>(null);
+  const opened = useRef(false);
+  const serial = useRef(0);
+  const source = useRef<HTMLElement | SVGElement | null>(null);
   useEffect(() => {
     const portfolio = document.querySelector<HTMLElement>(".portfolio")!;
-    let pending: ReturnType<typeof setTimeout> | undefined;
-    let taps = 0, lastTap = 0;
-    function cancel() { clearTimeout(pending); pending = undefined; }
-    function discover(next: PersonalTopic, source: HTMLElement) {
-      cancel();
-      if (open.current || document.hidden || portfolio.dataset.arcadeOpen === "true") return;
-      trigger.current = source;
-      open.current = true;
-      setTopic(next);
-    }
-    function input(event: Event) {
-      if (!(event.target instanceof HTMLInputElement) || !event.target.closest(".idea-input")) return;
-      cancel();
-      const next = personalWord(event.target.value), source = event.target;
-      if (next) pending = setTimeout(() => discover(next, source), 550);
-    }
-    function key(event: KeyboardEvent) {
-      if (event.key !== "Enter" || !(event.target instanceof HTMLInputElement) || !event.target.closest(".idea-input")) return;
-      const next = personalWord(event.target.value);
-      if (next) { event.preventDefault(); discover(next, event.target); }
+    const taps = new Map<Element, { count: number; at: number }>();
+    let digits = "", digitAt = 0;
+    function discover(kind: SecretKind, from: HTMLElement | SVGElement) {
+      if (opened.current || document.hidden || portfolio.dataset.arcadeOpen === "true" || portfolio.dataset.constellation === "true") return;
+      source.current = from;
+      opened.current = true;
+      setRequest({ kind, source: from, id: ++serial.current });
     }
     function click(event: MouseEvent) {
-      if (!(event.target instanceof Element)) return;
-      const source = event.target.closest<HTMLElement>(".name-play");
-      if (!source) return;
-      const now = performance.now();
-      taps = now - lastTap < 1300 ? taps + 1 : 1;
-      lastTap = now;
-      if (taps === 5) { taps = 0; discover("voyage", source); }
+      if (!(event.target instanceof Element) || opened.current) return;
+      const from = event.target.closest<HTMLElement | SVGElement>("[data-secret]");
+      if (!from) return;
+      const kind = from.dataset.secret as SecretKind;
+      if (!(kind in counts)) return;
+      if (kind === "ghosts" && !from.closest(".room-night")) {
+        // The first touch opens the night scene; a touch on the lit window
+        // reveals its visitor. The existing theme switch keeps its real state.
+        from.closest(".project-art")?.querySelector<HTMLButtonElement>(".room-light-toggle")?.click();
+        return;
+      }
+      const now = performance.now(), previous = taps.get(from);
+      const count = previous && now - previous.at < 1200 ? previous.count + 1 : 1;
+      taps.set(from, { count, at: now });
+      if (count >= counts[kind]) { taps.delete(from); discover(kind, from); }
     }
-    function visibility() { if (document.hidden) cancel(); }
-    portfolio.addEventListener("input", input);
+    function key(event: KeyboardEvent) {
+      if (opened.current || event.repeat || event.altKey || event.ctrlKey || event.metaKey || event.target instanceof Element && event.target.closest('input, textarea, [contenteditable="true"]')) return;
+      if (!/^[189]$/.test(event.key)) { digits = ""; return; }
+      const now = performance.now();
+      digits = (now - digitAt < 1200 ? digits : "") + event.key;
+      digits = digits.slice(-3); digitAt = now;
+      if (digits === "189") {
+        digits = "";
+        discover("blocks", document.activeElement instanceof HTMLElement ? document.activeElement : portfolio);
+      }
+    }
     portfolio.addEventListener("click", click);
-    portfolio.addEventListener("keydown", key);
-    document.addEventListener("visibilitychange", visibility);
-    window.addEventListener("portfolio:arcadechange", cancel);
-    return () => {
-      cancel();
-      portfolio.removeEventListener("input", input);
-      portfolio.removeEventListener("click", click);
-      portfolio.removeEventListener("keydown", key);
-      document.removeEventListener("visibilitychange", visibility);
-      window.removeEventListener("portfolio:arcadechange", cancel);
-    };
+    window.addEventListener("keydown", key);
+    return () => { portfolio.removeEventListener("click", click); window.removeEventListener("keydown", key); };
   }, []);
-  function close() {
-    open.current = false;
-    setTopic(null);
-    // The native dialog restores focus on unmount. Restore it explicitly for
-    // load failures too, without changing the visitor's scroll position.
-    requestAnimationFrame(() => trigger.current?.focus({ preventScroll: true }));
-  }
-  if (!topic) return null;
-  return <LazyLoadBoundary fallback={<div className="personal-loading"><LoadFailure onClose={close} /></div>}>
-    <Suspense fallback={<div className="personal-loading" role="status">{language === "pt" ? "Abrindo o segredo…" : "Opening the secret…"}<button onClick={close}>{language === "pt" ? "Cancelar" : "Cancel"}</button></div>}>
-      <PersonalArcade initial={topic} motion={motion} onClose={close} />
+  function close() { opened.current = false; setRequest(null); }
+  function closeGame() { close(); requestAnimationFrame(() => source.current?.focus({ preventScroll: true })); }
+  if (!request) return null;
+  const game = request.kind === "basketball" || request.kind === "blocks";
+  return <LazyLoadBoundary key={request.id} fallback={<div className="personal-loading"><LoadFailure onClose={closeGame} /></div>}>
+    <Suspense fallback={<div className="personal-loading" role="status">{language === "pt" ? "Abrindo o segredo…" : "Opening the secret…"}<button onClick={closeGame}>{language === "pt" ? "Cancelar" : "Cancel"}</button></div>}>
+      {game ? <PersonalArcade kind={request.kind as "basketball" | "blocks"} motion={motion} onClose={closeGame} /> : <SecretMoments request={request} motion={motion} onDone={close} />}
     </Suspense>
   </LazyLoadBoundary>;
 }

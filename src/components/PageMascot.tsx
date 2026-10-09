@@ -4,6 +4,8 @@ import MascotArtwork from "./MascotArtwork";
 import { languageChangeEvent, useLanguage } from "../i18n/LanguageProvider";
 import { creativeReactionEvent } from "./creative-events";
 import type { CreativeReaction } from "./creative-events";
+import { actorRequestEvent } from "./personal-secrets";
+import type { ActorRequest } from "./personal-secrets";
 
 type Point = { x: number; y: number; size: number };
 type Phase =
@@ -26,7 +28,8 @@ type Phase =
   | "pushing"
   | "yielding"
   | "waiting"
-  | "reappearing";
+  | "reappearing"
+  | "performing";
 type Reaction =
   | "discovery"
   | "typing"
@@ -213,6 +216,7 @@ export default function PageMascot({
     let measuredWidth = 0;
     let handledPink = false;
     let closed = false;
+    let actorOwner: ActorRequest | null = null;
     let suspended = false;
     let sentSurface: HeaderSurface | null = null;
     let pointer: { x: number; y: number } | null = null;
@@ -321,6 +325,47 @@ export default function PageMascot({
       clearTimeout(reactionTimer);
       cancelAnimationFrame(reactionFrame);
       element!.dataset.reaction = "";
+    }
+    function cancelActor() {
+      if (!actorOwner) return;
+      const owner = actorOwner;
+      actorOwner = null;
+      const rect = element!.getBoundingClientRect();
+      owner.cancel();
+      delete element!.dataset.secretPerformance;
+      element!.style.translate = "";
+      place({ x: rect.left, y: rect.top, size: rect.width });
+      if (current === "performing") change("observing");
+    }
+    function requestActor(event: Event) {
+      const request = (event as CustomEvent<ActorRequest>).detail;
+      if (!request || !["voyage", "ghosts", "toddy"].includes(request.kind) || !motion || suspended || menuActive || holding || actorOwner || !["docked", "observing"].includes(current)) return;
+      clearTimeout(idleTimer);
+      clearReaction();
+      stopFlight();
+      if (current === "docked") place(homeSpot);
+      actorOwner = request;
+      onAwayChange(true);
+      change("performing");
+      element!.dataset.secretPerformance = request.kind;
+      setVariable("--head-angle", "0deg");
+      setVariable("--gaze-x", "0px");
+      setVariable("--gaze-y", "0px");
+      request.claim = {
+        root: element!,
+        origin: { ...position },
+        release(point) {
+          if (closed || actorOwner !== request) return;
+          actorOwner = null;
+          delete element!.dataset.secretPerformance;
+          element!.style.translate = "";
+          setVariable("--gaze-x", "0px");
+          setVariable("--gaze-y", "0px");
+          place(point);
+          change("observing");
+          if (!suspended && !menuActive && !document.hidden) observe();
+        },
+      };
     }
     function idle() {
       clearTimeout(idleTimer);
@@ -1170,6 +1215,7 @@ export default function PageMascot({
     function visibility() {
       portfolio.dataset.pageHidden = String(document.hidden);
       if (document.hidden || portfolio.dataset.arcadeOpen === "true") {
+        cancelActor();
         pendingLanguage = false;
         clearTimeout(creativeTimer);
         cancelAnimationFrame(creativeFrame);
@@ -1206,6 +1252,7 @@ export default function PageMascot({
     function yieldToMenu(open: boolean) {
       if (open === menuActive) return;
       menuActive = open;
+      if (open) cancelActor();
       if (current === "docked") {
         if (!open) languageGreeting();
         return;
@@ -1350,6 +1397,10 @@ export default function PageMascot({
         return;
       if (holding) {
         if (widthChanged || menuIsOpen) release(true);
+        return;
+      }
+      if (actorOwner) {
+        if (widthChanged) { cancelActor(); observe(); }
         return;
       }
       if (widthChanged && current !== "docked") {
@@ -1650,11 +1701,13 @@ export default function PageMascot({
       document.addEventListener("visibilitychange", visibility);
       window.addEventListener(languageChangeEvent, languageChanged);
       window.addEventListener(creativeReactionEvent, creativeChanged);
+      window.addEventListener(actorRequestEvent, requestActor);
       window.addEventListener("portfolio:arcadechange", visibility);
     }
     measure();
     return () => {
       closed = true;
+      cancelActor();
       delete portfolio.dataset.pageHidden;
       animation?.cancel();
       cancelAnimationFrame(measureFrame);
@@ -1686,6 +1739,7 @@ export default function PageMascot({
       window.removeEventListener("resize", invalidateLayout);
       window.removeEventListener(languageChangeEvent, languageChanged);
       window.removeEventListener(creativeReactionEvent, creativeChanged);
+      window.removeEventListener(actorRequestEvent, requestActor);
       window.removeEventListener("portfolio:arcadechange", visibility);
       window.removeEventListener("pointermove", point);
       window.removeEventListener("blur", rest);

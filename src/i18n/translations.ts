@@ -1,4 +1,8 @@
 export const pt = {
+  "windowExplore": "Interagir com os pontinhos da janela",
+  "signatureExplore": "Interagir com a assinatura",
+  "contactExplore": "Interagir com a estrela de contato",
+  "roomWindowExplore": "Interagir com a janela do quarto",
   "namePlay": "Samuel. Toque para animar o nome",
   "chromeSecret": "Explorar a estrela da bancada",
   "demoDay": "Dia da agenda de exemplo",
@@ -119,6 +123,10 @@ export const pt = {
 export type Translation = Record<keyof typeof pt, string>;
 
 export const en: Translation = {
+  "windowExplore": "Interact with the window dots",
+  "signatureExplore": "Interact with the signature",
+  "contactExplore": "Interact with the contact star",
+  "roomWindowExplore": "Interact with the room window",
   "namePlay": "Samuel. Tap to animate the name",
   "chromeSecret": "Explore the workbench star",
   "demoDay": "Sample schedule day",

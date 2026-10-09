@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.8.0] - 2026-10-08
+
+### Descobertas espalhadas pela página
+
+- Coleção de histórias e segredo de comidas removidos. Os interesses aparecem em cenas e minigames descobertos por ações diferentes na bancada, nome, janela do RoomLab, assinatura, Git e estrela do contato.
+- One Piece com viagem de barco e tesouro; Ghosts com moonwalk, chapéu, luva e visitantes da janela; Toddy entra correndo, recebe um ossinho e vai embora. As cenas usam o próprio mascote da página, com acessórios ligados à cabeça e à mão e entrega da posição atual ao seu controlador.
+- Corrida com quatro patas independentes, corpo e sombra separados, cauda, salto, captura do osso e despedida. Cenas continuam ao rolar um pouco e encerram fora da tela, no menu, no redimensionamento, na aba oculta ou por Escape.
+- Basquete inicia com a mira ativa e aceita toque na bola. Ponte encaixa a peça diretamente por toque. Jogos separados, com teclado, desfazer, recorde local e alternativa sem movimento. Três alvos do contato revelam uma insígnia.
+- Cenas e jogos carregados separadamente sob demanda, com trajetórias finitas em transform/opacity, versões estáticas, limpeza de relógios e nenhuma dependência, mídia externa ou loop de frame ocioso novo.
+
 ## [1.7.0] - 2026-10-08
 
 ### Segredos pessoais e minigames
