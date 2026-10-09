@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Configuração estática da Cloudflare Workers versionada: Worker existente samuelstudio, diretório dist e bloco de prévias; preparação de upload verificada em dry run.
+
 - Removidos fantasmas do tributo ao Michael e baú da viagem. Moonwalk, fedora e luva preservados; pose estática com movimento desativado.
 - Going Merry refinado com vela e emblema maiores, cordame, cabine e carneiro da proa mais legíveis.
 - Patas do Toddy corrigidas: traços verticais visíveis e remoção de rotações extras que se somavam à articulação.

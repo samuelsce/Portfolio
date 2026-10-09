@@ -4,6 +4,18 @@ O site atual está em [samuelsce.dev](https://samuelsce.dev), na Cloudflare Work
 
 As opções abaixo são alternativas de hospedagem para uma eventual migração. Não representam a configuração atual da conta Cloudflare.
 
+## Configuração atual da Cloudflare Workers
+
+O arquivo wrangler.jsonc versiona o nome samuelstudio, a data de compatibilidade e o diretório estático ./dist. O bloco previews vazio declara uma prévia sem variáveis ou bindings adicionais. Assets ficam no nível principal da configuração, como descrito na [documentação de Previews](https://developers.cloudflare.com/workers/previews/configuration/).
+
+Na integração da conta, o build usa npm run build e a prévia usa npx wrangler preview. A configuração permite que esse comando encontre os arquivos e o Worker correto, sem depender da inferência pelo nome do pacote. A publicação de produção usa o comando configurado na conta após o merge na main; nenhuma produção é publicada pelo comando de simulação abaixo.
+
+Para conferir a preparação localmente, com o build já gerado:
+
+    npx --yes wrangler@4.149.0 deploy --dry-run --outdir .publish-staging/worker-dry-run
+
+Essa simulação foi verificada nesta entrega e não envia arquivos. A confirmação completa da prévia depende do check da Cloudflare no PR. Referências: [configuração de assets](https://developers.cloudflare.com/workers/static-assets/binding/) e [início de Previews](https://developers.cloudflare.com/workers/previews/get-started/).
+
 ## Vercel
 
 1. Use o repositório `https://github.com/samuelsce/Portfolio`.
