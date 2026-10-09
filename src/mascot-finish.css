@@ -85,6 +85,15 @@
 .leg-right {
   transform-origin: 67px 82px;
 }
+.mascot-lower-leg {
+  transform-box: view-box;
+  transition: rotate 180ms ease-out;
+}
+.lower-leg-left { transform-origin: 42px 92px; }
+.lower-leg-right { transform-origin: 69px 92px; }
+.page-mascot[data-phase="walking"] .mascot-lower-leg { transition: none; }
+.page-mascot[data-phase="walking"] .lower-leg-left { rotate: calc(var(--knee-left, 0) * 1deg); }
+.page-mascot[data-phase="walking"] .lower-leg-right { rotate: calc(var(--knee-right, 0) * 1deg); }
 .mascot-arm {
   transition:
     rotate 180ms ease-out,

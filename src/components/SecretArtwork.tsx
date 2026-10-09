@@ -21,6 +21,7 @@ export const SailingBoat = memo(function SailingBoat() {
     </g>
     <g className="vessel-cabin"><path d="M28 88h40v19H28Z" fill="#eee0c5" stroke="#a88b65" /><path d="m22 87 24-12 26 10-4 5H27Z" fill="#b27362" stroke="#936347" /><path d="M31 94h7v8h-7Zm17-2h7v10h-7Zm12 3h5v7h-5Z" fill="#665247" stroke="#ceba97" /><path d="M26 87q20-5 43-1" stroke="#e1aa87" fill="none" /></g>
     <path d="m21 106 170-8 20 10-176 15Z" fill="#d4b18a" stroke="#997352" /><path d="m31 111 156-7" stroke="#f3d9b4" fill="none" />
+    <ellipse className="vessel-crew-contact" cx="87" cy="104" rx="11" ry="1.8" fill="#765345" opacity=".18" />
     <path d="m23 111 181-7-10 33q-75 21-152 5Z" fill={`url(#${id}-hull)`} stroke="#95735b" strokeWidth="1.3" />
     <path d="m24 111 180-7-3 7-173 10Z" fill="#936c4e" /><path d="m28 120 172-9-2 6-166 9Z" fill="#ead8ba" />
     <path d="m35 132 161-9-2 7-155 10Z" fill="#a77d56" /><path d="m41 141 153-11-9 10q-67 18-137 9Z" fill={`url(#${id}-wood)`} />

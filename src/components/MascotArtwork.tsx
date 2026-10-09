@@ -40,12 +40,14 @@ function MascotArtwork({
       aria-hidden="true"
     >
       <defs>
-        <radialGradient id={`${id}-material`} cx=".3" cy=".24" r=".83">
-          <stop stopColor="#fff7fa" stopOpacity=".34" />
-          <stop offset=".44" stopColor="#fff7fa" stopOpacity="0" />
-          <stop offset=".8" stopColor="#ad2958" stopOpacity=".08" />
-          <stop offset="1" stopColor="#841f47" stopOpacity=".26" />
+        <radialGradient id={`${id}-material`} cx=".28" cy=".22" r=".86">
+          <stop stopColor="#fff7fa" stopOpacity=".46" />
+          <stop offset=".42" stopColor="#fff7fa" stopOpacity=".03" />
+          <stop offset=".74" stopColor="#a52b58" stopOpacity=".1" />
+          <stop offset="1" stopColor="#731b42" stopOpacity=".36" />
         </radialGradient>
+        <linearGradient id={`${id}-rim`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff7fa" stopOpacity=".5" /><stop offset=".4" stopColor="#fff7fa" stopOpacity="0" /><stop offset="1" stopColor="#731b42" stopOpacity=".25" /></linearGradient>
+        <linearGradient id={`${id}-palm`} x2=".8" y2="1"><stop stopColor="#f8b5ce" /><stop offset=".5" stopColor="#f393b6" /><stop offset="1" stopColor="#c65c87" /></linearGradient>
         <radialGradient id={`${id}-shadow`}>
           <stop stopColor="#691b3e" stopOpacity=".22" />
           <stop offset=".55" stopColor="#691b3e" stopOpacity=".1" />
@@ -83,15 +85,18 @@ function MascotArtwork({
               >
                 <g className="mascot-leg leg-left">
                   <path
-                    d="M44 81Q42 92 40 103"
+                    d="M44 81Q43 87 42 92"
                     stroke="#a54268"
                     strokeWidth="8"
                   />
                   <path
-                    d="M43 83Q41 93 40 102"
+                    d="M43 83Q42 88 42 92"
                     stroke="#ec83aa"
                     strokeWidth="5"
                   />
+                  <g className="mascot-lower-leg lower-leg-left">
+                  <path d="M42 92Q41 98 40 103" stroke="#a54268" strokeWidth="7" />
+                  <path d="M41.5 93Q40.5 98 40 102" stroke="#ec83aa" strokeWidth="4.5" />
                   <g className="mascot-shoe shoe-left">
                   <path
                     d="M40 100c-4-1-9 2-9 5 0 3 6 4 13 2 3-1 1-6-4-7Z"
@@ -103,18 +108,22 @@ function MascotArtwork({
                     strokeWidth="1.4"
                   />
                   </g>
+                  </g>
                 </g>
                 <g className="mascot-leg leg-right">
                   <path
-                    d="M67 81Q69 92 72 103"
+                    d="M67 81Q68 87 69 92"
                     stroke="#a54268"
                     strokeWidth="8"
                   />
                   <path
-                    d="M67 83Q69 93 71 102"
+                    d="M67 83Q68 88 69 92"
                     stroke="#ec83aa"
                     strokeWidth="5"
                   />
+                  <g className="mascot-lower-leg lower-leg-right">
+                  <path d="M69 92Q70 98 72 103" stroke="#a54268" strokeWidth="7" />
+                  <path d="M69 93Q70 98 71 102" stroke="#ec83aa" strokeWidth="4.5" />
                   <g className="mascot-shoe shoe-right">
                   <path
                     d="M72 100c4-1 9 2 9 5 0 3-6 4-13 2-3-1-1-6 4-7Z"
@@ -125,6 +134,7 @@ function MascotArtwork({
                     stroke="#c27a98"
                     strokeWidth="1.4"
                   />
+                  </g>
                   </g>
                 </g>
                 <g className="mascot-arm arm-left">
@@ -140,7 +150,7 @@ function MascotArtwork({
                   />
                   <path
                     d="M10 73c-5 1-6 6-3 9 3 4 9 3 11-1 2-5-2-9-8-8Z"
-                    fill="#f393b6"
+                    fill={`url(#${id}-palm)`}
                     stroke="#bf557d"
                     strokeWidth=".8"
                   />
@@ -159,7 +169,7 @@ function MascotArtwork({
                   />
                   <path
                     d="M102 73c5 1 6 6 3 9-3 4-9 3-11-1-2-5 2-9 8-8Z"
-                    fill="#f393b6"
+                    fill={`url(#${id}-palm)`}
                     stroke="#bf557d"
                     strokeWidth=".8"
                   />
@@ -171,12 +181,13 @@ function MascotArtwork({
           <g className="mascot-head">
             <path d={silhouette} className="mascot-skin" />
             <path d={silhouette} fill={`url(#${id}-material)`} />
+            <path d={silhouette} stroke={`url(#${id}-rim)`} strokeWidth="1.1" />
             <path
               d="M30 35q5-10 15-12"
               stroke="#fff7fa"
-              strokeWidth="2.5"
+              strokeWidth="2.8"
               strokeLinecap="round"
-              opacity=".28"
+              opacity=".38"
             />
             <path
               d="M32 77q23 18 46-1"
@@ -184,7 +195,7 @@ function MascotArtwork({
               strokeWidth="1"
               opacity=".12"
             />
-            <g className="mascot-gaze">
+            <g className="mascot-face-volume"><g className="mascot-gaze">
               <g
                 className="mascot-brows"
                 stroke="#691b3e"
@@ -270,7 +281,7 @@ function MascotArtwork({
                 ry="5"
                 fill="#691b3e"
               />
-            </g>
+            </g></g>
           </g>
           <g className="mascot-coffee" strokeLinecap="round" strokeLinejoin="round">
             <path d="M85 58q7 16-3 19" stroke="#b9557d" strokeWidth="7" />

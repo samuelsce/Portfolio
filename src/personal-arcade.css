@@ -32,7 +32,6 @@
 .three-game[data-phase="done"] .shot-marker { opacity: .4; }
 .personal-arcade[data-paused="true"] * { animation-play-state: paused !important; }
 .personal-arcade[data-motion="off"] * { animation: none !important; transition: none !important; }
-@media(prefers-reduced-motion: reduce) { .personal-arcade * { animation: none !important; transition: none !important; } }
 
 .still-choices button{border:1px solid var(--line);border-radius:8px;background:transparent;font:inherit;min-height:44px;padding:10px 13px;color:var(--ink)}
 @media(max-width:380px){.personal-arcade{padding:18px 16px 22px}}

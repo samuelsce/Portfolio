@@ -159,7 +159,4 @@
 @media (max-width: 650px) {
   .constellation-map { width: 170%; left: -38%; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .art-dot[data-interaction-reaction] * { animation: none !important; }
-}
 .portfolio[data-motion="off"] .art-dot[data-interaction-reaction] * { animation: none !important; }
