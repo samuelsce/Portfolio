@@ -40,6 +40,7 @@ function MascotArtwork({
       aria-hidden="true"
     >
       <defs>
+        <clipPath id={`${id}-face-surface`}><path d={silhouette} /></clipPath>
         <radialGradient id={`${id}-material`} cx=".28" cy=".22" r=".86">
           <stop stopColor="#fff7fa" stopOpacity=".46" />
           <stop offset=".42" stopColor="#fff7fa" stopOpacity=".03" />
@@ -195,7 +196,7 @@ function MascotArtwork({
               strokeWidth="1"
               opacity=".12"
             />
-            <g className="mascot-face-volume"><g className="mascot-gaze">
+            <g className="mascot-face-volume" clipPath={`url(#${id}-face-surface)`}><g className="mascot-gaze">
               <g
                 className="mascot-brows"
                 stroke="#691b3e"

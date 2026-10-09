@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.11.1] - 2026-10-09
+
+- Rosto limitado à superfície da cabeça durante a virada. Olhos, boca e bochechas passam por trás do contorno sem aparecer fora da esfera; acessórios e áreas de interação preservados.
+
 ## [1.11.0] - 2026-10-09
 
 ### Articulação, continuidade e profundidade
