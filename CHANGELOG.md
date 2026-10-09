@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.10.0] - 2026-10-08
+
+### Apoios, modelos e coreografia
+
+- Veleiro com casco claro, faixas de madeira, cabine, guarda-corpo, velas, ninho e proa de carneiro com chifre espiral. Escala maior, pés no convés, baú ligado ao casco e tecido/bandeira com movimento próprio.
+- Toddy morde o osso entre mandíbula, focinho e dentes. Forma compartilhada na mão, no voo e na boca; ponto de captura e tamanho compatíveis com o cachorro, abertura/fechamento da mandíbula e pelagem suavizada.
+- Moonwalk com meias e sapatos, alternância de apoio na ponta e deslizamento com a sola plana, contramovimento dos pés e rosto estável. Preparação, quatro ciclos, giro, pose na ponta e reverência; mãos e acessórios seguem o rig.
+- Basquete com bola na mão, preparação gradual, braço e stepback sincronizados, liberação contínua e sombra no chão.
+- Saltos preservam a jogabilidade: marcador confirma a faixa de pouso com cor, aterrissagem acomoda os pés e câmera retorna antes da reaparição após a queda.
+- Espera limitada de entrega do mascote também cobre caminhada, acomodação e reativação do movimento. Sem interromper arrasto/travessura, nova dependência ou loop de simulação.
+
 ## [1.9.0] - 2026-10-08
 
 ### Acabamento das cenas e novo minigame

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useLanguage } from "../i18n/LanguageProvider";
 import { personalCopy } from "../i18n/personal";
@@ -6,6 +7,9 @@ import MascotArtwork from "./MascotArtwork";
 
 type ShotPhase = "ready" | "aiming" | "flying" | "done";
 const shotDuration = 1100;
+function Basketball({ held = false }: { held?: boolean }) {
+  return <g transform={held ? "translate(100 76)" : undefined}><circle r="11" fill="url(#basketball-material)" stroke="#694630" strokeWidth="1.3" /><path d="M-11 0h22M0-11v22m-7-18c8 3 8 11 0 14m14-14c-8 3-8 11 0 14" fill="none" stroke="#694630" />{held && <path d="m-6 5 6 3 5-2" stroke="#eb91b3" strokeWidth="3.5" strokeLinecap="round" fill="none" />}</g>;
+}
 const recordKey = "samuel-personal-three-best";
 function readRecord() {
   try {
@@ -25,6 +29,10 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
   const meter = useRef<HTMLDivElement>(null), marker = useRef<HTMLSpanElement>(null);
   const ball = useRef<SVGGElement>(null), player = useRef<HTMLDivElement>(null), net = useRef<SVGGElement>(null);
   const aim = useRef<Animation | null>(null);
+  const [hand, setHand] = useState<Element | null>(null);
+  const shotStart = useRef({ x:146, y:208, shoulderX:133, shoulderY:189 });
+  const ground = useRef<SVGEllipseElement>(null);
+  useEffect(() => { setHand(player.current!.querySelector(".arm-right")); }, []);
   const locked = useRef(false);
   const still = !motion || assist;
 
@@ -55,31 +63,40 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
       setPhase(shots >= 5 ? "done" : "aiming");
     }
     if (!motion) { finish(); return; }
-    // The flight stays in a fixed SVG coordinate system. No geometry reads or
-    // React updates per frame; the ball crosses the rim from above.
+    // Read the hand once at release. Preflight follows the same shoulder
+    // rotation as the arm; the independent ball only leaves it at the apex.
     const rimX = hit ? 351 : 329, rimY = hit ? 135 : 129;
-    const frames: Keyframe[] = Array.from({ length: 27 }, (_, i) => {
-      const u = i / 26;
-      const y = 208 * (1 - u) ** 2 - 40 * (1 - u) * u + rimY * u ** 2;
-      return { transform: `translate(${(rimX - 149) * u}px,${y - 208}px) rotate(${330 * u}deg)`, offset: .14 + .71 * u };
+    const grip = shotStart.current, vx = grip.x-grip.shoulderX, vy = grip.y-grip.shoulderY;
+    const releaseAngle = -95*Math.PI/180;
+    const releaseX = grip.shoulderX + vx*Math.cos(releaseAngle)-vy*Math.sin(releaseAngle)-9;
+    const releaseY = grip.shoulderY + vx*Math.sin(releaseAngle)+vy*Math.cos(releaseAngle)+3;
+    const preparation=Array.from({length:17},(_,i)=>{const t=i/16;return{offset:.25*t,u:t*t*(3-2*t)};});
+    const frames: Keyframe[] = preparation.map(({offset,u}) => {
+      const angle=releaseAngle*u;
+      return {offset, transform:`translate(${grip.shoulderX+vx*Math.cos(angle)-vy*Math.sin(angle)-9*u}px,${grip.shoulderY+vx*Math.sin(angle)+vy*Math.cos(angle)+3*u}px) rotate(${-12*u}deg)`};
     });
-    for (let i = 1; i <= 7; i++) {
-      const u = i / 7;
-      const x = rimX - (hit ? 0 : 22 * u);
-      const y = rimY + (hit ? 107 * u ** 2 : -70 * u + 165 * u ** 2);
-      frames.push({ transform: `translate(${x - 149}px,${y - 208}px) rotate(${330 + 90 * u}deg)`, offset: .85 + .15 * u });
+    for (let i=1;i<=26;i++) {
+      const u=i/26;
+      const y=releaseY*(1-u)**2-40*(1-u)*u+rimY*u**2;
+      frames.push({transform:`translate(${releaseX+(rimX-releaseX)*u}px,${y}px) rotate(${-12+342*u}deg)`,offset:.25+.6*u});
     }
-    frames.unshift({ transform: "translate(0px,0px) rotate(0deg)", offset: 0 }, { transform: "translate(-9px,3px) rotate(-12deg)", offset: .08 });
-    const animation = ball.current!.animate(frames, { duration: 1000, easing: "linear" });
-    const step = player.current!.animate([{ transform: "translate(0px,0px)" }, { transform: "translate(-9px,3px)", offset: .15 }, { transform: "translate(-10px,-8px)", offset: .42 }, { transform: "translate(-8px,1px)", offset: .8 }, { transform: "translate(0px,0px)" }], { duration: 740, easing: "cubic-bezier(.2,.7,.2,1)" });
-    const swish = hit ? net.current!.animate([{ transform: "scaleY(1)" }, { transform: "scaleY(1.14)", offset: .4 }, { transform: "scaleY(1)" }], { duration: 200, delay: 780 }) : undefined;
-    const animations = [animation, step, swish].filter((a): a is Animation => Boolean(a));
+    for (let i=1;i<=7;i++) {
+      const u=i/7, x=rimX-(hit?0:22*u), y=rimY+(hit?107*u**2:-70*u+165*u**2);
+      frames.push({transform:`translate(${x}px,${y}px) rotate(${330+90*u}deg)`,offset:.85+.15*u});
+    }
+    const animation=ball.current!.animate(frames,{duration:1000,easing:"linear"});
+    const actorFrames=[...preparation.map(({offset,u})=>({offset,transform:`translate(${-9*u/110*100}%,${3*u/123.75*100}%)`})),...[[.4,-10,-8],[.78,-8,1],[.85,0,0],[1,0,0]].map(([offset,x,y])=>({offset,transform:`translate(${x/110*100}%,${y/123.75*100}%)`}))];
+    const step=player.current!.animate(actorFrames,{duration:1000,easing:"linear"});
+    const arm=hand?.animate([...preparation.map(({offset,u})=>({offset,rotate:`${-95*u}deg`})),{rotate:"-125deg",offset:.38},{rotate:"-90deg",offset:.64},{rotate:"0deg",offset:.85},{rotate:"0deg",offset:1}],{duration:1000,easing:"linear"});
+    const groundMotion=ground.current!.animate([{opacity:.18,scale:"1"},{opacity:.1,scale:".85",offset:.4},{opacity:.18,scale:"1",offset:.85},{opacity:.18,scale:"1"}],{duration:1000});
+    const swish = hit ? net.current!.animate([{ transform: "scaleY(1)" }, { transform: "scaleY(1.14)", offset: .4 }, { transform: "scaleY(1)" }], { duration: 200, delay: 830 }) : undefined;
+    const animations = [animation, step, arm, groundMotion, swish].filter((a): a is Animation => Boolean(a));
     if (document.hidden) animations.forEach(a => a.pause());
     const visibility = () => animations.forEach(a => document.hidden ? a.pause() : a.play());
     document.addEventListener("visibilitychange", visibility);
     animation.finished.then(finish, () => {});
     return () => { active = false; animations.forEach(a => a.cancel()); document.removeEventListener("visibilitychange", visibility); };
-  }, [phase, motion, shots, hit]);
+  }, [phase, motion, shots, hit, hand]);
 
   function shoot() {
     if (document.hidden || locked.current) return;
@@ -93,6 +110,12 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
     const position = still ? stillAim : progress > 1 ? 2 - progress : progress;
     const made = Math.abs(position - .5) <= .115;
     const score = points + (made ? 3 : 0);
+    const court=ball.current!.ownerSVGElement!, handMatrix=(hand as SVGGraphicsElement | null)?.getScreenCTM(), inverse=court.getScreenCTM()?.inverse();
+    if (handMatrix && inverse) {
+      const grip=new DOMPoint(100,76).matrixTransform(handMatrix).matrixTransform(inverse);
+      const shoulder=new DOMPoint(87,57).matrixTransform(handMatrix).matrixTransform(inverse);
+      shotStart.current={x:grip.x,y:grip.y,shoulderX:shoulder.x,shoulderY:shoulder.y};
+    }
     setHit(made); setShots(n => n + 1); setPoints(score); setPhase("flying");
     if (score > best) {
       setBest(score);
@@ -108,9 +131,11 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
         <path d="M336 99h28v22h-28Z" fill="none" stroke="#ef75a3" strokeWidth="2" />
         <g ref={net} className="basket-net" stroke="#947381" fill="none"><path d="m330 139 7 26h29l7-26m-37 0 9 26m0-26 7 26m4-26 3 26m-26-15h34m-30 8h28" /></g>
         <ellipse cx="351" cy="138" rx="24" ry="4" fill="none" stroke="#a24b65" strokeWidth="4" />
-        <g ref={ball} className="shot-ball"><circle cx="149" cy="208" r="12" fill="url(#basketball-material)" stroke="#694630" strokeWidth="1.5" /><path d="M137 208h24m-12-12v24m-8-20c9 3 9 13 0 16m16-16c-9 3-9 13 0 16" fill="none" stroke="#694630" /></g>
+        <ellipse ref={ground} className="court-ground-shadow" cx="104" cy="243" rx="24" ry="4" fill="#795262" opacity=".18" />
+        <g ref={ball} className="shot-ball"><Basketball /></g>
       </svg>
       <div ref={player} className="court-player"><MascotArtwork /></div>
+      {hand && phase === "aiming" && createPortal(<Basketball held />,hand)}
       <button className="court-shoot-zone" aria-label={c.action} onClick={shoot} disabled={phase === "flying"} />
     </div>
     <p className="game-instructions">{c.ready}</p>

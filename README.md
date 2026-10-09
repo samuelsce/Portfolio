@@ -24,7 +24,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 - **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
 - **Constelação:** três toques na estrela revelam um céu com um S desenhado, estrelas e o planeta do mascote, dentro da bancada.
 - **Pausa para café:** uma palavra no campo da ideia revela uma xícara e uma reação silenciosa do personagem.
-- **Descobertas pela página:** barco com chapéu de palha, moonwalk com visitantes na janela do RoomLab e o Toddy correndo para buscar um ossinho com o mascote. Basquete, saltos entre ilhas e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
+- **Descobertas pela página:** veleiro com proa de carneiro, velas e baú articulados; moonwalk com apoio na ponta, meias, sapatos e visitantes na janela do RoomLab e o Toddy correndo para buscar um ossinho com o mascote. Basquete, saltos entre ilhas e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -59,7 +59,7 @@ Dados pessoais, contatos e projetos ficam em `src/data/portfolio.ts`, separados 
 
 As traduções da interface ficam em `src/i18n/translations.ts`, e as versões em inglês dos projetos em `src/i18n/projects.ts`. O contexto de idioma atualiza textos e metadados sem remontar os componentes: temas, detalhes abertos e título personalizado da bancada são preservados. A persistência usa `localStorage`, com funcionamento em memória quando o navegador bloqueia o armazenamento.
 
-O mascote usa o mesmo desenho no card e na página. Seu controlador coordena as fases de movimento, as reações e as interrupções, enquanto o CSS define os gestos. O deslocamento é separado da animação dos membros e objetos, mantendo a lupa e a órbita ligadas ao personagem.
+O mascote usa o mesmo desenho no card e na página. Seu controlador coordena as fases de movimento, as reações e as interrupções, enquanto o CSS define os gestos. O deslocamento é separado da animação dos membros e objetos, mantendo a lupa e a órbita ligadas ao personagem. Nas descobertas, chapéus, luva e sapatos são ligados aos grupos do desenho original. O osso do Toddy fica entre a mandíbula e o focinho, e a preparação do arremesso acompanha o ponto da mão antes de liberar a bola. As trajetórias são finitas e calculadas antes da reprodução, sem leituras de posição por frame.
 
 ### Calendário e puzzle
 
@@ -83,7 +83,7 @@ Na bancada do hero, três toques rápidos na estrela da janela revelam uma const
 - Dois toques em Git, na lista de tecnologias: saltos entre ilhas até uma cama. No teclado, digitar `189` fora de campos de texto também abre o jogo.
 - Dois toques na estrela do contato: três alvos e uma insígnia escondida.
 
-No basquete, a mira começa ativa. Toque na bola ou no botão de arremesso para parar o marcador na faixa rosa e marcar três pontos. A opção sem movimento permite escolher a direção e está ativa por padrão quando as animações estão desativadas. Nos saltos, segure o botão para mover a sombra de pouso e solte quando ela alcançar a próxima ilha. Enter e Espaço têm o mesmo gesto. São seis saltos, três vidas e uma cama na chegada, com referência a SkyWars e BedWars. O modo tranquilo oferece saltos assistidos e fica ativo com movimento reduzido. Os recordes dos dois jogos usam apenas o navegador, com alternativa em memória se o armazenamento estiver bloqueado.
+No basquete, a mira começa ativa. Toque na bola ou no botão de arremesso para parar o marcador na faixa rosa e marcar três pontos. A opção sem movimento permite escolher a direção e está ativa por padrão quando as animações estão desativadas. Nos saltos, segure o botão para mover a sombra de pouso e solte quando ela alcançar a próxima ilha. Enter e Espaço têm o mesmo gesto. O marcador ganha uma confirmação verde na faixa de pouso, o personagem acomoda os pés na ilha e a câmera retorna suavemente após uma queda. São seis saltos, três vidas e uma cama na chegada, com referência a SkyWars e BedWars. O modo tranquilo oferece saltos assistidos e fica ativo com movimento reduzido. Os recordes dos dois jogos usam apenas o navegador, com alternativa em memória se o armazenamento estiver bloqueado.
 
 O veleiro tem vela, cordame e baú articulado. O moonwalk coordena sapatos, braços e cabeça, seguido de giro e reverência. O Toddy freia antes de esperar o ossinho, captura no alto e termina a aterrissagem antes de comemorar. Sombras ficam fora dos corpos e objetos acompanham seus pontos de apoio.
 

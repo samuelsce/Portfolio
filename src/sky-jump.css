@@ -2,3 +2,5 @@
 
 .sky-runner{--mascot-color:var(--pink)}.sky-runner .mascot-skin{fill:var(--pink)}
 .sky-action[aria-disabled="true"]{opacity:.6;cursor:default}
+
+.sky-marker{color:#f9cae0}.sky-game[data-phase="falling"] .mascot-smile{opacity:0}.sky-game:is([data-phase="jumping"],[data-phase="falling"]) .mascot-leg{transition:rotate 180ms ease}.sky-game[data-phase="charging"] .mascot-head{rotate:-3deg}.sky-game[data-phase="charging"] .arm-right{rotate:-20deg}

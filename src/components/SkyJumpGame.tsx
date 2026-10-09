@@ -12,7 +12,7 @@ const islands = [
   { x: 1230, y: 212, w: 106 },
 ];
 const chargeDuration = 1100, recordKey = "samuel-sky-jump-best";
-type Phase = "ready" | "charging" | "jumping" | "falling" | "won" | "over";
+type Phase = "ready" | "charging" | "jumping" | "falling" | "respawning" | "won" | "over";
 function readBest() {
   try { const n = Number(localStorage.getItem(recordKey)); return Number.isInteger(n) && n >= 0 && n <= 6 ? n : 0; } catch { return 0; }
 }
@@ -27,7 +27,7 @@ function Island({ index }: { index: number }) {
     <path d={`M18 20h16v12H18Zm${p.w - 38} 22h13v11h-13ZM35 46h20v9H35Z`} fill="#967261" opacity=".65" />
     <path d={`M7 7h14m13-2h22m12 4h12`} stroke="#6b855f" strokeWidth="2" />
     {index === 0 && <g transform="translate(17 -27)"><path d="M0 27V0h3v27" fill="#9c7a67" /><path d="M3 0h30v17H3Z" fill="#b45d84" /><path d="M7 4h22" stroke="#e7bbcd" /></g>}
-    {index === 6 && <g className="sky-bed" transform="translate(24 -27)"><path d="m0 6 45-5 14 9-45 5Z" fill="#fff5ed" /><path d="m0 6 14 9v12L0 18Z" fill="#915c63" /><path d="m14 15 45-5v12l-45 5Z" fill="#b76583" /><path d="m0 6 13-2 14 9-13 2Z" fill="#fffaf4" /><path d="M14 15v12m45-17v12" stroke="#703d53" strokeWidth="3" /><path d="m15 16 40-4" stroke="#e498b2" strokeWidth="2" /></g>}
+    {index === 6 && <g className="sky-bed" transform="translate(52 -27)"><path d="m0 6 45-5 14 9-45 5Z" fill="#fff5ed" /><path d="m0 6 14 9v12L0 18Z" fill="#915c63" /><path d="m14 15 45-5v12l-45 5Z" fill="#b76583" /><path d="m0 6 13-2 14 9-13 2Z" fill="#fffaf4" /><path d="M14 15v12m45-17v12" stroke="#703d53" strokeWidth="3" /><path d="m15 16 40-4" stroke="#e498b2" strokeWidth="2" /></g>}
   </g>;
 }
 
@@ -59,7 +59,7 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
   }, []);
   function reset() {
     position.current = { x: islands[0].x, y: islands[0].y }; camera.current = 0;
-    player.current!.style.transform = ""; world.current!.style.transform = "";
+    player.current!.style.opacity = "1"; player.current!.style.transform = ""; world.current!.style.transform = "";
     player.current!.getAnimations().forEach(a => a.cancel()); world.current!.getAnimations().forEach(a => a.cancel());
     locked.current = false; setStep(0); setLives(3); setPhase("ready"); setFeedback("ready");
   }
@@ -71,7 +71,11 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
   function startCharge() {
     if (still || locked.current || holding.current || document.hidden || phase !== "ready") return;
     holding.current = true; setPhase("charging");
-    charge.current = marker.current!.animate([{ transform: "translateX(105px)" }, { transform: "translateX(315px)" }], { duration: chargeDuration, iterations: Infinity, direction: "alternate", easing: "linear" });
+    const target = islands[step + 1];
+    const low = Math.max(.02, (target.x - target.w*.43 - position.current.x - 105)/210);
+    const high = Math.min(.98, (target.x + target.w*.43 - position.current.x - 105)/210);
+    const frames = [0, low, low+.015, high-.015, high, 1].map((u, i) => ({ offset:u, transform:`translateX(${105+210*u}px)`, color:i===2 || i===3 ? "#8bd6b5" : "#f9cae0" }));
+    charge.current = marker.current!.animate(frames, { duration: chargeDuration, iterations: Infinity, direction: "alternate", easing: "linear" });
   }
   async function jump(exact = false) {
     if (locked.current || document.hidden || step >= 6) return;
@@ -93,21 +97,33 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
     player.current!.style.transform = `translate(${to.x}px,${to.y}px)`; world.current!.style.transform = `translateX(${nextCamera}px)`;
     player.current!.getAnimations().forEach(a => a.cancel()); world.current!.getAnimations().forEach(a => a.cancel()); camera.current = nextCamera;
     if (hit) {
-      position.current = to; const n = step + 1; setStep(n); setFeedback(n === 6 ? "won" : "landed");
+      const settled = { x:Math.max(next.x-next.w/2+16, Math.min(next.x+next.w/2-16, to.x)), y:to.y };
+      position.current = settled; const n = step + 1; setStep(n); setFeedback(n === 6 ? "won" : "landed");
       if (n > best) { setBest(n); try { localStorage.setItem(recordKey, String(n)); } catch { /* A session record still works. */ } }
       shadowNode.style.opacity = ".3";
       if (motion) {
         const body = player.current!.querySelector(".sky-body")!;
+        void native(player.current!, [{transform:`translate(${to.x}px,${to.y}px)`},{transform:`translate(${settled.x}px,${settled.y}px)`}],240,"ease-out");
         if (!await native(body, [{ transform: "scale(1.12,.88)" }, { transform: "scale(.97,1.03)", offset: .55 }, { transform: "scale(1)" }], 340, "ease-out")) return;
         body.getAnimations().forEach(a => a.cancel());
+        player.current!.style.transform = `translate(${settled.x}px,${settled.y}px)`;
+        player.current!.getAnimations().forEach(a => a.cancel());
       }
+      if (!motion) player.current!.style.transform = `translate(${settled.x}px,${settled.y}px)`;
       setPhase(n === 6 ? "won" : "ready"); locked.current = false;
     } else {
       setPhase("falling");
       if (motion && !await native(player.current!, [{ transform: `translate(${to.x}px,${to.y}px)`, opacity: 1 }, { transform: `translate(${to.x + 14}px,${to.y + 150}px) rotate(18deg)`, opacity: 0 }], 560, "ease-in")) return;
       if (!alive.current) return;
+      setPhase("respawning");
+      player.current!.style.opacity = "0";
       player.current!.style.transform = `translate(${from.x}px,${from.y}px)`; player.current!.getAnimations().forEach(a => a.cancel());
-      camera.current = view(from.x); world.current!.style.transform = `translateX(${camera.current}px)`; shadowNode.style.opacity = ".3";
+      const restoreCamera = view(from.x);
+      if (motion && !await native(world.current!, [{transform:`translateX(${camera.current}px)`},{transform:`translateX(${restoreCamera}px)`}],280,"ease-in-out")) return;
+      camera.current = restoreCamera; world.current!.style.transform = `translateX(${restoreCamera}px)`; world.current!.getAnimations().forEach(a => a.cancel());
+      shadowNode.style.opacity = ".3";
+      if (motion && !await native(player.current!, [{opacity:0},{opacity:1}],220,"ease-out")) return;
+      player.current!.style.opacity = "1"; player.current!.getAnimations().forEach(a => a.cancel());
       setLives(lives - 1); setFeedback(lives === 1 ? "over" : "miss"); setPhase(lives === 1 ? "over" : "ready"); locked.current = false;
     }
   }
@@ -133,13 +149,13 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
         {islands.map((_, i) => <Island key={i} index={i} />)}
         {step < 6 && <g className="sky-next" transform={`translate(${islands[step + 1].x} ${islands[step + 1].y - 12})`}><path d="m-7-9 7 5 7-5" fill="none" stroke="#f5c8dc" strokeWidth="2" /><ellipse cy="8" rx={islands[step+1].w*.43} ry="4" fill="none" stroke="#f5c8dc" strokeDasharray="3 4" opacity=".6" /></g>}
         <ellipse ref={shadow} cx={position.current.x} cy={position.current.y+2} rx="21" ry="4" fill="#342731" opacity=".3" />
-        <g transform={`translate(${position.current.x} ${step < 6 ? islands[step + 1].y - 1 : position.current.y})`}><g ref={marker} className="sky-marker"><ellipse rx="20" ry="5" fill="#f9cae0" opacity=".7" /><path d="M0-12v7m-4-4 4 4 4-4" stroke="#fff5fa" fill="none" strokeWidth="2" /></g></g>
+        <g transform={`translate(${position.current.x} ${step < 6 ? islands[step + 1].y - 1 : position.current.y})`}><g ref={marker} className="sky-marker"><ellipse rx="20" ry="5" fill="currentColor" opacity=".7" /><path d="M0-12v7m-4-4 4 4 4-4" stroke="#fff5fa" fill="none" strokeWidth="2" /></g></g>
         <g ref={player} className="sky-runner" transform={`translate(${islands[0].x} ${islands[0].y})`}><g className="sky-body"><svg x="-32" y="-62" width="64" height="72" viewBox="0 0 112 126"><MascotArtwork /></svg></g></g>
       </g>
     </svg></div>
     <p className="game-instructions">{still ? c.calmReady : c.ready}</p>
-    <div className="game-feedback" role="status">{phase === "jumping" || phase === "falling" ? c.flying : feedback === "ready" ? "" : c[feedback]}</div>
-    <button ref={button} className="personal-action sky-action" aria-disabled={phase === "jumping" || phase === "falling"} onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={cancelCharge} onLostPointerCapture={cancelCharge} onKeyDown={keyDown} onKeyUp={keyUp} onBlur={cancelCharge} onClick={() => { if (cancelledPointer.current) { cancelledPointer.current = false; return; } if (phase === "won" || phase === "over") reset(); else void jump(true); }}>{phase === "won" || phase === "over" ? personalCopy[language].restart : phase === "charging" ? c.release : still ? c.jump : c.action}</button>
+    <div className="game-feedback" role="status">{phase === "jumping" || phase === "falling" || phase === "respawning" ? c.flying : feedback === "ready" ? "" : c[feedback]}</div>
+    <button ref={button} className="personal-action sky-action" aria-disabled={phase === "jumping" || phase === "falling" || phase === "respawning"} onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={cancelCharge} onLostPointerCapture={cancelCharge} onKeyDown={keyDown} onKeyUp={keyUp} onBlur={cancelCharge} onClick={() => { if (cancelledPointer.current) { cancelledPointer.current = false; return; } if (phase === "won" || phase === "over") reset(); else void jump(true); }}>{phase === "won" || phase === "over" ? personalCopy[language].restart : phase === "charging" ? c.release : still ? c.jump : c.action}</button>
     <label className="still-aim"><input type="checkbox" checked={still} disabled={!motion || phase === "charging" || locked.current} onChange={e => setAssist(e.target.checked)} />{c.assist}</label>
   </div>;
 }
