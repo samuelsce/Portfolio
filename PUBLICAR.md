@@ -1,6 +1,8 @@
 # Publicar o portfólio
 
-Recomendação: código público no GitHub e site na Vercel. O repositório mostra a implementação; a hospedagem entrega o endereço que pode ser usado no currículo, LinkedIn e perfil do GitHub.
+O site atual está em [samuelsce.dev](https://samuelsce.dev), na Cloudflare Workers, com integração ao repositório [Portfolio](https://github.com/samuelsce/Portfolio). O GitHub valida instalação e build em pull requests; a publicação é controlada pela integração da Cloudflare. Faça alterações em uma branch, confira os checks e proponha o merge para main antes da publicação em produção.
+
+As opções abaixo são alternativas de hospedagem para uma eventual migração. Não representam a configuração atual da conta Cloudflare.
 
 ## Vercel
 
@@ -31,6 +33,6 @@ Documentação: [Vite na Vercel](https://vercel.com/docs/frameworks/frontend/vit
 
 Mantenha o código público para que recrutadores possam examinar React, TypeScript e as interações. Use o README, adicione o endereço publicado ao campo Website/About do repositório e fixe o portfólio no perfil. `node_modules`, `dist`, arquivos `.env` e capturas de validação já estão ignorados.
 
-Depois de definir o endereço definitivo, é possível completar os metadados com a URL canônica e uma imagem de compartilhamento. Os textos e projetos são editados em `src/data/portfolio.ts`.
+O domínio atual já consta nos metadados, robots e sitemap. Ao migrar a hospedagem ou o endereço, atualize esses arquivos junto ao README. Os textos e projetos são editados em `src/data/portfolio.ts`.
 
 Este guia não publica o site. O envio do código ao GitHub é independente da hospedagem.
