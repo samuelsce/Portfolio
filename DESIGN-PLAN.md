@@ -1,5 +1,11 @@
 # Samuel Santos: plano de design
 
+## Escultura do Going Merry, 9 de outubro de 2026
+
+Referência principal: imagem do anime anexada pelo usuário, para a silhueta contínua do carneiro, o chifre na lateral do crânio e sua ligação estrutural com a proa. Reutilizar o [estudo de volume do Melius / 60fps](https://60fps.design/appsites/melius-hero-3d-assets-explode-animation), já observado, apenas para luz e sobreposição de planos. Manter a paleta marfim, madeira e rosa da cena, sem mudanças na tipografia ou no restante da página.
+
+Redesenhar cabeça, focinho e pescoço em um único contorno; esculpir o chifre com uma espiral e sombra integrada. Usar duas faixas de fixação na base, guarda-corpo contínuo, cabine com lateral em perspectiva e vela com curva, costuras e luz suave. A figura de proa é madeira: remover o movimento independente da orelha. Preservar coordenadas do convés e o relógio compartilhado com o mascote, sem motor 3D, filtros ou novas animações por quadro.
+
 ## Refinamento das cenas e Sentinel, 9 de outubro de 2026
 
 Preservar o sistema visual existente: papel #fff7fa, rosa #ef75a3, amora #691b3e, tinta #291b24 e Space Grotesk. As decisões desta revisão substituem os planos antigos de fantasmas e baú, mantidos abaixo como histórico.

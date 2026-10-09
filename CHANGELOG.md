@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Going Merry redesenhado com cabeça, focinho e pescoço em uma silhueta contínua, chifre esculpido, união da proa com o casco, vela curva, cabine em planos e madeira com profundidade. Removida a animação da orelha da figura de proa; desenho continua em SVG sob demanda.
+
 - Direção da articulação das patas do Toddy corrigida no repouso e na corrida; duração do treino de três miras reduzida de 12 para 6 segundos, com textos PT/EN atualizados.
 
 - Configuração estática da Cloudflare Workers versionada: Worker existente samuelstudio, diretório dist e bloco de prévias; preparação de upload verificada em dry run.

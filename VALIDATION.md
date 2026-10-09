@@ -1,5 +1,12 @@
 # Validação do portfólio
 
+## Modelo do Going Merry, 9 de outubro de 2026
+
+- Build de produção e TypeScript aprovados. SVG autoral sem novas dependências, imagens externas ou loop de animação. Cenas sob demanda: JS 12,95 KB gzip (antes 12,29 KB), CSS 2,87 KB (antes 2,90 KB); JS principal 103,55 KB. Volume usa gradientes estáticos e contornos.
+- Reprodução e revisão visual em Edge/Chromium com larguras de 320, 390, 768 e 1440 px. Figura de proa inteira dentro do viewBox; cabeça e pescoço compartilham um contorno. Chifre, casco e vela revisados também em captura ampliada.
+- Distância entre pé do mascote e apoio no convés inferior a 0,002 px nas quatro amostras durante o balanço. Rolagem de 25 px preserva a cena; Escape remove barco e chapéu. Nenhum erro de JavaScript ou excesso horizontal nas verificações.
+- Preferência de movimento reduzido: modelo estático visível e encerramento automático conferidos. Capturas e diagnóstico local em .publish-staging/, ignorada no Git. Sem medição de FPS ou teste em aparelho físico/Safari.
+
 ## Refinamento das cenas e Sentinel, 9 de outubro de 2026
 
 - TypeScript e build de produção aprovados com npm run build. Sem novas dependências. JS principal: 103,56 KB gzip; CSS principal: 18,65 KB gzip. Cenas sob demanda: 12,29 KB JS / 2,90 KB CSS. Os jogos de basquete e saltos permanecem em seus módulos separados.
