@@ -3,7 +3,7 @@ import { useLanguage } from "../i18n/LanguageProvider";
 import { personalCopy } from "../i18n/personal";
 import { creativeReaction } from "./creative-events";
 
-const ROUND_SECONDS = 12;
+const ROUND_SECONDS = 6;
 type Phase = "ready" | "playing" | "lost" | "won";
 
 export default function AimChallenge({ source, onDone }: { source: HTMLElement | SVGElement; onDone: () => void }) {

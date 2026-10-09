@@ -2,12 +2,14 @@
 
 ## [Unreleased]
 
+- Direção da articulação das patas do Toddy corrigida no repouso e na corrida; duração do treino de três miras reduzida de 12 para 6 segundos, com textos PT/EN atualizados.
+
 - Configuração estática da Cloudflare Workers versionada: Worker existente samuelstudio, diretório dist e bloco de prévias; preparação de upload verificada em dry run.
 
 - Removidos fantasmas do tributo ao Michael e baú da viagem. Moonwalk, fedora e luva preservados; pose estática com movimento desativado.
 - Going Merry refinado com vela e emblema maiores, cordame, cabine e carneiro da proa mais legíveis.
 - Patas do Toddy corrigidas: traços verticais visíveis e remoção de rotações extras que se somavam à articulação.
-- Treino de mira com início explícito, limite de 12 segundos, falha, nova tentativa, progresso e opção sem tempo. Prazo conferido no clique, suporte a teclado, retorno do foco e textos PT/EN.
+- Treino de mira com início explícito, limite de 6 segundos, falha, nova tentativa, progresso e opção sem tempo. Prazo conferido no clique, suporte a teclado, retorno do foco e textos PT/EN.
 - Sentinel atualizado até M6: worker Python, três regras, dashboard Next.js, SSE, triagem auditada e evidências preservadas. Demo e limites de validação descritos sem antecipar resposta manual ou hospedagem.
 - Ajustes do diagrama em telas estreitas e do contato em inglês a 320 px. README, referências e validação atualizados.
 

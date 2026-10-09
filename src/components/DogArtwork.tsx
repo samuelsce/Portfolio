@@ -3,10 +3,12 @@ import { limbPose } from "./rig-math";
 import type { SceneTrack } from "./MoonwalkRig";
 
 const paws = [
-  { name: "rear-back", x: 48, foot: 43, behind: true, bend: -1 },
-  { name: "front-back", x: 104, foot: 113, behind: true, bend: 1 },
-  { name: "rear-front", x: 44, foot: 48, behind: false, bend: -1 },
-  { name: "front-front", x: 99, foot: 102, behind: false, bend: 1 },
+  // Facing right: rear knees point forward, front elbows point backward.
+  // Rest poses and running frames use the same joint direction.
+  { name: "rear-back", x: 48, foot: 43, behind: true, bend: 1 },
+  { name: "front-back", x: 104, foot: 113, behind: true, bend: -1 },
+  { name: "rear-front", x: 44, foot: 48, behind: false, bend: 1 },
+  { name: "front-front", x: 99, foot: 102, behind: false, bend: -1 },
 ];
 
 function Paw({ name }: { name: string }) {
