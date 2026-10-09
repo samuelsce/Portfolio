@@ -90,15 +90,15 @@ export const projects = [
   {
     id: "sentinel",
     name: "Sentinel",
-    category: "Back-end e segurança · Em desenvolvimento",
+    category: "Full-stack e cybersec · M6 validada",
     description:
-      "Central de monitoramento de segurança para aplicações web. API, ingestão de eventos e SDK Node.js implementados; detecções e interface de investigação em etapas futuras.",
-    tags: ["Node.js", "Fastify", "TypeScript", "PostgreSQL", "Drizzle ORM"],
+      "Central de segurança com dashboard ao vivo, três detecções explicáveis e timeline de evidências. Integra uma aplicação real ao fluxo de ingestão, investigação e triagem.",
+    tags: ["Next.js", "TypeScript", "Fastify", "Python", "PostgreSQL", "Docker"],
     repo: "https://github.com/samuelsce/Sentinel",
     demo: "",
-    note: "Integração de servidor com autenticação, permissões e ingestão transacional.",
+    note: "SDK, API, worker e dashboard conectados, com evidências preservadas após retenção.",
     details:
-      "API com sessões revogáveis, autorização por papéis, gestão de projetos e chaves, proteção CSRF e validação com Zod. Eventos e jobs são persistidos na mesma transação, com quotas e deduplicação. O SDK usa buffer limitado, timeout e novas tentativas. Ambiente Docker Compose, migrations, testes em PostgreSQL real com Vitest e integração contínua. O worker ainda não processa a fila; detecções e dashboard estão planejados.",
+      "Dashboard Next.js/React com filtros, paginação, triagem auditada e atualizações SSE. API Fastify e SDK Node.js com sessões revogáveis, papéis, CSRF, quotas e deduplicação. Worker Python com fila PostgreSQL durável, leases e recuperação; três regras versionadas explicam cada decisão. Snapshots preservam evidências após retenção privada com simulação. CI verifica testes, Semgrep, dependências e bundle. O laboratório confirmou 30.050 eventos sem perda, mas a meta de latência de ingestão permanece não atendida. Demo local reproduzível; resposta manual e publicação ainda planejadas.",
     image: "",
     imageAlt: "",
   },

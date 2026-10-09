@@ -21,6 +21,13 @@ export default function SentinelIllustration() {
           <span>PostgreSQL</span>
         </div>
       </div>
+      <div className="sentinel-flow" aria-hidden="true">
+        <div className="sentinel-node"><strong>Worker</strong><span>Python</span></div>
+        <FlowArrow />
+        <div className="sentinel-node sentinel-api"><strong>{t.sentinelAlerts}</strong><span>{t.sentinelRuleCount}</span></div>
+        <FlowArrow />
+        <div className="sentinel-node"><strong>Dashboard</strong><span>Next.js</span></div>
+      </div>
       <div className="sentinel-capabilities" aria-hidden="true">
         <div>
           <span>{t.sentinelAuth}</span>
@@ -28,7 +35,7 @@ export default function SentinelIllustration() {
         </div>
         <div>
           <span>{t.sentinelValidation}</span>
-          <span>Zod</span>
+          <span>SSE</span>
         </div>
         <div>
           <span>{t.sentinelPersistence}</span>

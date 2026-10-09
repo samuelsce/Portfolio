@@ -25,10 +25,10 @@ export const englishProjects: Record<(typeof projects)[number]["id"], ProjectCop
     imageAlt: "LinkWatch homepage screenshot showing online services, uptime and a sample latency chart.",
   },
   sentinel: {
-    category: "Back end and security · In development",
-    description: "A security monitoring platform for web applications. The API, event ingestion and Node.js SDK are implemented; detections and the investigation interface are planned for later stages.",
-    note: "Server integration with authentication, permissions and transactional ingestion.",
-    details: "An API with revocable sessions, role-based authorization, project and key management, CSRF protection and Zod validation. Events and jobs are persisted in a single transaction, with quotas and deduplication. The SDK uses a bounded buffer, timeouts and retries. Docker Compose, migrations, tests against a real PostgreSQL database with Vitest and continuous integration. The worker does not process the queue yet; detections and the dashboard are planned.",
+    category: "Full stack and cybersecurity · M6 validated",
+    description: "A security workspace with a live dashboard, three explainable detections and evidence timelines. Connects a real application to ingestion, investigation and triage.",
+    note: "A connected SDK, API, worker and dashboard, with evidence preserved after retention.",
+    details: "A Next.js/React dashboard with filters, pagination, audited triage and SSE updates. Fastify API and Node.js SDK with revocable sessions, roles, CSRF, quotas and deduplication. A Python worker uses a durable PostgreSQL queue, leases and recovery; three versioned rules explain each decision. Snapshots preserve evidence after private retention with a dry run. CI verifies tests, Semgrep, dependencies and the public bundle. The lab confirmed 30,050 events without loss, but the ingestion latency target remains unmet. A reproducible local demo; manual response and hosting are still planned.",
     imageAlt: "",
   },
 };
