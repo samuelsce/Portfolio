@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { createPortal } from "react-dom";
 
@@ -8,8 +8,8 @@ import MascotArtwork from "./MascotArtwork";
 
 type ShotPhase = "ready" | "aiming" | "flying" | "done";
 const shotDuration = 1100;
-function Basketball({ held = false }: { held?: boolean }) {
-  return <g transform={held ? "translate(100 76)" : undefined}><circle r="11" fill="url(#basketball-material)" stroke="#694630" strokeWidth="1.3" /><path d="M-11 0h22M0-11v22m-7-18c8 3 8 11 0 14m14-14c-8 3-8 11 0 14" fill="none" stroke="#694630" />{held && <path d="m-6 5 6 3 5-2" stroke="#eb91b3" strokeWidth="3.5" strokeLinecap="round" fill="none" />}</g>;
+function Basketball({ held = false, material }: { held?: boolean; material: string }) {
+  return <g transform={held ? "translate(100 76)" : undefined}><circle r="11" fill={`url(#${material})`} stroke="#80523a" strokeWidth="1" /><path d="M-10.5 0h21M0-10.5v21M-7-8c5 4 5 12 0 16M7-8c-5 4-5 12 0 16" fill="none" stroke="#80523a" strokeWidth=".9" /><path d="M-7-5q2-3 5-3" stroke="#ffe1b7" strokeWidth="1.3" fill="none" strokeLinecap="round" opacity=".7" />{held && <path d="M-7 4q1 5 7 5m-5-1 4-1m-1 2 3-2" stroke="#ed99b8" strokeWidth="2.4" strokeLinecap="round" fill="none" />}</g>;
 }
 const recordKey = "samuel-personal-three-best";
 function readRecord() {
@@ -22,6 +22,7 @@ function readRecord() {
 export function ThreePointGame({ motion }: { motion: boolean }) {
   const { language } = useLanguage();
   const c = personalCopy[language].basketball;
+  const material = `court-${useId().replace(/:/g, "")}`;
   const [phase, setPhase] = useState<ShotPhase>("aiming");
   const [shots, setShots] = useState(0), [points, setPoints] = useState(0);
   const [best, setBest] = useState(readRecord);
@@ -47,10 +48,14 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
   useEffect(() => {
     if (phase !== "aiming" || still) return;
     const track = meter.current!, node = marker.current!;
+    let travel = -1;
     function start() {
+      const nextTravel = Math.max(0, track.clientWidth - 10);
+      if (nextTravel === travel) return;
+      travel = nextTravel;
       const time = aim.current?.currentTime;
       aim.current?.cancel();
-      aim.current = node.animate([{ transform: "translateX(0px)" }, { transform: `translateX(${track.clientWidth - 10}px)` }], { duration: shotDuration, iterations: Infinity, direction: "alternate", easing: "linear" });
+      aim.current = node.animate([{ transform: "translateX(0px)" }, { transform: `translateX(${travel}px)` }], { duration: shotDuration, iterations: Infinity, direction: "alternate", easing: "linear" });
       if (typeof time === "number") aim.current.currentTime = time;
       if (document.hidden) aim.current.pause();
     }
@@ -143,17 +148,29 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
   }}>
     <div className="personal-stage court-stage">
       <svg className="court-lines" viewBox="0 0 440 280" aria-hidden="true">
-        <defs><radialGradient id="basketball-material" cx=".3" cy=".25" r=".8"><stop stopColor="#efbe91" /><stop offset=".6" stopColor="#d58c5d" /><stop offset="1" stopColor="#b56c49" /></radialGradient></defs><path d="M0 238h440v42H0Z" fill="#e9cbd7" /><path d="M40 261h70m18 0h96m25 0h110M90 242v38m164-38v38" stroke="#dab4c5" fill="none" /><path d="M28 238h384M50 220v-36c0-43 64-78 143-78s143 35 143 78v36M273 238v-47h128v47" fill="none" stroke="#d8a8bd" strokeWidth="2" />
-        <path d="M366 170v61" stroke="#745563" strokeWidth="5" />
-        <rect x="318" y="83" width="66" height="54" rx="4" fill="#fff7fa" stroke="#957483" strokeWidth="3" />
-        <path d="M336 99h28v22h-28Z" fill="none" stroke="#ef75a3" strokeWidth="2" />
-        <g ref={net} className="basket-net" stroke="#947381" fill="none"><path d="m330 139 7 26h29l7-26m-37 0 9 26m0-26 7 26m4-26 3 26m-26-15h34m-30 8h28" /></g>
-        <ellipse cx="351" cy="138" rx="24" ry="4" fill="none" stroke="#a24b65" strokeWidth="4" />
+        <defs><linearGradient id={`${material}-floor`} x2=".2" y2="1"><stop stopColor="#ecd5df" /><stop offset="1" stopColor="#dfbccd" /></linearGradient></defs>
+        <path d="M0 176h440v104H0Z" fill={`url(#${material}-floor)`} />
+        <g className="court-markings" fill="none" stroke="#bc809b" strokeWidth="1.4" strokeLinejoin="round" opacity=".6">
+          <path d="m353 192 61 88M353 192C225 181 96 204 100 242c3 32 162 43 289 25" />
+          <path d="m368 220-109 6 18 25 110-4M259 226q-25 16 18 25" />
+        </g>
+        <ellipse cx="372" cy="242" rx="23" ry="4" fill="#795262" opacity=".13" />
+        <path d="m356 234 31-1 6 9-31 2Z" fill="#a58192" stroke="#7d6070" strokeWidth="1" />
+        <path d="M371 114v122" stroke="#765a68" strokeWidth="5" strokeLinecap="round" /><path d="M370 143v89" stroke="#bd9aaa" strokeWidth="1.2" />
+        <path d="m382 87 4 3v48l-4-2Z" fill="#c3a2b3" />
+        <rect x="318" y="83" width="66" height="54" rx="4" fill="#fff8fb" stroke="#957483" strokeWidth="2.5" />
+        <path d="M321 87h59" stroke="#fff" strokeWidth="1.5" /><path d="M337 101h27v23h-27Z" fill="none" stroke="#d56b94" strokeWidth="1.7" />
+        <g ref={net} className="basket-net" stroke="#947381" strokeWidth=".9" fill="none"><path d="M330 140q3 18 9 28 12 4 24 0 6-12 9-28M335 141l10 28m-2-27 6 28m3-28v28m8-28-5 28m11-29-7 27M333 150q18 5 36 0m-33 8q15 5 29 0" /></g>
+        <ellipse cx="351" cy="138" rx="23" ry="4" fill="#e8bbcd" fillOpacity=".2" stroke="#a24b65" strokeWidth="3" />
         <ellipse ref={ground} className="court-ground-shadow" cx="104" cy="243" rx="24" ry="4" fill="#795262" opacity=".18" />
-        <g ref={ball} className="shot-ball"><Basketball /></g>
       </svg>
       <div ref={player} className="court-player"><MascotArtwork /></div>
-      {hand && phase === "aiming" && createPortal(<Basketball held />,hand)}
+      <svg className="shot-overlay" viewBox="0 0 440 280" aria-hidden="true">
+        <defs><radialGradient id={material} cx=".3" cy=".25" r=".8"><stop stopColor="#f9cf9f" /><stop offset=".6" stopColor="#dd985f" /><stop offset="1" stopColor="#ac643f" /></radialGradient></defs>
+        <g ref={ball} className="shot-ball"><Basketball material={material} /></g>
+        <path d="M328 138q23 8 46 0" fill="none" stroke="#a24b65" strokeWidth="3" strokeLinecap="round" />
+      </svg>
+      {hand && phase === "aiming" && createPortal(<Basketball held material={material} />,hand)}
       <button className="court-shoot-zone" aria-label={c.action} onClick={shoot} aria-disabled={phase === "flying"} />
     </div>
     <p className="game-instructions">{c.ready}</p>

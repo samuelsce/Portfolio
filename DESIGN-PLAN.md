@@ -1,5 +1,11 @@
 # Samuel Santos: plano de design
 
+## Quadra e posição dos jogos, 9 de outubro de 2026
+
+Reutilizar a skill frontend-design-references e o [estudo de volume do Melius / 60fps](https://60fps.design/appsites/melius-hero-3d-assets-explode-animation), já observado, para materiais suaves e planos com sobreposição coerente. Manter a identidade rosa e o mascote aprovado; as linhas da quadra são uma ilustração própria em perspectiva sobre o piso. Suporte, tabela, aro e rede precisam estar conectados; o piso fica atrás do jogador, e a bola passa na frente durante o arremesso. Não adicionar texto decorativo, blur ou motor 3D.
+
+Mira usa o mesmo modal central dos outros jogos, com fechar no cabeçalho, foco contido e recuperação no acionador. Carregar sua interface separadamente das cenas animadas. Não mover a janela durante os três segundos; sortear apenas os alvos dentro da área de jogo. Remover a frase introdutória dos quadradinhos e manter seu botão de fechar à direita.
+
 ## Escultura do Going Merry, 9 de outubro de 2026
 
 Referência principal: imagem do anime anexada pelo usuário, para a silhueta contínua do carneiro, o chifre na lateral do crânio e sua ligação estrutural com a proa. Reutilizar o [estudo de volume do Melius / 60fps](https://60fps.design/appsites/melius-hero-3d-assets-explode-animation), já observado, apenas para luz e sobreposição de planos. Manter a paleta marfim, madeira e rosa da cena, sem mudanças na tipografia ou no restante da página.

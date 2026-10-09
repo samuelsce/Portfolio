@@ -3,6 +3,7 @@ import type { KeyboardEvent } from "react";
 import { useLanguage } from "../i18n/LanguageProvider";
 import { personalCopy } from "../i18n/personal";
 import { creativeReaction } from "./creative-events";
+import "../aim-challenge.css";
 
 const ROUND_SECONDS = 3;
 type Phase = "ready" | "playing" | "lost" | "won";
@@ -21,7 +22,7 @@ function randomPosition(previous: TargetPosition): TargetPosition {
   return furthest;
 }
 
-export default function AimChallenge({ source, onDone }: { source: HTMLElement | SVGElement; onDone: () => void }) {
+export default function AimChallenge({ onDone }: { onDone: () => void }) {
   const { language } = useLanguage();
   const c = personalCopy[language].moment;
   const [phase, setPhase] = useState<Phase>("ready");
@@ -35,8 +36,9 @@ export default function AimChallenge({ source, onDone }: { source: HTMLElement |
   done.current = onDone;
 
   useEffect(() => {
-    if (source === document.activeElement && source.matches(":focus-visible")) startButton.current?.focus({ preventScroll: true });
-  }, [source]);
+    const frame = requestAnimationFrame(() => startButton.current?.focus({ preventScroll: true }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   function lose() {
     if (!running.current) return;
@@ -48,14 +50,16 @@ export default function AimChallenge({ source, onDone }: { source: HTMLElement |
   useEffect(() => {
     if (phase !== "playing" || !timed) return;
     // A monotonic deadline prevents late clicks from winning between timer ticks.
+    let timer: ReturnType<typeof setTimeout>;
     const tick = () => {
       const left = deadline.current - performance.now();
-      setRemaining(Math.max(0, Math.ceil(left / 1000)));
-      if (left <= 0) lose();
+      const seconds = Math.max(0, Math.ceil(left / 1000));
+      setRemaining(seconds);
+      if (left <= 0) { lose(); return; }
+      timer = setTimeout(tick, Math.max(1, left - (seconds - 1) * 1000));
     };
     tick();
-    const timer = setInterval(tick, 100);
-    return () => clearInterval(timer);
+    return () => clearTimeout(timer);
   }, [phase, timed]);
 
   useEffect(() => {
@@ -86,12 +90,10 @@ export default function AimChallenge({ source, onDone }: { source: HTMLElement |
   function hit() {
     if (!running.current) return;
     if (performance.now() >= deadline.current) { lose(); return; }
-    const focused = document.activeElement === target.current;
     const next = ++hitCount.current;
     setHits(next);
     if (next === 3) {
       running.current = false;
-      if (focused) source.focus({ preventScroll: true });
       setPhase("won");
     } else moveTarget();
   }

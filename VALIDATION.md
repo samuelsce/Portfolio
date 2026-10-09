@@ -1,5 +1,13 @@
 # Validação do portfólio
 
+## Quadra, janela de mira e saltos, 9 de outubro de 2026
+
+- TypeScript e build de produção aprovados. Quadra em perspectiva, tabela conectada ao suporte, rede e gomos da bola revisados. Piso, personagem e bola têm camadas próprias; distância entre bola e seu encaixe na mão igual a zero nas amostras.
+- Edge/Chromium em 1440, 390 e 320 px. Mira centralizada e contida na tela, fechamento dentro da janela, foco inicial e retorno ao acionador conferidos. Prazo de 3 segundos, posições aleatórias, treino sem prazo, teclado e arremessos novamente aprovados. Abrir a mira não baixa o módulo das cenas do barco, Toddy e dança.
+- Saltos: Espaço e Enter segurados/soltos, teclas simultâneas, repetição, reinício, modo tranquilo, queda e seis saltos conferidos. Perda de foco, aba oculta e cancelamento do ponteiro cancelam a carga sem salto indevido. Trajetórias em curso pausam na aba oculta. Escape fecha e limpa a janela. Frase extra do puzzle removida em PT/EN e fechamento alinhado à direita.
+- Mira e janela compartilhada: 2,68 KB de JS gzip, antes 13,20 KB junto às cenas; traduções compartilhadas excluídas da comparação. Relógio agenda somente a próxima mudança de segundo, em vez de consultar dez vezes por segundo. Ilhas estáticas memoizadas; observador da mira do basquete evita reiniciar uma animação quando a largura não mudou. Sem novas dependências ou loops por quadro.
+- JS principal: 103,61 KB gzip; CSS principal: 18,65 KB. Nenhum erro de JavaScript ou excesso horizontal nos cenários. Capturas e diagnósticos locais em .publish-staging/verify-current-games.cjs e verify-game-inputs.cjs, ignorados no Git. Tamanhos, toque e visibilidade simulados; sem teste em Safari/aparelho físico ou medição de FPS.
+
 ## Mira aleatória e controles dos jogos, 9 de outubro de 2026
 
 - TypeScript e build de produção aprovados. Sorteio apenas ao iniciar ou acertar um alvo, com tentativas limitadas e coordenadas proporcionais; sem novos loops por quadro ou dependências. Alvo mantém o mesmo botão no DOM e anima somente o desenho interno ao trocar.

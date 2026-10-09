@@ -4,7 +4,6 @@ import { useLanguage } from "../i18n/LanguageProvider";
 import { personalCopy } from "../i18n/personal";
 import { claimActor } from "./personal-secrets";
 import type { ActorClaim, ActorPoint, MomentKind, SecretRequest } from "./personal-secrets";
-import AimChallenge from "./AimChallenge";
 import MascotArtwork from "./MascotArtwork";
 import DogArtwork, { Bone, dogBitePoint, runDogGait } from "./DogArtwork";
 import { Fedora, HandBone, StrawHat, WhiteGlove } from "./SecretCostume";
@@ -30,7 +29,6 @@ export default function SecretMoments({ request, motion, onDone }: {
   const dog = useRef<HTMLDivElement>(null), bone = useRef<HTMLDivElement>(null);
   const spotlight = useRef<HTMLDivElement>(null);
   const restingDancer = useRef<HTMLDivElement>(null);
-  const aimRoot = useRef<HTMLDivElement>(null);
   const finishRef = useRef<() => void>(() => {}), doneRef = useRef(onDone);
   doneRef.current = onDone;
   const [actor, setActor] = useState<ActorClaim | null>(null);
@@ -40,7 +38,7 @@ export default function SecretMoments({ request, motion, onDone }: {
     const node = layer.current!;
     const portfolio = document.querySelector<HTMLElement>(".portfolio")!;
     const initialWidth = document.documentElement.clientWidth;
-    const area = (kind === "aim" ? request.source.closest("section")?.querySelector<HTMLElement>(".contact-main") : kind === "voyage" ? request.source.closest(".workbench")?.querySelector<HTMLElement>(".preview-stage") : request.source.closest<HTMLElement>(kind === "ghosts" ? ".project-art" : ".about-signature")) || request.source;
+    const area = (kind === "voyage" ? request.source.closest(".workbench")?.querySelector<HTMLElement>(".preview-stage") : request.source.closest<HTMLElement>(kind === "ghosts" ? ".project-art" : ".about-signature")) || request.source;
     const initial = area.getBoundingClientRect();
     const preview = kind === "voyage" ? area.querySelector<HTMLElement>(".idea-preview") : null;
     const previewInert = preview?.inert;
@@ -60,7 +58,6 @@ export default function SecretMoments({ request, motion, onDone }: {
         delete owner.root.dataset.secretAir;
         if (rect) owner.release({ x: rect.left, y: rect.top, size: rect.width });
       }
-      if (kind === "aim" && node.contains(document.activeElement)) request.source.focus({ preventScroll: true });
       if (notify) doneRef.current();
     }
     finishRef.current = stop;
@@ -134,7 +131,7 @@ export default function SecretMoments({ request, motion, onDone }: {
     const close = node.querySelector<HTMLElement>(".moment-close")!;
     close.style.left = `${clamp(initial.right - 44, 8, innerWidth - 52)}px`;
     close.style.top = `${clamp(initial.top + 8, headerBottom + 8, innerHeight - 52)}px`;
-    if (kind !== "aim") later(stop, 14000);
+    later(stop, 14000);
 
     const size = clamp(innerWidth * .16, 86, 120);
     async function voyage() {
@@ -230,14 +227,7 @@ export default function SecretMoments({ request, motion, onDone }: {
       stopLeave();
       later(stop,300);
     }
-    function aim() {
-      const w = Math.min(280, innerWidth - 48), x = clamp(initial.left + 16, 12, innerWidth - w - 12);
-      const y = clamp(initial.top + 46, headerBottom + 60, innerHeight - 300);
-      at(aimRoot.current!, x, y, w);
-      aimRoot.current!.style.opacity = "1";
-    }
-    if (kind === "aim") aim();
-    else {
+    {
       function begin(attempt = 0) {
         if (motion) {
           owner = claimActor(kind, stop);
@@ -266,13 +256,12 @@ export default function SecretMoments({ request, motion, onDone }: {
   const limbs = actor?.root.querySelector(".mascot-limbs");
   return createPortal(<>
     <div ref={layer} className="secret-moment-layer" data-kind={kind} data-motion={motion ? "on" : "off"}>
-      <span className="sr-only" role="status">{kind === "aim" ? "" : c[kind]}</span>
+      <span className="sr-only" role="status">{c[kind]}</span>
       <button className="moment-close" aria-label={c.close} onClick={() => finishRef.current()}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg></button>
       {kind === "voyage" && <><div className="moment-sea" ref={sea}><Sea /></div><div className="moment-boat" ref={boat}><SailingBoat />{!actor && <svg className="boat-hat" viewBox="0 0 112 42" aria-hidden="true"><StrawHat /></svg>}</div></>}
       {kind === "ghosts" && <div className="moment-spotlight" ref={spotlight} />}
       {kind === "ghosts" && !motion && <div className="moment-dance-rest" ref={restingDancer}><MascotArtwork /><svg className="moment-dance-costume" viewBox="0 0 112 126" aria-hidden="true"><Fedora /><WhiteGlove /></svg></div>}
       {kind === "toddy" && <><div className="moment-dog" ref={dog}><DogArtwork bone={dogBone} /></div><div className="moment-bone" ref={bone}><Bone /></div></>}
-      {kind === "aim" && <div className="moment-aim" ref={aimRoot}><AimChallenge source={request.source} onDone={() => finishRef.current()} /></div>}
     </div>
     {head && kind === "voyage" && createPortal(<StrawHat />, head)}
     {head && kind === "ghosts" && createPortal(<Fedora />, head)}

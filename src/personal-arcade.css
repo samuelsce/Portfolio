@@ -11,10 +11,11 @@
 .game-feedback { min-height: 38px; display: flex; align-items: center; font-size: 14px; line-height: 1.5; color: var(--berry); margin: 6px 0; }
 .game-score { display: flex; justify-content: space-between; gap: 10px; color: #796471; font-size: 13px; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .game-score strong { font-size: 18px; font-weight: 500; color: var(--berry); margin-left: 4px; }
-.court-player { width: 25%; height: auto; aspect-ratio: 112/126; position: absolute; left: 11%; bottom: 8.5%; --mascot-color: var(--pink); }
+.court-player { width: 25%; height: auto; aspect-ratio: 112/126; position: absolute; left: 11%; bottom: 8.5%; z-index:1; --mascot-color: var(--pink); }
 .court-player > svg { width: 100%; height: 100%; }
-.court-lines { position: absolute; z-index: 1; pointer-events: none; }
-.court-shoot-zone { position: absolute; left: 9%; bottom: 7%; width: 32%; height: 49%; min-width: 44px; min-height: 44px; padding: 0; z-index: 2; border: 0; border-radius: 12px; background: transparent; cursor: pointer; }
+.court-lines { position: absolute; z-index: 0; pointer-events: none; }
+.shot-overlay { position:absolute;z-index:2;pointer-events:none }
+.court-shoot-zone { position: absolute; left: 9%; bottom: 7%; width: 32%; height: 49%; min-width: 44px; min-height: 44px; padding: 0; z-index: 3; border: 0; border-radius: 12px; background: transparent; cursor: pointer; }
 .basket-net { transform-origin: 351px 138px; }
 .shot-ball { transform-origin: 0 0; transform-box: view-box; opacity:0; }
 .three-game[data-phase="flying"] .shot-ball{opacity:1}

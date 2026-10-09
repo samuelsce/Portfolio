@@ -109,7 +109,7 @@ export default function SecretGarden({ motion, onClose }: { motion: boolean; onC
   }
   return createPortal(
     <dialog ref={dialog} className="secret-garden" data-motion={motion ? "on" : "off"} data-won={won} aria-labelledby="secret-title" aria-describedby="secret-rules" onKeyDown={keepFocus} onCancel={event => { event.preventDefault(); close(); }} onClick={event => { if (event.target === event.currentTarget) { const r=event.currentTarget.getBoundingClientRect(); if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)close(); } }}>
-      <div className="secret-heading"><span>{copy.gameIntro}</span><button onClick={close} aria-label={copy.close}><Icon name="close" /></button></div>
+      <div className="secret-heading"><button onClick={close} aria-label={copy.close}><Icon name="close" /></button></div>
       <h2 id="secret-title">{copy.gameTitle}</h2>
       <p id="secret-rules">{copy.gameRules}</p>
       <div className="secret-playground">

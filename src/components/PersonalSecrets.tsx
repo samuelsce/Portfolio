@@ -4,6 +4,7 @@ import LazyLoadBoundary, { LoadFailure } from "./LazyLoadBoundary";
 import type { SecretKind, SecretRequest } from "./personal-secrets";
 const PersonalArcade = lazy(() => import("./PersonalArcade"));
 const SecretMoments = lazy(() => import("./SecretMoments"));
+const AimDialog = lazy(() => import("./AimDialog"));
 const counts: Record<SecretKind, number> = { voyage: 3, ghosts: 1, toddy: 2, basketball: 3, blocks: 2, aim: 2 };
 
 // Discovery stays tiny. Each game or on-page performance has a separate lazy
@@ -62,7 +63,7 @@ export default function PersonalSecrets({ motion }: { motion: boolean }) {
   const game = request.kind === "basketball" || request.kind === "blocks";
   return <LazyLoadBoundary key={request.id} fallback={<div className="personal-loading"><LoadFailure onClose={closeGame} /></div>}>
     <Suspense fallback={<div className="personal-loading" role="status">{language === "pt" ? "Abrindo o segredo…" : "Opening the secret…"}<button onClick={closeGame}>{language === "pt" ? "Cancelar" : "Cancel"}</button></div>}>
-      {game ? <PersonalArcade kind={request.kind as "basketball" | "blocks"} motion={motion} onClose={closeGame} /> : <SecretMoments request={request} motion={motion} onDone={close} />}
+      {request.kind === "aim" ? <AimDialog motion={motion} onClose={closeGame} /> : game ? <PersonalArcade kind={request.kind as "basketball" | "blocks"} motion={motion} onClose={closeGame} /> : <SecretMoments request={request} motion={motion} onDone={close} />}
     </Suspense>
   </LazyLoadBoundary>;
 }

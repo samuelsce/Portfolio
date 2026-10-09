@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { KeyboardEvent, PointerEvent } from "react";
 import { useLanguage } from "../i18n/LanguageProvider";
 import { personalCopy } from "../i18n/personal";
@@ -16,7 +16,7 @@ type Phase = "ready" | "charging" | "jumping" | "falling" | "respawning" | "won"
 function readBest() {
   try { const n = Number(localStorage.getItem(recordKey)); return Number.isInteger(n) && n >= 0 && n <= 6 ? n : 0; } catch { return 0; }
 }
-function Island({ index }: { index: number }) {
+const Island = memo(function Island({ index }: { index: number }) {
   const p = islands[index], left = p.x - p.w / 2;
   return <g transform={`translate(${left} ${p.y})`}>
     <path d={`M0 0h${p.w}v12H0Z`} fill="#8ca37b" />
@@ -29,7 +29,7 @@ function Island({ index }: { index: number }) {
     {index === 0 && <g transform="translate(17 -27)"><path d="M0 27V0h3v27" fill="#9c7a67" /><path d="M3 0h30v17H3Z" fill="#b45d84" /><path d="M7 4h22" stroke="#e7bbcd" /></g>}
     {index === 6 && <g className="sky-bed" transform="translate(52 -27)"><path d="m0 6 45-5 14 9-45 5Z" fill="#fff5ed" /><path d="m0 6 14 9v12L0 18Z" fill="#915c63" /><path d="m14 15 45-5v12l-45 5Z" fill="#b76583" /><path d="m0 6 13-2 14 9-13 2Z" fill="#fffaf4" /><path d="M14 15v12m45-17v12" stroke="#703d53" strokeWidth="3" /><path d="m15 16 40-4" stroke="#e498b2" strokeWidth="2" /></g>}
   </g>;
-}
+});
 
 // One charge animation and finite trajectories. No game loop, layout reads or
 // React updates on each frame; camera and character use the same SVG units.
@@ -43,6 +43,7 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
   const charge = useRef<Animation | null>(null), animations = useRef(new Set<Animation>());
   const alive = useRef(true), locked = useRef(false), holding = useRef(false);
   const cancelledPointer = useRef(false);
+  const input = useRef<{ kind: "pointer"; id: number } | { kind: "key"; key: string } | null>(null);
   const position = useRef({ x: islands[0].x, y: islands[0].y }), camera = useRef(0);
   const still = !motion || assist;
   const view = (x: number) => Math.min(0, Math.max(-1040, 112 - x));
@@ -53,9 +54,15 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
   }
   useEffect(() => {
     alive.current = true;
-    const visibility = () => { [charge.current, ...animations.current].forEach(a => { if (a) document.hidden ? a.pause() : a.play(); }); };
+    const focus = requestAnimationFrame(() => button.current?.focus({ preventScroll: true }));
+    const visibility = () => {
+      // A key/pointer released in another app may never deliver its up event.
+      if (document.hidden) cancelCharge();
+      animations.current.forEach(a => document.hidden ? a.pause() : a.play());
+    };
     document.addEventListener("visibilitychange", visibility);
-    return () => { alive.current = false; charge.current?.cancel(); animations.current.forEach(a => a.cancel()); animations.current.clear(); document.removeEventListener("visibilitychange", visibility); };
+    window.addEventListener("blur", cancelCharge);
+    return () => { alive.current = false; cancelAnimationFrame(focus); charge.current?.cancel(); animations.current.forEach(a => a.cancel()); animations.current.clear(); document.removeEventListener("visibilitychange", visibility); window.removeEventListener("blur", cancelCharge); };
   }, []);
   function reset() {
     position.current = { x: islands[0].x, y: islands[0].y }; camera.current = 0;
@@ -65,24 +72,27 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
   }
   function cancelCharge() {
     if (!holding.current) return;
-    holding.current = false; cancelledPointer.current = true;
-    charge.current?.cancel(); charge.current = null; setPhase("ready");
+    cancelledPointer.current = input.current?.kind === "pointer";
+    input.current = null; holding.current = false;
+    charge.current?.cancel(); charge.current = null;
+    if (alive.current) setPhase("ready");
   }
   function startCharge() {
-    if (still || locked.current || holding.current || document.hidden || phase !== "ready") return;
+    if (still || locked.current || holding.current || document.hidden || phase !== "ready") return false;
     holding.current = true; setPhase("charging");
     const target = islands[step + 1];
     const low = Math.max(.02, (target.x - target.w*.43 - position.current.x - 105)/210);
     const high = Math.min(.98, (target.x + target.w*.43 - position.current.x - 105)/210);
     const frames = [0, low, low+.015, high-.015, high, 1].map((u, i) => ({ offset:u, transform:`translateX(${105+210*u}px)`, color:i===2 || i===3 ? "#8bd6b5" : "#f9cae0" }));
     charge.current = marker.current!.animate(frames, { duration: chargeDuration, iterations: Infinity, direction: "alternate", easing: "linear" });
+    return true;
   }
   async function jump(exact = false) {
-    if (locked.current || document.hidden || step >= 6) return;
+    if (locked.current || document.hidden || step >= 6 || phase !== "ready" && phase !== "charging") return;
     locked.current = true;
     const t = Number(charge.current?.currentTime ?? 0) % (chargeDuration * 2) / chargeDuration;
     const power = t > 1 ? 2 - t : t;
-    holding.current = false; charge.current?.cancel(); charge.current = null;
+    input.current = null; holding.current = false; charge.current?.cancel(); charge.current = null;
     const next = islands[step + 1], from = position.current;
     const to = { x: exact ? next.x : from.x + 105 + power * 210, y: next.y };
     const hit = Math.abs(to.x - next.x) <= next.w * .43, nextCamera = view(to.x);
@@ -129,16 +139,27 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
   }
   function pointerDown(e: PointerEvent<HTMLButtonElement>) {
     cancelledPointer.current = false;
-    if (still || phase === "over" || phase === "won" || e.button !== 0) return;
-    e.currentTarget.setPointerCapture(e.pointerId); startCharge();
+    if (e.button !== 0 || input.current || !startCharge()) return;
+    input.current = { kind: "pointer", id: e.pointerId };
+    cancelledPointer.current = true;
+    e.currentTarget.setPointerCapture(e.pointerId);
   }
-  function pointerUp() { if (holding.current) void jump(); }
+  function pointerUp(e: PointerEvent<HTMLButtonElement>) {
+    if (input.current?.kind === "pointer" && input.current.id === e.pointerId) void jump();
+  }
   function keyDown(e: KeyboardEvent<HTMLButtonElement>) {
-    cancelledPointer.current = false;
-    if (still || phase === "over" || phase === "won" || !["Enter", " "].includes(e.key)) return;
-    e.preventDefault(); if (!e.repeat) startCharge();
+    if (!["Enter", " "].includes(e.key) || e.altKey || e.ctrlKey || e.metaKey) return;
+    e.preventDefault();
+    if (e.repeat || input.current || locked.current || document.hidden) return;
+    if (phase === "won" || phase === "over") { reset(); return; }
+    if (still) { void jump(true); return; }
+    if (startCharge()) input.current = { kind: "key", key: e.key };
   }
-  function keyUp(e: KeyboardEvent<HTMLButtonElement>) { if (!still && ["Enter", " "].includes(e.key) && holding.current) { e.preventDefault(); void jump(); } }
+  function keyUp(e: KeyboardEvent<HTMLButtonElement>) {
+    if (!["Enter", " "].includes(e.key)) return;
+    e.preventDefault();
+    if (input.current?.kind === "key" && input.current.key === e.key) void jump();
+  }
   return <div className="sky-game" data-phase={phase}>
     <div className="sky-hud"><span>{c.jumps} <strong>{step}/6</strong></span><span className="sky-lives" aria-label={`${c.lives}: ${lives}`}>{[0,1,2].map(i => <svg key={i} viewBox="0 0 20 20" data-active={i < lives} aria-hidden="true"><path d="M2 4h6v2h4V4h6v8l-8 6-8-6Z" /></svg>)}</span><span>{c.best} <strong>{best}/6</strong></span></div>
     <div className="personal-stage sky-stage"><svg viewBox="0 0 520 320" aria-hidden="true">
@@ -155,7 +176,7 @@ export default function SkyJumpGame({ motion }: { motion: boolean }) {
     </svg></div>
     <p className="game-instructions">{still ? c.calmReady : c.ready}</p>
     <div className="game-feedback" role="status">{phase === "jumping" || phase === "falling" || phase === "respawning" ? c.flying : feedback === "ready" ? "" : c[feedback]}</div>
-    <button ref={button} className="personal-action sky-action" aria-disabled={phase === "jumping" || phase === "falling" || phase === "respawning"} onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={cancelCharge} onLostPointerCapture={cancelCharge} onKeyDown={keyDown} onKeyUp={keyUp} onBlur={cancelCharge} onClick={() => { if (cancelledPointer.current) { cancelledPointer.current = false; return; } if (phase === "won" || phase === "over") reset(); else void jump(true); }}>{phase === "won" || phase === "over" ? personalCopy[language].restart : phase === "charging" ? c.release : still ? c.jump : c.action}</button>
+    <button ref={button} className="personal-action sky-action" aria-disabled={phase === "jumping" || phase === "falling" || phase === "respawning"} onPointerDown={pointerDown} onPointerUp={pointerUp} onPointerCancel={cancelCharge} onLostPointerCapture={() => { if (input.current?.kind === "pointer") cancelCharge(); }} onKeyDown={keyDown} onKeyUp={keyUp} onBlur={cancelCharge} onClick={() => { if (input.current) return; if (cancelledPointer.current) { cancelledPointer.current = false; return; } if (phase === "won" || phase === "over") reset(); else void jump(true); }}>{phase === "won" || phase === "over" ? personalCopy[language].restart : phase === "charging" ? c.release : still ? c.jump : c.action}</button>
     <label className="still-aim"><input type="checkbox" checked={still} disabled={!motion || phase === "charging" || locked.current} onChange={e => setAssist(e.target.checked)} />{c.assist}</label>
   </div>;
 }

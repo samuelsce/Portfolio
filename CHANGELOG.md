@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+- Quadra com linhas em perspectiva no piso, suporte ligado à tabela, rede e gomos da bola corrigidos. Piso, jogador e bola usam camadas separadas, preservando pegada e arremesso.
+- Mira transferida para janela modal central com fechamento interno, bloqueio de rolagem e recuperação de foco. Carregamento separado das cenas de barco, cachorro e dança; relógio agendado somente quando muda o segundo.
+- Saltos: foco inicial no botão, tecla e ponteiro identificados, liberação correspondente, bloqueio de cliques duplicados, cancelamento ao perder foco/ocultar a aba e reinício por teclado. Ilhas memorizadas para evitar renderizações repetidas.
+- Frase introdutória dos quadradinhos removida em português e inglês.
+
 - Mira com prazo de 3 segundos e posições sorteadas a cada alvo/tentativa, delimitadas à área abaixo das instruções. Alvo mantém foco e entrada por teclado não repete ao segurar a tecla.
 - Basquete recebe foco no arremesso ao abrir; Espaço/Enter acionam uma única vez por pressão, preservam foco durante o voo e não interferem na seleção de assistência/direção. Reinício e toque mantidos.
 
