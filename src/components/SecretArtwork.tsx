@@ -4,24 +4,33 @@ export const SailingBoat = memo(function SailingBoat() {
   const id = useId().replace(/:/g, "");
   return <svg viewBox="0 0 230 160" aria-hidden="true">
     <defs>
-      <linearGradient id={`${id}-wood`} x2="0" y2="1"><stop stopColor="#cfaa84" /><stop offset="1" stopColor="#95715b" /></linearGradient>
-      <linearGradient id={`${id}-sail`} x2="1" y2=".7"><stop stopColor="#fffaf3" /><stop offset="1" stopColor="#e6d8cb" /></linearGradient>
+      <linearGradient id={`${id}-wood`} x2=".3" y2="1"><stop stopColor="#d5b58d" /><stop offset=".55" stopColor="#b38a65" /><stop offset="1" stopColor="#765345" /></linearGradient>
+      <linearGradient id={`${id}-sail`} x2=".9" y2=".4"><stop stopColor="#fffaf1" /><stop offset=".5" stopColor="#f8efdf" /><stop offset="1" stopColor="#d9c9b4" /></linearGradient>
+      <linearGradient id={`${id}-hull`} x2="0" y2="1"><stop stopColor="#fff8e9" /><stop offset="1" stopColor="#e0ceb6" /></linearGradient>
     </defs>
     <g className="vessel-rig">
-      <path d="M142 23v80" stroke="#8e6550" strokeWidth="4" strokeLinecap="round" />
-      <path d="m142 27 17 7-17 7Z" fill="#9c4768" />
-      <g className="vessel-sail"><path d="M140 42q28-8 53-1l-2 43q-32-4-50 7Z" fill={`url(#${id}-sail)`} stroke="#bcab9b" strokeWidth="1.1" /><path d="M146 44q24 0 40 2m-43 38q20-7 42-4" fill="none" stroke="#fffaf3" strokeWidth="2" /><path d="M168 42q-9 20-3 43" fill="none" stroke="#d0bdad" strokeWidth=".8" /><path d="m178 56-15 12 15 6" fill="none" stroke="#c17791" strokeWidth="2" strokeLinecap="round" /></g>
-      <path d="m143 33-43 68m43-68 62 76" fill="none" stroke="#a89789" strokeWidth="1" />
+      <path d="M136 12v95" stroke="#896448" strokeWidth="4" strokeLinecap="round" />
+      <path d="M129 20h14l-2 8h-10Z" fill="#ba956d" stroke="#896448" />
+      <path d="M129 18h14m-11 2v6m5-6v6m4-6v6" stroke="#f0d6b3" strokeWidth="1" />
+      <g className="vessel-pennant"><path d="m138 9 19 3-5 5-14-3Z" fill="#3d2b37" /><path d="M144 11v3m3-3v3" stroke="#f8ede0" strokeWidth="1.2" /></g>
+      <g className="vessel-sail"><path d="M128 34q31-8 59 0l-4 49q-28-6-56 4 7-28 1-53Z" fill={`url(#${id}-sail)`} stroke="#bbaa94" strokeWidth="1" /><path d="M129 34q26 5 57 0m-57 47q23-7 50-2" fill="none" stroke="#fffaf3" strokeWidth="2" /><path d="M143 35q5 24-3 47m29-48q-4 23-1 45" fill="none" stroke="#d6c8b5" strokeWidth=".7" />
+      <g transform="translate(156 55)" fill="#665143"><path d="m-10 13 20-15m-21-1 22 15" fill="none" stroke="#665143" strokeWidth="2" strokeLinecap="round" /><path d="M-7 1q-1-9 7-9t7 9q0 4-4 5v5h-6V6Q-7 5-7 1Z" /><ellipse cx="-3" cy="0" rx="1.8" ry="2" fill="#f8efdf" /><ellipse cx="3" cy="0" rx="1.8" ry="2" fill="#f8efdf" /><path d="m0 3-1 2h2Z" fill="#f8efdf" /><path d="M-8-6q8-6 16 0l-1-5q-7-6-14 0Z" fill="#d6b278" /><path d="M-8-8H8" stroke="#ac546d" strokeWidth="2" /></g></g>
+      <path d="m135 29-22 76m23-76 58 72" fill="none" stroke="#a79780" strokeWidth=".85" />
+      <path d="M189 42v66" stroke="#9a7657" strokeWidth="2" />
+      <g className="vessel-jib"><path d="m188 44 23 54-24-5Z" fill="#f5e6d5" stroke="#b3a08c" /><path d="m190 51 6 15-8-2m11 11 6 14-17-4" fill="#b96e7d" opacity=".7" /></g>
     </g>
-    <path d="m28 104 151-7 27 12-158 10Z" fill="#dec0a1" stroke="#9d7962" />
-    <path d="m23 107 183-6-16 31q-63 27-142 2Z" fill={`url(#${id}-wood)`} stroke="#7f5c4d" strokeWidth="1.4" />
-    <path d="m24 108 182-6-3 7-170 9Z" fill="#ead2b8" stroke="#9d7962" strokeWidth=".8" />
-    <path d="m40 124 151-8m-140 17 129-8" stroke="#9a6e58" fill="none" strokeWidth="1.2" />
-    <path d="m57 119 7 21m29-23 5 25m30-27 1 23m31-25-3 18" stroke="#85624f" strokeWidth="1" opacity=".6" />
-    <path d="m43 133 139-5-8 8q-63 20-122 4Z" fill="#7d5749" opacity=".65" />
-    <g className="vessel-figurehead"><path d="m196 110 1-19 12-6 9 11-7 14Z" fill="#eadcca" stroke="#aa937e" /><path d="M198 88q-7-13 4-16 7 0 9 9-2 6-9 6" fill="#f8ede0" stroke="#aa937e" /><path d="M205 78q-4-6-7-1t4 5" fill="none" stroke="#b99b80" strokeWidth="1.5" /><circle cx="215" cy="96" r="1.5" fill="#63483f" /><path d="m211 101 4 1" stroke="#967767" strokeLinecap="round" /></g>
-    <path d="m31 112 160-6" stroke="#fff5e6" strokeWidth="1.3" opacity=".6" />
+    <g className="vessel-cabin"><path d="M28 88h40v19H28Z" fill="#eee0c5" stroke="#a88b65" /><path d="m22 87 24-12 26 10-4 5H27Z" fill="#b27362" stroke="#936347" /><path d="M31 94h7v8h-7Zm17-2h7v10h-7Zm12 3h5v7h-5Z" fill="#665247" stroke="#ceba97" /><path d="M26 87q20-5 43-1" stroke="#e1aa87" fill="none" /></g>
+    <path d="m21 106 170-8 20 10-176 15Z" fill="#d4b18a" stroke="#997352" /><path d="m31 111 156-7" stroke="#f3d9b4" fill="none" />
+    <path d="m23 111 181-7-10 33q-75 21-152 5Z" fill={`url(#${id}-hull)`} stroke="#95735b" strokeWidth="1.3" />
+    <path d="m24 111 180-7-3 7-173 10Z" fill="#936c4e" /><path d="m28 120 172-9-2 6-166 9Z" fill="#ead8ba" />
+    <path d="m35 132 161-9-2 7-155 10Z" fill="#a77d56" /><path d="m41 141 153-11-9 10q-67 18-137 9Z" fill={`url(#${id}-wood)`} />
+    <path d="m54 142 5 10m29-12 3 14m29-16 1 14m29-15-1 10" stroke="#735143" strokeWidth=".8" opacity=".65" />
+    <g fill="#665045" stroke="#bfa283" strokeWidth="1.3"><circle cx="73" cy="126" r="4" /><circle cx="98" cy="124.5" r="4" /><circle cx="123" cy="123" r="4" /><circle cx="148" cy="121.5" r="4" /></g>
+    <path d="m25 103 161-7m-156 15 153-7" fill="none" stroke="#a98560" strokeWidth="2" strokeLinecap="round" /><path d="m35 103 1 8m19-9v8m21-9v8m22-9v8m21-9v8m21-9v8m21-9v8m19-9v8" stroke="#b3926e" strokeWidth="1.5" />
+    <g className="vessel-figurehead"><path d="M193 115q-7-22 8-34l16 6q-14 11-9 25Z" fill="#eee2ca" stroke="#ae967d" /><path d="M202 80q-4-12 8-13 11-1 13 9l-3 11q-3 9-12 8-12-1-11-9Z" fill="#fff2da" stroke="#ae967d" /><path d="M205 69q-11-4-11 6 0 10 9 9 7-1 6-7-1-5-5-4-4 1-2 4" fill="#d2bba1" stroke="#aa8a6a" strokeWidth="1.2" /><path d="M201 72q-5 0-4 5" fill="none" stroke="#f1e0c6" strokeWidth="1.3" strokeLinecap="round" /><path className="vessel-ear" d="m219 77 8-2q2 6-6 8Z" fill="#ebd6b8" stroke="#ae967d" /><circle cx="216" cy="81" r="1.5" fill="#60483a" /><path d="M214 86q9-3 9 3-3 6-8 1Z" fill="#f5e4c6" /><path d="M215 89q4 4 7-1" stroke="#85654d" fill="none" strokeLinecap="round" /><path d="M216 83q1 2 3 1" stroke="#c09b77" fill="none" /></g>
+    <path d="m34 112 154-8" stroke="#fff9e8" strokeWidth="1" opacity=".6" />
   </svg>;
+
 });
 
 export const Sea = memo(function Sea() {

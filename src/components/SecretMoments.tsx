@@ -5,8 +5,8 @@ import { personalCopy } from "../i18n/personal";
 import { claimActor } from "./personal-secrets";
 import type { ActorClaim, ActorPoint, MomentKind, SecretRequest } from "./personal-secrets";
 import { creativeReaction } from "./creative-events";
-import DogArtwork, { Bone } from "./DogArtwork";
-import { Fedora, HandBone, StrawHat, WhiteGlove } from "./SecretCostume";
+import DogArtwork, { Bone, dogBitePoint } from "./DogArtwork";
+import { DanceShoe, Fedora, HandBone, StrawHat, WhiteGlove } from "./SecretCostume";
 import { SailingBoat, Sea, Ghost, Treasure } from "./SecretArtwork";
 import "../secret-moments.css";
 
@@ -128,12 +128,12 @@ export default function SecretMoments({ request, motion, onDone }: {
 
     const size = clamp(innerWidth * .16, 86, 106);
     async function voyage() {
-      const w = clamp(initial.width * .47, 184, 242), h = w * 160 / 230;
+      const w = clamp(initial.width * .52, 190, 280), h = w * 160 / 230;
       const x = clamp(initial.left + initial.width * .5 - w / 2, 16, innerWidth - w - 16);
       const y = floor - h * .86, seaWidth = Math.min(w * 1.45, innerWidth - 28);
       at(boat.current!, x - w * .75, y, w);
       at(sea.current!, x + w / 2 - seaWidth / 2, y + h * .72, seaWidth);
-      const dest = { x: x + w * .3 - size / 2, y: y + h * .63 - size * 108 / 112, size };
+      const dest = { x: x + w * .38 - size / 2, y: y + h * (103 / 160) - size * 108 / 112, size };
       // The chest is a child of the hull: it shares every roll and translation.
       treasure.current!.style.width = "20%";
       if (!motion) { boat.current!.style.transform = `translate3d(${x}px,${y}px,0)`; boat.current!.style.opacity = "1"; sea.current!.style.opacity = "1"; treasure.current!.style.opacity = "1"; treasure.current!.dataset.open = "true"; later(stop, 2800); return; }
@@ -181,15 +181,19 @@ export default function SecretMoments({ request, motion, onDone }: {
         const t = i/32, emerge = Math.min(1, t*5), drift = direction * (1-Math.exp(-t*5));
         return { offset:t, opacity:emerge, transform:`translate3d(${left+drift}px,${gy-24*emerge+Math.sin(t*Math.PI*3)*5}px,0) scale(${.25+emerge*.75}) rotate(${Math.sin(t*Math.PI*3)*4}deg)` };
       });
-      void animate(ghostA.current!, appear(gx,-30), 5400, { easing:"linear" });
-      void animate(ghostB.current!, appear(gx+28,27), 5500, { easing:"linear" });
+      void animate(ghostA.current!, appear(gx,-30), 6800, { easing:"linear" });
+      void animate(ghostB.current!, appear(gx+28,27), 6800, { easing:"linear" });
       void animate(spotlight.current!, [{ opacity:0, scale:".6" },{ opacity:.65, scale:"1" }], 750);
       if (owner) {
         if (!await fly({x:x+26,y,size}, 800, 40)) return;
+        owner.root.dataset.secretAction = "dance-ready";
+        if (!await wait(600)) return;
         owner.root.dataset.secretAction = "moonwalk";
-        if (!await animate(owner.root, [{transform:pose({x:x+26,y,size})},{transform:pose({x:x-46,y,size})}], 3100, {easing:"linear"})) return;
+        if (!await animate(owner.root, [{transform:pose({x:x+26,y,size})},{transform:pose({x:x+26-96*size/112,y,size})}], 3600, {easing:"linear"})) return;
         owner.root.dataset.secretAction = "spin";
         if (!await wait(760)) return;
+        owner.root.dataset.secretAction = "toe-stand";
+        if (!await wait(750)) return;
         owner.root.dataset.secretAction = "hat-tip";
         ghostA.current!.dataset.action = "clap"; ghostB.current!.dataset.action = "clap";
         if (!await wait(1100)) return;
@@ -219,11 +223,12 @@ export default function SecretMoments({ request, motion, onDone }: {
       if(!await wait(350))return;
       const hand=owner?.root.querySelector(".moment-hand-bone")?.getBoundingClientRect();
       const startX=hand?hand.left-dx:initial.left+initial.width/2, startY=hand?hand.top-dy:y-20;
-      const endX=x+w*136/160-11.5, endY=y+w*80/160-7-9*w/160;
-      setHandBone(false);bone.current!.style.opacity="1";at(bone.current!,startX,startY,23);
+      const boneWidth=w*42*.7/160;
+      const endX=x+w*dogBitePoint.x/160-boneWidth/2, endY=y+w*dogBitePoint.y/160-boneWidth*26/42/2-9*w/160;
+      setHandBone(false);bone.current!.style.opacity="1";at(bone.current!,startX,startY,boneWidth);
       if(owner)owner.root.dataset.secretAction="toss";
       later(()=>{dog.current!.dataset.action="catch";},320);
-      const flight=Array.from({length:33},(_,i)=>{const t=i/32;return{offset:t,transform:`translate3d(${startX+(endX-startX)*t}px,${startY+(endY-startY)*t-4*48*t*(1-t)}px,0) rotate(${-20+t*200}deg)`};});
+      const flight=Array.from({length:33},(_,i)=>{const t=i/32;return{offset:t,transform:`translate3d(${startX+(endX-startX)*t}px,${startY+(endY-startY)*t-4*48*t*(1-t)}px,0) rotate(${-20+t*372}deg)`};});
       if(!await animate(bone.current!,flight,680,{easing:"linear"}))return;
       bone.current!.style.opacity="0";setDogBone(true);
       // Keep the jump rig alive through landing; changing to proud at the catch
@@ -253,7 +258,8 @@ export default function SecretMoments({ request, motion, onDone }: {
       function begin(attempt = 0) {
         if (motion) {
           owner = claimActor(kind, stop);
-          if (!owner && attempt < 6 && ["departing", "climbing", "pulling", "landing", "returning", "bracing", "pushing", "reappearing"].includes(document.querySelector<HTMLElement>(".page-mascot")?.dataset.phase || "")) {
+          if (!owner && attempt < 12 && ["docked", "observing", "departing", "climbing", "pulling", "landing", "returning", "released", "walking", "settling", "cooling", "bracing", "pushing", "yielding", "waiting", "reappearing"].includes(document.querySelector<HTMLElement>(".page-mascot")?.dataset.phase || "")) {
+            // Allow up to three seconds for registration or a return/walk gesture.
             // Let the existing header/return gesture finish; never interrupt a
             // visitor holding the character. The bounded fallback is environmental.
             later(() => begin(attempt + 1), 250); return;
@@ -290,6 +296,7 @@ export default function SecretMoments({ request, motion, onDone }: {
     if (focused && next < 3) requestAnimationFrame(() => aimTarget.current?.focus({ preventScroll: true }));
   }
   const head = actor?.root.querySelector(".mascot-head"), arm = actor?.root.querySelector(".arm-right");
+  const leftLeg = actor?.root.querySelector(".leg-left"), rightLeg = actor?.root.querySelector(".leg-right");
   return createPortal(<>
     <div ref={layer} className="secret-moment-layer" data-kind={kind} data-motion={motion ? "on" : "off"}>
       <span className="sr-only" role="status">{kind === "aim" && hits === 3 ? c.found : c[kind]}</span>
@@ -305,6 +312,8 @@ export default function SecretMoments({ request, motion, onDone }: {
     {head && kind === "voyage" && createPortal(<StrawHat />, head)}
     {head && kind === "ghosts" && createPortal(<Fedora />, head)}
     {arm && kind === "ghosts" && createPortal(<WhiteGlove />, arm)}
+    {leftLeg && kind === "ghosts" && createPortal(<DanceShoe />, leftLeg)}
+    {rightLeg && kind === "ghosts" && createPortal(<DanceShoe right />, rightLeg)}
     {arm && kind === "toddy" && handBone && createPortal(<HandBone />, arm)}
   </>, document.body);
 }

@@ -1,5 +1,17 @@
 # Samuel Santos: plano de design
 
+## Apoios, mordida e coreografia, 8 de outubro de 2026
+
+Preservar papel #fff7fa, rosa #ef75a3, amora #691b3e, tinta #291b24 e Space Grotesk. Refinar apenas as descobertas e os jogos: formas claras mesmo em tamanho pequeno e gestos com apoio, antecipação e continuação. Sem áudio, biografia, texto decorativo ou mídia externa.
+
+- Going Merry: casco mais alto e claro com faixas de madeira, cabine, guarda-corpo, velas, ninho e cabeça de carneiro com chifres espirais. Separar tecido, bandeira e espuma do balanço do casco. Escala maior, pés no convés e baú preso ao mesmo barco.
+- Toddy: `cavidade da boca → mandíbula inferior → osso → focinho superior → dentes`. O osso passa entre os lábios em vez de cobrir o focinho. Ponto de mordida único para a trajetória; abertura e fechamento acompanham a captura. Pelagem e patas mais orgânicos, sem filtro pesado.
+- Moonwalk: três quartos voltado para a direita enquanto desliza para a esquerda. Meias claras, sapatos alongados e alternância entre um apoio na ponta e um pé plano que desliza. Pouco sobe/desce: o tronco deve parecer flutuar. Preparação, quatro ciclos contínuos, giro, pose na ponta e reverência; braços e cabeça não caminham como na navegação normal.
+- Minecraft: manter o jogo aprovado, melhorar a mira com cor de confirmação, margem de apoio na ilha, acomodação de aterrissagem e retorno da câmera após a queda. Sem tornar o jogo mais difícil ou introduzir loop de física.
+- Basquete: bola presa à mão em repouso, preparação e liberação no mesmo gesto do braço; trajetória e retorno da bola separados, sombra no chão e feedback finito. Preservar pontuação, recorde e alternativa sem movimento.
+
+Referências: proporções, carneiro e guarda-corpo da [elevação do Going Merry, Catherine Gaum / Richard Bridgland](https://www.richardbridgland.com/case-studies/blog-post-title-three-t2x6k-njdgr), desenho observado no navegador; princípios de apoio e deslizamento na [instrução de moonwalk do Howcast](https://howcast.com/videos/499387-how-to-dance-like-michael-jackson-hip-hop-how-to/), texto consultado, sem alegar observação do vídeo. Reutilizar [atenção do Bencho](https://bencho.dev/blocks/eye-tracker) e [descoberta do 60fps](https://60fps.design/shots/claude-ultracode-effort-selection-easter-egg-tap-interaction) verificadas nas iterações anteriores. SVGs e coreografias autorais, adaptados ao mascote e à estética do portfólio.
+
 ## Acabamento das descobertas e novo jogo, 8 de outubro de 2026
 
 Manter papel #fff7fa, rosa #ef75a3, amora #691b3e, texto #291b24 e Space Grotesk. A página principal não muda: o acabamento acontece nos segredos já distribuídos. Formas com volume por faces, luz e sobreposição, sem filtros pesados. Movimento com preparação, ação e acomodação; sombras separadas do corpo e objetos presos ao rig.

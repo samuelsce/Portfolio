@@ -1,3 +1,5 @@
+import { BoneShape } from "./DogArtwork";
+
 export function StrawHat() {
   return <g className="secret-costume-hat"><ellipse cx="56" cy="30" rx="42" ry="7" fill="#b58a4f" /><ellipse cx="56" cy="28" rx="42" ry="7" fill="#ebc786" stroke="#9d7446" /><path d="M30 27 34 10Q56-1 78 10l5 17q-26 8-53 0Z" fill="#d8b371" stroke="#9d7446" /><path d="M36 12q18-8 34-3" fill="none" stroke="#f8dfa7" strokeWidth="2" strokeLinecap="round" /><path d="m31 19 2 7q24 7 49 0l-2-7q-24 7-49 0Z" fill="#a84b61" /><path d="M34 20q22 6 44 0" fill="none" stroke="#cd7380" /><path d="m23 28 8 2m51 0 8-2m-53-16-2 7m11-11-1 12m11-13v12m11-11 1 10m9-7 2 7" fill="none" stroke="#ad8751" strokeWidth=".8" /><path d="M22 27q14-3 24-2" stroke="#fff1c8" strokeWidth="1.2" fill="none" opacity=".7" /></g>;
 }
@@ -8,5 +10,16 @@ export function WhiteGlove() {
   return <g className="secret-glove"><path d="M102 73c5 1 6 6 3 9-3 4-9 3-11-1-2-5 2-9 8-8Z" fill="#fff7fa" stroke="#af91a3" strokeWidth=".9" /><path d="m100 76 2 2m-3 1 2 2" stroke="#d1b7c5" strokeWidth=".7" /></g>;
 }
 export function HandBone() {
-  return <g className="moment-hand-bone" transform="translate(97 73) rotate(-22)"><path d="m2 2 16-1c2-5 5-3 5 0l-2 3c3 2 1 6-2 5l-2-3L3 8c-1 5-6 4-6 1l2-3C-4 4-2 0 1 0l1 2Z" fill="#fff7fa" stroke="#b796a8" strokeWidth=".8" /></g>;
+  return <g className="moment-hand-bone" transform="translate(94 69) rotate(-22 9 6)"><g transform="scale(.45)"><BoneShape /></g><path d="m3 6 4 3 4-2" stroke="#eb91b3" strokeWidth="2.5" strokeLinecap="round" fill="none" /></g>;
+}
+
+export function DanceShoe({ right = false }: { right?: boolean }) {
+  const x = right ? 67 : 38;
+  return <g className={`dance-shoe dance-shoe-${right ? "right" : "left"}`}>
+    <path d={`M${x-2} 89h7v13h-7Z`} fill="#eee7ee" stroke="#cabccc" strokeWidth=".7" />
+    <path d={`M${x-2} 97h7v3h-7Z`} fill="#fff8fb" />
+    <path d={`M${x-4} 101q4-2 8 0l3 2q9-1 12 3 1 3-4 3h-20q-5-1-3-8Z`} fill="#332833" stroke="#211c26" strokeWidth=".8" />
+    <path d={`M${x-4} 106q9 2 21 1`} stroke="#796377" strokeWidth=".8" fill="none" />
+    <path d={`M${x+2} 102q4 2 8 2`} stroke="#a18b9e" strokeWidth="1" strokeLinecap="round" fill="none" />
+  </g>;
 }
