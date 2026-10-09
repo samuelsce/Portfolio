@@ -24,7 +24,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 - **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
 - **Constelação:** três toques na estrela revelam um céu com um S desenhado, estrelas e o planeta do mascote, dentro da bancada.
 - **Pausa para café:** uma palavra no campo da ideia revela uma xícara e uma reação silenciosa do personagem.
-- **Descobertas pela página:** barco com chapéu de palha, moonwalk com visitantes na janela do RoomLab e o Toddy correndo para buscar um ossinho com o mascote. Basquete, ponte de blocos e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
+- **Descobertas pela página:** barco com chapéu de palha, moonwalk com visitantes na janela do RoomLab e o Toddy correndo para buscar um ossinho com o mascote. Basquete, saltos entre ilhas e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -80,12 +80,14 @@ Na bancada do hero, três toques rápidos na estrela da janela revelam uma const
 - Janela do RoomLab: o primeiro toque liga a noite; outro toque na janela revela a cena de Ghosts.
 - Dois toques no `s.` circular de Sobre: Toddy entra correndo, busca o ossinho e vai embora.
 - Três toques no nome do hero: série de cinco arremessos.
-- Dois toques em Git, na lista de tecnologias: ponte de blocos. No teclado, digitar `189` fora de campos de texto também abre o jogo.
+- Dois toques em Git, na lista de tecnologias: saltos entre ilhas até uma cama. No teclado, digitar `189` fora de campos de texto também abre o jogo.
 - Dois toques na estrela do contato: três alvos e uma insígnia escondida.
 
-No basquete, a mira começa ativa. Toque na bola ou no botão de arremesso para parar o marcador na faixa rosa e marcar três pontos. A opção sem movimento permite escolher a direção e está ativa por padrão quando as animações estão desativadas. Na ponte, toque na casa inicial para encaixar a peça; setas selecionam, R gira e Enter/Espaço coloca. É possível desfazer escolhas. O recorde do basquete usa apenas o navegador, com alternativa em memória se o armazenamento estiver bloqueado.
+No basquete, a mira começa ativa. Toque na bola ou no botão de arremesso para parar o marcador na faixa rosa e marcar três pontos. A opção sem movimento permite escolher a direção e está ativa por padrão quando as animações estão desativadas. Nos saltos, segure o botão para mover a sombra de pouso e solte quando ela alcançar a próxima ilha. Enter e Espaço têm o mesmo gesto. São seis saltos, três vidas e uma cama na chegada, com referência a SkyWars e BedWars. O modo tranquilo oferece saltos assistidos e fica ativo com movimento reduzido. Os recordes dos dois jogos usam apenas o navegador, com alternativa em memória se o armazenamento estiver bloqueado.
 
-Cenas e jogos têm módulos e CSS separados, baixados somente na descoberta correspondente. Nas cenas, o controlador empresta o próprio mascote da página e recebe sua posição atual ao terminar. Chapéu, luva e ossinho são ligados ao desenho existente. Rolagem pequena mantém a coreografia; sair da área de origem, abrir o menu, redimensionar ou ocultar a aba encerra e limpa a cena. Escape e um botão discreto também encerram. A mira do basquete usa uma única animação nativa durante a série; a bola usa trajetória finita em coordenadas SVG. Ambas pausam na aba oculta e cancelam ao fechar a janela. Não há loop de frame ocioso ou serviço externo adicional.
+O veleiro tem vela, cordame e baú articulado. O moonwalk coordena sapatos, braços e cabeça, seguido de giro e reverência. O Toddy freia antes de esperar o ossinho, captura no alto e termina a aterrissagem antes de comemorar. Sombras ficam fora dos corpos e objetos acompanham seus pontos de apoio.
+
+Cenas e jogos têm módulos e CSS separados, baixados somente na descoberta correspondente. Nas cenas, o controlador empresta o próprio mascote da página e recebe sua posição atual ao terminar. Chapéu, luva e ossinho são ligados ao desenho existente. Rolagem pequena mantém a coreografia; sair da área de origem, abrir o menu, redimensionar ou ocultar a aba encerra e limpa a cena. Escape e um botão discreto também encerram. A mira do basquete usa uma única animação nativa durante a série; a bola usa trajetória finita em coordenadas SVG. Nos saltos, uma animação nativa move a sombra somente enquanto o botão é segurado; personagem e câmera percorrem trajetórias finitas. Os jogos pausam na aba oculta e cancelam ao fechar a janela. Não há loop de frame ocioso ou serviço externo adicional.
 
 </details>
 

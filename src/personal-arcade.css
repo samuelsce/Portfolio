@@ -24,24 +24,11 @@
 .still-aim { display: flex; gap: 10px; align-items: center; font-size: 13px; color: #796471; min-height: 44px; margin-top: 8px; }
 .still-aim input { width: 18px; height: 18px; accent-color: var(--berry); }
 .still-choices { display: flex; gap: 8px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
-.still-choices button, .bridge-controls > button { border: 1px solid var(--line); border-radius: 8px; background: transparent; font: inherit; min-height: 44px; padding: 10px 13px; color: var(--ink); }
 .still-choices button[aria-pressed="true"] { background: var(--blush); border-color: #d5a1b9; color: var(--berry); }
 .three-game[data-phase="done"] .shot-marker { opacity: .4; }
-.bridge-islands svg { width: 100%; display: block; height: auto; }
-.bridge-board { display: grid; grid-template-columns: repeat(6,1fr); gap: 5px; padding: 12px; background: #f1e1eb; border: 1px solid var(--line); border-radius: 12px; }
-.bridge-board button { aspect-ratio: 1; min-width: 0; min-height: 44px; background: #dfcadb; border: 1px dashed #bc9bb1; border-radius: 3px; padding: 0; }
-.bridge-board button[data-preview="true"] { background: #f9d6e4; border: 1px solid #c05a8a; }
-.bridge-board button[data-filled="true"] { border: 1px solid #94624d; background: #b48264; box-shadow: inset 0 4px 0 #d8b18f,inset 0 -4px 0 #9a6d52; }
-.bridge-board button[data-filled="true"]::after { content: ""; display: block; height: 2px; width: 60%; margin: auto; background: #9a6d52; }
-.bridge-board button[aria-pressed="true"] { outline: 2px solid var(--berry); outline-offset: 1px; }
-.bridge-board[data-won="true"] button { opacity: 1; }
-.bridge-piece { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 72px; margin-top: 8px; color: #796471; font-size: 13px; }
-.bridge-piece > div { display: flex; gap: 3px; min-width: 70px; min-height: 62px; align-items: center; justify-content: center; }
-.bridge-piece > div[data-vertical="true"] { flex-direction: column; }
-.bridge-piece i { display: block; width: 19px; height: 19px; background: #b48264; border: 1px solid #94624d; box-shadow: inset 0 3px 0 #d8b18f; }
-.bridge-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.bridge-controls > .personal-action { color: var(--paper); background: var(--berry); border-color: var(--berry); }
 .personal-arcade[data-paused="true"] * { animation-play-state: paused !important; }
 .personal-arcade[data-motion="off"] * { animation: none !important; transition: none !important; }
-@media(max-width: 380px) { .personal-arcade { padding: 18px 16px 22px; } .bridge-board { gap: 4px; padding: 6px; } .bridge-board button { min-height: 36px; } }
 @media(prefers-reduced-motion: reduce) { .personal-arcade * { animation: none !important; transition: none !important; } }
+
+.still-choices button{border:1px solid var(--line);border-radius:8px;background:transparent;font:inherit;min-height:44px;padding:10px 13px;color:var(--ink)}
+@media(max-width:380px){.personal-arcade{padding:18px 16px 22px}}

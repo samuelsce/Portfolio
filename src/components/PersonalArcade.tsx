@@ -1,12 +1,14 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import type { KeyboardEvent } from "react";
 import { createPortal } from "react-dom";
 import { useLanguage } from "../i18n/LanguageProvider";
 import { personalCopy } from "../i18n/personal";
 import type { GameKind } from "./personal-secrets";
-import { ThreePointGame, BridgeGame } from "./PersonalGames";
+import { ThreePointGame } from "./PersonalGames";
 import Icon from "./Icon";
 import "../personal-arcade.css";
+
+const SkyJumpGame = lazy(() => import("./SkyJumpGame"));
 
 export default function PersonalArcade({ kind, motion, onClose }: { kind: GameKind; motion: boolean; onClose: () => void }) {
   const { language } = useLanguage();
@@ -31,6 +33,6 @@ export default function PersonalArcade({ kind, motion, onClose }: { kind: GameKi
   }
   return createPortal(<dialog ref={dialog} className="personal-arcade" data-game={kind} data-motion={motion ? "on" : "off"} aria-labelledby="arcade-title" onKeyDown={trap} onCancel={event => { event.preventDefault(); onClose(); }} onClick={event => { if (event.target !== event.currentTarget) return; const r = event.currentTarget.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) onClose(); }}>
     <div className="personal-heading"><h2 id="arcade-title">{c[kind].title}</h2><button className="personal-close" onClick={onClose} aria-label={c.close}><Icon name="close" /></button></div>
-    {kind === "basketball" ? <ThreePointGame motion={motion} /> : <BridgeGame />}
+    {kind === "basketball" ? <ThreePointGame motion={motion} /> : <Suspense fallback={<div className="personal-stage" aria-busy="true" />}><SkyJumpGame motion={motion} /></Suspense>}
   </dialog>, document.body);
 }

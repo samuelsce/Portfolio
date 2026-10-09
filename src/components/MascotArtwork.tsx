@@ -92,6 +92,7 @@ function MascotArtwork({
                     stroke="#ec83aa"
                     strokeWidth="5"
                   />
+                  <g className="mascot-shoe shoe-left">
                   <path
                     d="M40 100c-4-1-9 2-9 5 0 3 6 4 13 2 3-1 1-6-4-7Z"
                     fill="#77334f"
@@ -101,6 +102,7 @@ function MascotArtwork({
                     stroke="#c27a98"
                     strokeWidth="1.4"
                   />
+                  </g>
                 </g>
                 <g className="mascot-leg leg-right">
                   <path
@@ -113,6 +115,7 @@ function MascotArtwork({
                     stroke="#ec83aa"
                     strokeWidth="5"
                   />
+                  <g className="mascot-shoe shoe-right">
                   <path
                     d="M72 100c4-1 9 2 9 5 0 3-6 4-13 2-3-1-1-6 4-7Z"
                     fill="#77334f"
@@ -122,6 +125,7 @@ function MascotArtwork({
                     stroke="#c27a98"
                     strokeWidth="1.4"
                   />
+                  </g>
                 </g>
                 <g className="mascot-arm arm-left">
                   <path

@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.9.0] - 2026-10-08
+
+### Acabamento das cenas e novo minigame
+
+- Veleiro original em camadas: casco de madeira, vela, cordame, figura de proa, água e baú com tampa, moedas e brilhos. Mascote e convés compartilham o balanço, com chegada, embarque e saída suaves.
+- Ghosts com volume, braços e reação à dança. Moonwalk articula calcanhares, pernas, braços e cabeça; giro e reverência encerram a apresentação. Chapéus refinados, presos ao mesmo rig.
+- Toddy com pelagem, focinho, orelha e coleira articulados, frenagem, prontidão, captura e aterrissagem completas. O estado de comemoração espera o salto terminar.
+- Puzzle de encaixar blocos substituído por saltos entre ilhas até uma cama, com câmera, sombra de pouso, três vidas, recorde e modo tranquilo. Segurar/soltar funciona por toque, mouse e teclado; cancelamento, pausa e fechamento tratados.
+- Materiais e confirmação de mira/basquete refinados; stepback começa da posição de repouso. Desenhos próprios sem mídia externa, áudio, novas dependências ou loop de simulação. Novo jogo e CSS carregados somente ao abrir sua descoberta.
+
 ## [1.8.0] - 2026-10-08
 
 ### Descobertas espalhadas pela página

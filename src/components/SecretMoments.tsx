@@ -7,21 +7,12 @@ import type { ActorClaim, ActorPoint, MomentKind, SecretRequest } from "./person
 import { creativeReaction } from "./creative-events";
 import DogArtwork, { Bone } from "./DogArtwork";
 import { Fedora, HandBone, StrawHat, WhiteGlove } from "./SecretCostume";
+import { SailingBoat, Sea, Ghost, Treasure } from "./SecretArtwork";
 import "../secret-moments.css";
 
 const clamp = (n: number, low: number, high: number) => Math.max(low, Math.min(n, high));
 const pose = (p: ActorPoint) => `translate3d(${p.x}px,${p.y}px,0) scale(${p.size / 112})`;
 const ease = "cubic-bezier(.22,.65,.25,1)";
-
-function PaperBoat() {
-  return <svg viewBox="0 0 230 140" aria-hidden="true"><path d="M15 77 105 19l110 58-51 44H68Z" fill="#fff8fb" stroke="#b08a9c" strokeWidth="1.5" /><path d="m15 77 100 14 100-14-51 44H68Z" fill="#ecd3df" stroke="#b08a9c" strokeWidth="1.5" /><path d="m105 19 10 72-67-21Z" fill="#f9eaf1" stroke="#b08a9c" strokeWidth="1.2" /><path d="M115 91 192 67 105 19" fill="#fff8fb" stroke="#b08a9c" strokeWidth="1.2" /><path d="m74 119 42-28 43 28" fill="none" stroke="#c9a5b6" /><path d="M21 130q24 7 47 0m37 0q24 7 47 0m24 0q16 5 31 0" stroke="#b87994" strokeWidth="1.5" fill="none" /></svg>;
-}
-function Ghost({ second = false }: { second?: boolean }) {
-  return <svg viewBox="0 0 80 100" aria-hidden="true"><path d="M15 87V38q0-27 25-27t25 27v49l-10-7-8 7-8-7-12 7-6-7Z" fill={second ? "#efd9e6" : "#fff8fb"} stroke="#b896a9" strokeWidth="1.5" /><ellipse cx="31" cy="39" rx="3" ry="5" fill="#5f3850" /><ellipse cx="49" cy="39" rx="3" ry="5" fill="#5f3850" /><path d="M35 54q5 6 10 0" fill="none" stroke="#5f3850" strokeWidth="1.5" strokeLinecap="round" /><path d="m18 57-11 9m56-9 10 9" stroke="#b896a9" strokeWidth="2" strokeLinecap="round" /><ellipse cx="40" cy="95" rx="20" ry="3" fill="#8d5470" opacity=".1" /></svg>;
-}
-function Treasure() {
-  return <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 30q0-18 22-18t22 18v24H10Z" fill="#ba8872" stroke="#855946" strokeWidth="1.4" /><path d="M10 30h44v7H10Z" fill="#e2ba79" /><path d="M20 15v39m24-39v39" stroke="#e2ba79" strokeWidth="4" /><path d="M29 32h6v10h-6Z" fill="#f4d998" stroke="#9d7544" /><path d="M5 11v8m-4-4h8m47-10v8m-4-4h8" fill="none" stroke="#d6a466" strokeWidth="1.5" /></svg>;
-}
 
 // One finite scene owns the existing character rig. Transform keyframes run in
 // the browser; scroll only offsets the scene once per frame, never its timeline.
@@ -32,6 +23,7 @@ export default function SecretMoments({ request, motion, onDone }: {
   const c = personalCopy[language].moment;
   const kind = request.kind as MomentKind;
   const layer = useRef<HTMLDivElement>(null), boat = useRef<HTMLDivElement>(null);
+  const sea = useRef<HTMLDivElement>(null);
   const dog = useRef<HTMLDivElement>(null), bone = useRef<HTMLDivElement>(null);
   const ghostA = useRef<HTMLDivElement>(null), ghostB = useRef<HTMLDivElement>(null);
   const treasure = useRef<HTMLDivElement>(null), spotlight = useRef<HTMLDivElement>(null);
@@ -126,7 +118,8 @@ export default function SecretMoments({ request, motion, onDone }: {
     window.addEventListener("portfolio:arcadechange", arcade);
     portfolio.addEventListener("click", otherDiscovery);
     const headerBottom = document.querySelector(".site-header")?.getBoundingClientRect().bottom || 70;
-    const floor = clamp(initial.bottom + (kind === "toddy" ? 14 : kind === "voyage" ? -70 : -26), headerBottom + 150, innerHeight - 40);
+    const desiredFloor = kind === "voyage" ? initial.top + initial.height * .68 : initial.bottom + (kind === "toddy" ? 14 : -26);
+    const floor = clamp(desiredFloor, headerBottom + 150, innerHeight - 40);
     // Close is always within the visible part of the originating section.
     const close = node.querySelector<HTMLElement>(".moment-close")!;
     close.style.left = `${clamp(initial.right - 44, 8, innerWidth - 52)}px`;
@@ -135,107 +128,116 @@ export default function SecretMoments({ request, motion, onDone }: {
 
     const size = clamp(innerWidth * .16, 86, 106);
     async function voyage() {
-      const w = clamp(initial.width * .4, 160, 216), h = w * 140 / 230;
+      const w = clamp(initial.width * .47, 184, 242), h = w * 160 / 230;
       const x = clamp(initial.left + initial.width * .5 - w / 2, 16, innerWidth - w - 16);
-      const y = floor - h * .86;
+      const y = floor - h * .86, seaWidth = Math.min(w * 1.45, innerWidth - 28);
       at(boat.current!, x - w * .75, y, w);
-      at(treasure.current!, x + w * .7, y + h * .3, 40);
-      const dest = { x: x + w * .38 - size / 2, y: y + h * .55 - size * 108 / 112, size };
-      if (!motion) { boat.current!.style.transform = `translate3d(${x}px,${y}px,0)`; boat.current!.style.opacity = "1"; treasure.current!.style.opacity = "1"; later(stop, 2800); return; }
-      const arrival = animate(boat.current!, [{ transform: `translate3d(${x-w*.75}px,${y+8}px,0) rotate(-5deg)`, opacity: 0 }, { transform: `translate3d(${x}px,${y}px,0) rotate(0deg)`, opacity: 1 }], 800);
-      if (owner) { owner.root.dataset.secretAction = "boarding"; fly(dest, 800, 55); }
+      at(sea.current!, x + w / 2 - seaWidth / 2, y + h * .72, seaWidth);
+      const dest = { x: x + w * .3 - size / 2, y: y + h * .63 - size * 108 / 112, size };
+      // The chest is a child of the hull: it shares every roll and translation.
+      treasure.current!.style.width = "20%";
+      if (!motion) { boat.current!.style.transform = `translate3d(${x}px,${y}px,0)`; boat.current!.style.opacity = "1"; sea.current!.style.opacity = "1"; treasure.current!.style.opacity = "1"; treasure.current!.dataset.open = "true"; later(stop, 2800); return; }
+      void animate(sea.current!, [{ opacity: 0, scale: ".85" }, { opacity: 1, scale: "1" }], 850);
+      const arrival = animate(boat.current!, [{ transform: `translate3d(${x-w*.75}px,${y+8}px,0) rotate(-5deg)`, opacity: 0 }, { transform: `translate3d(${x-8}px,${y-3}px,0) rotate(1deg)`, opacity: 1, offset: .8 }, { transform: `translate3d(${x}px,${y}px,0) rotate(0deg)`, opacity: 1 }], 1050);
+      if (owner) { owner.root.dataset.secretAction = "boarding"; void fly(dest, 1050, 65); }
       if (!await arrival) return;
       if (owner) owner.root.dataset.secretAction = "sailing";
-      const steps = [0, .16, .33, .5, .67, .84, 1];
-      const sway = (t: number) => Math.sin(t * Math.PI * 4);
-      const sailing = animate(boat.current!, steps.map(t => ({ offset: t, transform: `translate3d(${x + t * 22}px,${y + sway(t) * 3}px,0) rotate(${sway(t) * 1.5}deg)` })), 3500, { easing: "linear" });
-      if (owner) animate(owner.root, steps.map(t => ({ offset: t, transform: pose({ ...dest, x: dest.x + t * 22, y: dest.y + sway(t) * 3 }) })), 3500, { easing: "linear" });
-      await wait(850); if (!active) return;
-      animate(treasure.current!, [{ opacity: 0, transform: `translate3d(${x+w*.7}px,${y+h*.3+14}px,0) scale(.5)` }, { opacity: 1, transform: `translate3d(${x+w*.7+7}px,${y+h*.3}px,0) scale(1)` }], 550);
+      const steps = Array.from({ length: 65 }, (_, i) => i / 64);
+      const wave = (t: number) => Math.sin(t * Math.PI * 4), turn = (t: number) => wave(t) * 1.6;
+      const sailing = animate(boat.current!, steps.map(t => ({ offset: t, transform: `translate3d(${x+t*22}px,${y+wave(t)*3}px,0) rotate(${turn(t)}deg)` })), 3700, { easing: "linear" });
+      if (owner) {
+        const pivot = { x: x + w / 2, y: y + h * .7 };
+        void animate(owner.root, steps.map(t => {
+          const angle = turn(t) * Math.PI / 180, ox = dest.x - pivot.x, oy = dest.y - pivot.y;
+          return { offset: t, transform: `${pose({ ...dest, x: pivot.x + ox*Math.cos(angle)-oy*Math.sin(angle)+t*22, y: pivot.y + ox*Math.sin(angle)+oy*Math.cos(angle)+wave(t)*3 })} rotate(${turn(t)}deg)` };
+        }), 3700, { easing: "linear" });
+      }
+      if (!await wait(650)) return;
+      void animate(treasure.current!, [{ opacity: 0, translate: "0 9px", scale: ".8" }, { opacity: 1, translate: "0 0", scale: "1" }], 500);
+      if (!await wait(450)) return;
+      treasure.current!.dataset.open = "true";
       if (!await sailing) return;
       if (owner) {
         owner.root.dataset.secretAction = "salute";
-        await wait(700); if (!active) return;
+        if (!await wait(900)) return;
         const hat = owner.root.querySelector(".secret-costume-hat");
-        if (hat) animate(hat, [{ opacity: 1 }, { opacity: 0 }], 450);
-        const r = owner.root.getBoundingClientRect();
-        const p = { x: r.left - dx, y: r.top - dy, size: r.width };
-        await fly({ ...p, x: p.x + 28, y: p.y - 55 }, 550, 12);
+        if (hat) void animate(hat, [{ opacity: 1 }, { opacity: 0 }], 450);
+        const r = owner.root.getBoundingClientRect(), p = { x: r.left-dx, y: r.top-dy, size: r.width };
+        if (!await fly({ ...p, x: p.x + 28, y: p.y - 55 }, 600, 18)) return;
       }
       if (!active) return;
-      animate(boat.current!, [{ opacity: 1 }, { opacity: 0, transform: `translate3d(${x+w*.65}px,${y+20}px,0) rotate(4deg)` }], 550);
-      animate(treasure.current!, [{ opacity: 1 }, { opacity: 0 }], 450);
-      later(stop, 550);
+      void animate(boat.current!, [{ opacity: 1 }, { opacity: 0, transform: `translate3d(${x+w*.65}px,${y+20}px,0) rotate(4deg)` }], 700);
+      void animate(sea.current!, [{ opacity: 1 }, { opacity: 0, scale: "1.06" }], 850);
+      later(stop, 850);
     }
     async function ghosts() {
       const r = request.source.getBoundingClientRect();
-      const gx = clamp(r.left + r.width * .45 - 24, 10, innerWidth - 64), gy = clamp(r.top + r.height * .35, headerBottom + 60, floor - 130);
-      at(ghostA.current!, gx, gy, 48); at(ghostB.current!, gx + 22, gy + 4, 40);
-      const x = clamp(initial.left + initial.width * .5 - size / 2, 50, innerWidth - size - 30), y = floor - size * 108 / 112;
-      at(spotlight.current!, x - 45, floor - 8, size + 90);
+      const gx = clamp(r.left+r.width*.4-26, 22, innerWidth-100), gy = clamp(r.top+r.height*.35, headerBottom+65, floor-130);
+      at(ghostA.current!, gx, gy, 56); at(ghostB.current!, gx+28, gy+4, 48);
+      const x = clamp(initial.left+initial.width*.5-size/2, 50, innerWidth-size-30), y = floor-size*108/112;
+      at(spotlight.current!, x-45, floor-8, size+90);
       if (!motion) { ghostA.current!.style.opacity = "1"; ghostB.current!.style.opacity = "1"; later(stop, 2800); return; }
-      const frames = (left: number, offset: number) => [
-        { opacity: 0, transform: `translate3d(${left}px,${gy}px,0) scale(.25)` },
-        { opacity: 1, transform: `translate3d(${left + offset}px,${gy - 16}px,0) scale(1)`, offset: .24 },
-        { opacity: 1, transform: `translate3d(${left + offset - 14}px,${gy - 25}px,0) rotate(-5deg)`, offset: .6 },
-        { opacity: 1, transform: `translate3d(${left + offset + 8}px,${gy - 12}px,0) rotate(4deg)` }
-      ];
-      animate(ghostA.current!, frames(gx, -30), 4200);
-      animate(ghostB.current!, frames(gx + 22, 20), 4400);
-      animate(spotlight.current!, [{ opacity: 0, scale: ".6" }, { opacity: .65, scale: "1" }], 650);
+      const appear = (left: number, direction: number) => Array.from({ length: 33 }, (_, i) => {
+        const t = i/32, emerge = Math.min(1, t*5), drift = direction * (1-Math.exp(-t*5));
+        return { offset:t, opacity:emerge, transform:`translate3d(${left+drift}px,${gy-24*emerge+Math.sin(t*Math.PI*3)*5}px,0) scale(${.25+emerge*.75}) rotate(${Math.sin(t*Math.PI*3)*4}deg)` };
+      });
+      void animate(ghostA.current!, appear(gx,-30), 5400, { easing:"linear" });
+      void animate(ghostB.current!, appear(gx+28,27), 5500, { easing:"linear" });
+      void animate(spotlight.current!, [{ opacity:0, scale:".6" },{ opacity:.65, scale:"1" }], 750);
       if (owner) {
-        if (!await fly({ x: x + 26, y, size }, 700, 40)) return;
+        if (!await fly({x:x+26,y,size}, 800, 40)) return;
         owner.root.dataset.secretAction = "moonwalk";
-        const steps = Array.from({ length: 17 }, (_, i) => ({ offset: i / 16, transform: pose({ x: x + 26 - i * 4.5, y, size }) }));
-        if (!await animate(owner.root, steps, 3100, { easing: "linear" })) return;
+        if (!await animate(owner.root, [{transform:pose({x:x+26,y,size})},{transform:pose({x:x-46,y,size})}], 3100, {easing:"linear"})) return;
+        owner.root.dataset.secretAction = "spin";
+        if (!await wait(760)) return;
         owner.root.dataset.secretAction = "hat-tip";
-        await wait(900);
-      } else await wait(4400);
+        ghostA.current!.dataset.action = "clap"; ghostB.current!.dataset.action = "clap";
+        if (!await wait(1100)) return;
+      } else if (!await wait(5700)) return;
       if (!active) return;
-      animate(ghostA.current!, [{ opacity: 1 }, { opacity: 0, translate: "0 -14px" }], 700);
-      animate(ghostB.current!, [{ opacity: 1 }, { opacity: 0, translate: "0 -20px" }], 700);
-      animate(spotlight.current!, [{ opacity: .65 }, { opacity: 0 }], 700);
-      owner?.root.querySelectorAll(".secret-costume-hat,.secret-glove").forEach(prop => animate(prop, [{ opacity: 1 }, { opacity: 0 }], 650));
-      later(stop, 700);
+      void animate(ghostA.current!, [{opacity:1},{opacity:0,translate:"0 -24px",scale:".85"}], 850);
+      void animate(ghostB.current!, [{opacity:1},{opacity:0,translate:"0 -30px",scale:".85"}], 850);
+      void animate(spotlight.current!, [{opacity:.65},{opacity:0}], 850);
+      owner?.root.querySelectorAll(".secret-costume-hat,.secret-glove").forEach(prop => void animate(prop,[{opacity:1},{opacity:0}],750));
+      later(stop,850);
     }
     async function toddy() {
-      const w = clamp(innerWidth * .27, 104, 126);
-      const x = clamp(initial.left + initial.width * .36, 20, innerWidth - w - size - 26);
-      const y = floor - w * 128 / 160;
-      const actorX = x + w * .87, actorY = floor - size * 108 / 112;
-      at(dog.current!, -w - 12, y, w);
-      dog.current!.style.opacity = "1";
-      if (!motion) { at(dog.current!, x, y, w); setDogBone(true); later(stop, 2800); return; }
-      dog.current!.dataset.action = "run";
-      const arrival = animate(dog.current!, [{ transform: `translate3d(${-w-12}px,${y}px,0)` }, { transform: `translate3d(${x}px,${y}px,0)` }], 1000, { easing: "cubic-bezier(.2,.1,.35,1)" });
-      if (owner) fly({ x: actorX, y: actorY, size }, 850, 45);
-      if (!await arrival) return;
-      dog.current!.dataset.action = "wag";
-      if (owner) { owner.root.dataset.secretAction = "offer"; setHandBone(true); }
-      if (!await wait(700)) return;
-      const hand = owner?.root.querySelector(".moment-hand-bone")?.getBoundingClientRect();
-      const startX = hand ? hand.left - dx : initial.left + initial.width / 2;
-      const startY = hand ? hand.top - dy : y - 20;
-      const endX = x + w * 136 / 160 - 11.5, endY = y + w * 80 / 160 - 7;
-      setHandBone(false); bone.current!.style.opacity = "1";
-      at(bone.current!, startX, startY, 23);
-      if (owner) owner.root.dataset.secretAction = "toss";
-      later(() => { dog.current!.dataset.action = "catch"; }, 200);
-      const flight = Array.from({ length: 25 }, (_, i) => {
-        const t = i / 24;
-        return { offset: t, transform: `translate3d(${startX+(endX-startX)*t}px,${startY+(endY-startY)*t-4*48*t*(1-t)}px,0) rotate(${-20+t*200}deg)` };
-      });
-      if (!await animate(bone.current!, flight, 600, { easing: "linear" })) return;
-      bone.current!.style.opacity = "0"; setDogBone(true);
-      dog.current!.dataset.action = "proud";
-      if (owner) owner.root.dataset.secretAction = "delight";
-      if (!await wait(1200)) return;
-      dog.current!.dataset.action = "turn";
-      if (!await wait(350)) return;
-      dog.current!.dataset.action = "leave";
-      if (owner) owner.root.dataset.secretAction = "goodbye";
-      if (!await animate(dog.current!, [{ transform: `translate3d(${x}px,${y}px,0)` }, { transform: `translate3d(${-w-24}px,${y}px,0)` }], 1000, { easing: "cubic-bezier(.4,0,.8,.6)" })) return;
-      later(stop, 250);
+      const w = clamp(innerWidth*.29, 112, 134), x = clamp(initial.left+initial.width*.36,20,innerWidth-w-size-26);
+      const y = floor-w*128/160, actorX = x+w*.9, actorY = floor-size*108/112;
+      at(dog.current!,-w-12,y,w); dog.current!.style.opacity="1";
+      if (!motion) { at(dog.current!,x,y,w);setDogBone(true);later(stop,2800);return; }
+      dog.current!.dataset.action="run";
+      const arrival = animate(dog.current!,[{transform:`translate3d(${-w-12}px,${y}px,0)`},{transform:`translate3d(${x-18}px,${y}px,0)`,offset:.72},{transform:`translate3d(${x+3}px,${y}px,0)`,offset:.9},{transform:`translate3d(${x}px,${y}px,0)`}],1150,{easing:"linear"});
+      later(()=>{dog.current!.dataset.action="brake";},830);
+      if(owner) void fly({x:actorX,y:actorY,size},950,45);
+      if(!await arrival)return;
+      dog.current!.dataset.action="wag";
+      if(owner){owner.root.dataset.secretAction="offer";setHandBone(true);}
+      if(!await wait(650))return;
+      dog.current!.dataset.action="ready";
+      if(owner)owner.root.dataset.secretAction="windup";
+      if(!await wait(350))return;
+      const hand=owner?.root.querySelector(".moment-hand-bone")?.getBoundingClientRect();
+      const startX=hand?hand.left-dx:initial.left+initial.width/2, startY=hand?hand.top-dy:y-20;
+      const endX=x+w*136/160-11.5, endY=y+w*80/160-7-9*w/160;
+      setHandBone(false);bone.current!.style.opacity="1";at(bone.current!,startX,startY,23);
+      if(owner)owner.root.dataset.secretAction="toss";
+      later(()=>{dog.current!.dataset.action="catch";},320);
+      const flight=Array.from({length:33},(_,i)=>{const t=i/32;return{offset:t,transform:`translate3d(${startX+(endX-startX)*t}px,${startY+(endY-startY)*t-4*48*t*(1-t)}px,0) rotate(${-20+t*200}deg)`};});
+      if(!await animate(bone.current!,flight,680,{easing:"linear"}))return;
+      bone.current!.style.opacity="0";setDogBone(true);
+      // Keep the jump rig alive through landing; changing to proud at the catch
+      // would cut off the descent and make the dog snap back to the floor.
+      if(!await wait(290))return;
+      dog.current!.dataset.action="proud";
+      if(owner)owner.root.dataset.secretAction="delight";
+      if(!await wait(1300))return;
+      dog.current!.dataset.action="turn";
+      if(!await wait(450))return;
+      dog.current!.dataset.action="leave";
+      if(owner)owner.root.dataset.secretAction="goodbye";
+      if(!await animate(dog.current!,[{transform:`translate3d(${x}px,${y}px,0)`},{transform:`translate3d(${-w-24}px,${y}px,0)`}],1150,{easing:"cubic-bezier(.4,0,.8,.6)"}))return;
+      later(stop,300);
     }
     function aim() {
       const w = Math.min(280, innerWidth - 48), x = clamp(initial.left + 16, 12, innerWidth - w - 12);
@@ -292,12 +294,12 @@ export default function SecretMoments({ request, motion, onDone }: {
     <div ref={layer} className="secret-moment-layer" data-kind={kind} data-motion={motion ? "on" : "off"}>
       <span className="sr-only" role="status">{kind === "aim" && hits === 3 ? c.found : c[kind]}</span>
       <button className="moment-close" aria-label={c.close} onClick={() => finishRef.current()}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg></button>
-      {kind === "voyage" && <><div className="moment-boat" ref={boat}><PaperBoat />{!actor && <svg className="boat-hat" viewBox="0 0 112 42" aria-hidden="true"><StrawHat /></svg>}</div><div className="moment-treasure" ref={treasure}><Treasure /></div></>}
+      {kind === "voyage" && <><div className="moment-sea" ref={sea}><Sea /></div><div className="moment-boat" ref={boat}><SailingBoat />{!actor && <svg className="boat-hat" viewBox="0 0 112 42" aria-hidden="true"><StrawHat /></svg>}<div className="moment-treasure" ref={treasure}><Treasure /></div></div></>}
       {kind === "ghosts" && <><div className="moment-spotlight" ref={spotlight} /><div className="moment-ghost" ref={ghostA}><Ghost /></div><div className="moment-ghost" ref={ghostB}><Ghost second /></div></>}
       {kind === "toddy" && <><div className="moment-dog" ref={dog}><DogArtwork bone={dogBone} /></div><div className="moment-bone" ref={bone}><Bone /></div></>}
       {kind === "aim" && <div className="moment-aim" ref={aimRoot} data-complete={hits === 3}>
         <div className="aim-count" aria-label={`${hits}/3`}><i data-hit={hits > 0} /><i data-hit={hits > 1} /><i data-hit={hits > 2} /></div>
-        {hits < 3 ? <button ref={aimTarget} key={hits} className={`aim-target aim-target-${hits}`} aria-label={`${c.target} ${hits+1}/3`} onClick={hit}><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" /><circle cx="32" cy="32" r="11" /><path d="M32 2v14m0 32v14M2 32h14m32 0h14" /><circle cx="32" cy="32" r="3" /></svg></button> : <div className="aim-badge"><svg viewBox="0 0 90 90" aria-hidden="true"><path d="m45 7 31 21v34L45 84 14 62V28Z" fill="#387e71" /><path d="m45 16 23 17v25L45 74 22 58V33Z" fill="#6ec2a4" /><path d="m29 42 16 16 16-16-16-13Z" fill="#e8f8ef" /><path d="m45 29 16 13-16 4-16-4Z" fill="#b6e5d1" /></svg></div>}
+        {hits < 3 ? <button ref={aimTarget} key={hits} className={`aim-target aim-target-${hits}`} aria-label={`${c.target} ${hits+1}/3`} onClick={hit}><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="35" rx="23" ry="22" fill="#ba8da433" stroke="none" /><circle className="target-rim" cx="32" cy="32" r="23" /><path className="target-light" d="M17 25a17 17 0 0 1 16-10" fill="none" strokeLinecap="round" /><circle cx="32" cy="32" r="18" /><circle cx="32" cy="32" r="11" /><path d="M32 2v14m0 32v14M2 32h14m32 0h14" /><circle className="target-core" cx="32" cy="32" r="4" /></svg></button> : <div className="aim-badge"><svg viewBox="0 0 90 90" aria-hidden="true"><ellipse cx="45" cy="83" rx="27" ry="4" fill="#387e711a" /><path d="M8 27 2 23m78 4 7-4M45 4V0" stroke="#91c8b3" strokeWidth="2" strokeLinecap="round" /><path d="m45 7 31 21v34L45 84 14 62V28Z" fill="#387e71" /><path d="m45 16 23 17v25L45 74 22 58V33Z" fill="#6ec2a4" /><path d="m29 42 16 16 16-16-16-13Z" fill="#e8f8ef" /><path d="m45 29 16 13-16 4-16-4Z" fill="#b6e5d1" /></svg></div>}
       </div>}
     </div>
     {head && kind === "voyage" && createPortal(<StrawHat />, head)}

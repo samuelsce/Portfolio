@@ -1,5 +1,19 @@
 # Samuel Santos: plano de design
 
+## Acabamento das descobertas e novo jogo, 8 de outubro de 2026
+
+Manter papel #fff7fa, rosa #ef75a3, amora #691b3e, texto #291b24 e Space Grotesk. A página principal não muda: o acabamento acontece nos segredos já distribuídos. Formas com volume por faces, luz e sobreposição, sem filtros pesados. Movimento com preparação, ação e acomodação; sombras separadas do corpo e objetos presos ao rig.
+
+- Viagem: pequeno veleiro de madeira, vela com tecido e cordame, água, casco em camadas e baú com tampa articulada. O mascote embarca, acompanha o balanço do convés e saúda antes de sair.
+- Ghosts: fantasmas com silhueta flexível, volume e braços; surgem da janela, acompanham o moonwalk, reagem ao giro e à reverência. Articular sapatos, braços, cabeça e chapéu, com mudança de peso.
+- Toddy: pelagem em camadas, focinho, orelhas, coleira e patinhas. Corrida, frenagem, prontidão, lançamento, captura no alto, aterrissagem e saída com o osso. Evitar cortar o salto ao trocar de estado.
+- Minecraft: substituir completamente o encaixe de peças por saltos entre ilhas voxel até uma cama. Segurar carrega o salto; soltar escolhe a distância pela sombra de pouso. Câmera acompanha a aterrissagem, três tentativas e recorde local. Versão tranquila com saltos assistidos e sem movimento. Uma animação nativa enquanto carrega e trajetórias finitas; sem simulação por frame.
+- Mira e basquete: melhorar a construção de materiais, confirmação dos acertos e a sequência de preparação/lançamento, mantendo os controles simples.
+
+Composição do jogo: `[progresso / tentativas] [ilhas e personagem com câmera] [segurar e soltar / modo tranquilo]`. A estética voxel fica restrita ao pequeno mundo do jogo; controles continuam no sistema visual do portfólio. Nenhum menu novo de histórias, legenda decorativa ou reprodução de áudio.
+
+Referências reutilizadas e adaptadas: [Eye Tracker do Bencho](https://bencho.dev/blocks/eye-tracker), preview observado anteriormente, para atenção e reação; [descoberta do 60fps](https://60fps.design/shots/claude-ultracode-effort-selection-easter-egg-tap-interaction), descrição consultada anteriormente, para entradas discretas. Arte, coreografias e jogo próprios.
+
 ## Descobertas espalhadas pela página, 8 de outubro de 2026
 
 Preservar a página profissional, a bancada reta, o personagem silencioso e os tokens existentes: papel #fff7fa, rosa #ef75a3, blush #f8dbe7, amora #691b3e, texto #291b24. Space Grotesk permanece em todos os controles e textos. Remover a coleção com sete histórias, o reconhecimento de hobbies no campo da ideia e o segredo de comidas. Os interesses do Samuel aparecem como referências visuais, em acontecimentos curtos no local onde são descobertos.
