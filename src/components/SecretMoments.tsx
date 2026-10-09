@@ -4,12 +4,13 @@ import { useLanguage } from "../i18n/LanguageProvider";
 import { personalCopy } from "../i18n/personal";
 import { claimActor } from "./personal-secrets";
 import type { ActorClaim, ActorPoint, MomentKind, SecretRequest } from "./personal-secrets";
-import { creativeReaction } from "./creative-events";
+import AimChallenge from "./AimChallenge";
+import MascotArtwork from "./MascotArtwork";
 import DogArtwork, { Bone, dogBitePoint, runDogGait } from "./DogArtwork";
 import { Fedora, HandBone, StrawHat, WhiteGlove } from "./SecretCostume";
 import MoonwalkRig, { performMoonwalk } from "./MoonwalkRig";
 import type { SceneTrack } from "./MoonwalkRig";
-import { SailingBoat, Sea, Ghost, Treasure } from "./SecretArtwork";
+import { SailingBoat, Sea } from "./SecretArtwork";
 import "../secret-moments.css";
 
 const clamp = (n: number, low: number, high: number) => Math.max(low, Math.min(n, high));
@@ -27,15 +28,13 @@ export default function SecretMoments({ request, motion, onDone }: {
   const layer = useRef<HTMLDivElement>(null), boat = useRef<HTMLDivElement>(null);
   const sea = useRef<HTMLDivElement>(null);
   const dog = useRef<HTMLDivElement>(null), bone = useRef<HTMLDivElement>(null);
-  const ghostA = useRef<HTMLDivElement>(null), ghostB = useRef<HTMLDivElement>(null);
-  const treasure = useRef<HTMLDivElement>(null), spotlight = useRef<HTMLDivElement>(null);
-  const aimRoot = useRef<HTMLDivElement>(null), aimTarget = useRef<HTMLButtonElement>(null);
+  const spotlight = useRef<HTMLDivElement>(null);
+  const restingDancer = useRef<HTMLDivElement>(null);
+  const aimRoot = useRef<HTMLDivElement>(null);
   const finishRef = useRef<() => void>(() => {}), doneRef = useRef(onDone);
   doneRef.current = onDone;
   const [actor, setActor] = useState<ActorClaim | null>(null);
   const [dogBone, setDogBone] = useState(false), [handBone, setHandBone] = useState(false);
-  const [hits, setHits] = useState(0);
-  const aimHits = useRef(0);
 
   useEffect(() => {
     const node = layer.current!;
@@ -135,7 +134,7 @@ export default function SecretMoments({ request, motion, onDone }: {
     const close = node.querySelector<HTMLElement>(".moment-close")!;
     close.style.left = `${clamp(initial.right - 44, 8, innerWidth - 52)}px`;
     close.style.top = `${clamp(initial.top + 8, headerBottom + 8, innerHeight - 52)}px`;
-    later(stop, kind === "aim" ? 20000 : 14000);
+    if (kind !== "aim") later(stop, 14000);
 
     const size = clamp(innerWidth * .16, 86, 120);
     async function voyage() {
@@ -145,9 +144,7 @@ export default function SecretMoments({ request, motion, onDone }: {
       at(boat.current!, x - w * .75, y, w);
       at(sea.current!, x + w / 2 - seaWidth / 2, y + h * .72, seaWidth);
       const dest = { x: x + w * .38 - size / 2, y: y + h * (103 / 160) - size * 108 / 112, size };
-      // The chest is a child of the hull: it shares every roll and translation.
-      treasure.current!.style.width = "20%";
-      if (!motion) { boat.current!.style.transform = `translate3d(${x}px,${y}px,0)`; boat.current!.style.opacity = "1"; sea.current!.style.opacity = "1"; treasure.current!.style.opacity = "1"; treasure.current!.dataset.open = "true"; later(stop, 2800); return; }
+      if (!motion) { boat.current!.style.transform = `translate3d(${x}px,${y}px,0)`; boat.current!.style.opacity = "1"; sea.current!.style.opacity = "1"; later(stop, 2800); return; }
       void animate(sea.current!, [{ opacity: 0, scale: ".85" }, { opacity: 1, scale: "1" }], 850);
       const arrival = animate(boat.current!, [{ transform: `translate3d(${x-w*.75}px,${y+8}px,0) rotate(-5deg)`, opacity: 0 }, { transform: `translate3d(${x-8}px,${y-3}px,0) rotate(1deg)`, opacity: 1, offset: .8 }, { transform: `translate3d(${x}px,${y}px,0) rotate(0deg)`, opacity: 1 }], 1050);
       if (owner) { owner.root.dataset.secretAction = "boarding"; void fly(dest, 1050, 65); }
@@ -163,10 +160,6 @@ export default function SecretMoments({ request, motion, onDone }: {
           return { offset: t, transform: `${pose({ ...dest, x: pivot.x + ox*Math.cos(angle)-oy*Math.sin(angle)+t*22, y: pivot.y + ox*Math.sin(angle)+oy*Math.cos(angle)+wave(t)*3 })} rotate(${turn(t)}deg)` };
         }), 3700, { easing: "linear" });
       }
-      if (!await wait(650)) return;
-      void animate(treasure.current!, [{ opacity: 0, translate: "0 9px", scale: ".8" }, { opacity: 1, translate: "0 0", scale: "1" }], 500);
-      if (!await wait(450)) return;
-      treasure.current!.dataset.open = "true";
       if (!await sailing) return;
       if (owner) {
         owner.root.dataset.secretAction = "salute";
@@ -182,27 +175,15 @@ export default function SecretMoments({ request, motion, onDone }: {
       later(stop, 850);
     }
     async function ghosts() {
-      const r = request.source.getBoundingClientRect();
-      const gx = clamp(r.left+r.width*.4-26, 22, innerWidth-100), gy = clamp(r.top+r.height*.35, headerBottom+65, floor-130);
-      at(ghostA.current!, gx, gy, 56); at(ghostB.current!, gx+28, gy+4, 48);
       const x = clamp(initial.left+initial.width*.5-size/2, 50, innerWidth-size-30), y = floor-size*108/112;
       at(spotlight.current!, x-45, floor-8, size+90);
-      if (!motion) { ghostA.current!.style.opacity = "1"; ghostB.current!.style.opacity = "1"; later(stop, 2800); return; }
-      const appear = (left: number, direction: number) => Array.from({ length: 33 }, (_, i) => {
-        const t = i/32, emerge = Math.min(1, t*5), drift = direction * (1-Math.exp(-t*5));
-        return { offset:t, opacity:emerge, transform:`translate3d(${left+drift}px,${gy-24*emerge+Math.sin(t*Math.PI*3)*5}px,0) scale(${.25+emerge*.75}) rotate(${Math.sin(t*Math.PI*3)*4}deg)` };
-      });
-      void animate(ghostA.current!, appear(gx,-30), 6800, { easing:"linear" });
-      void animate(ghostB.current!, appear(gx+28,27), 6800, { easing:"linear" });
+      if (!motion) { at(restingDancer.current!, x, y, size); spotlight.current!.style.opacity = ".65"; later(stop, 2800); return; }
       void animate(spotlight.current!, [{ opacity:0, scale:".6" },{ opacity:.65, scale:"1" }], 750);
       if (owner) {
         if (!await fly({x:x+26,y,size}, 800, 40)) return;
-        later(() => { ghostA.current!.dataset.action = "clap"; ghostB.current!.dataset.action = "clap"; }, 6250);
-        if (!await performMoonwalk(owner.root, { x: x + 26, y, size }, track, () => active)) return;
+        if (!await performMoonwalk(owner.root, { x:x+26,y,size }, track, () => active)) return;
       } else if (!await wait(5700)) return;
       if (!active) return;
-      void animate(ghostA.current!, [{opacity:1},{opacity:0,translate:"0 -24px",scale:".85"}], 850);
-      void animate(ghostB.current!, [{opacity:1},{opacity:0,translate:"0 -30px",scale:".85"}], 850);
       void animate(spotlight.current!, [{opacity:.65},{opacity:0}], 850);
       owner?.root.querySelectorAll(".secret-costume-hat,.secret-glove").forEach(prop => void animate(prop,[{opacity:1},{opacity:0}],750));
       later(stop,850);
@@ -251,12 +232,9 @@ export default function SecretMoments({ request, motion, onDone }: {
     }
     function aim() {
       const w = Math.min(280, innerWidth - 48), x = clamp(initial.left + 16, 12, innerWidth - w - 12);
-      const y = clamp(initial.top + 46, headerBottom + 60, innerHeight - 220);
+      const y = clamp(initial.top + 46, headerBottom + 60, innerHeight - 300);
       at(aimRoot.current!, x, y, w);
       aimRoot.current!.style.opacity = "1";
-      // Discovery does not steal focus from a visitor using the mouse. A
-      // keyboard visitor receives a focusable first target and native buttons.
-      if (request.source === document.activeElement && request.source.matches(":focus-visible")) aimTarget.current?.focus({ preventScroll: true });
     }
     if (kind === "aim") aim();
     else {
@@ -284,35 +262,17 @@ export default function SecretMoments({ request, motion, onDone }: {
     };
   }, [request.id, motion]);
 
-  useEffect(() => {
-    if (hits !== 3) return;
-    creativeReaction("proud");
-    const timer = setTimeout(() => finishRef.current(), 1700);
-    return () => clearTimeout(timer);
-  }, [hits]);
-  function hit() {
-    if (aimHits.current >= 3) return;
-    const next = ++aimHits.current;
-    const focused = document.activeElement === aimTarget.current;
-    // The final target is removed. Move focus before that removal instead of
-    // letting the browser drop a keyboard visitor back to the document body.
-    if (focused && next === 3) request.source.focus({ preventScroll: true });
-    setHits(next);
-    if (focused && next < 3) requestAnimationFrame(() => aimTarget.current?.focus({ preventScroll: true }));
-  }
   const head = actor?.root.querySelector(".mascot-head"), arm = actor?.root.querySelector(".arm-right");
   const limbs = actor?.root.querySelector(".mascot-limbs");
   return createPortal(<>
     <div ref={layer} className="secret-moment-layer" data-kind={kind} data-motion={motion ? "on" : "off"}>
-      <span className="sr-only" role="status">{kind === "aim" && hits === 3 ? c.found : c[kind]}</span>
+      <span className="sr-only" role="status">{kind === "aim" ? "" : c[kind]}</span>
       <button className="moment-close" aria-label={c.close} onClick={() => finishRef.current()}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg></button>
-      {kind === "voyage" && <><div className="moment-sea" ref={sea}><Sea /></div><div className="moment-boat" ref={boat}><SailingBoat />{!actor && <svg className="boat-hat" viewBox="0 0 112 42" aria-hidden="true"><StrawHat /></svg>}<div className="moment-treasure" ref={treasure}><Treasure /></div></div></>}
-      {kind === "ghosts" && <><div className="moment-spotlight" ref={spotlight} /><div className="moment-ghost" ref={ghostA}><Ghost /></div><div className="moment-ghost" ref={ghostB}><Ghost second /></div></>}
+      {kind === "voyage" && <><div className="moment-sea" ref={sea}><Sea /></div><div className="moment-boat" ref={boat}><SailingBoat />{!actor && <svg className="boat-hat" viewBox="0 0 112 42" aria-hidden="true"><StrawHat /></svg>}</div></>}
+      {kind === "ghosts" && <div className="moment-spotlight" ref={spotlight} />}
+      {kind === "ghosts" && !motion && <div className="moment-dance-rest" ref={restingDancer}><MascotArtwork /><svg className="moment-dance-costume" viewBox="0 0 112 126" aria-hidden="true"><Fedora /><WhiteGlove /></svg></div>}
       {kind === "toddy" && <><div className="moment-dog" ref={dog}><DogArtwork bone={dogBone} /></div><div className="moment-bone" ref={bone}><Bone /></div></>}
-      {kind === "aim" && <div className="moment-aim" ref={aimRoot} data-complete={hits === 3}>
-        <div className="aim-count" aria-label={`${hits}/3`}><i data-hit={hits > 0} /><i data-hit={hits > 1} /><i data-hit={hits > 2} /></div>
-        {hits < 3 ? <button ref={aimTarget} key={hits} className={`aim-target aim-target-${hits}`} aria-label={`${c.target} ${hits+1}/3`} onClick={hit}><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="35" rx="23" ry="22" fill="#ba8da433" stroke="none" /><circle className="target-rim" cx="32" cy="32" r="23" /><path className="target-light" d="M17 25a17 17 0 0 1 16-10" fill="none" strokeLinecap="round" /><circle cx="32" cy="32" r="18" /><circle cx="32" cy="32" r="11" /><path d="M32 2v14m0 32v14M2 32h14m32 0h14" /><circle className="target-core" cx="32" cy="32" r="4" /></svg></button> : <div className="aim-badge"><svg viewBox="0 0 90 90" aria-hidden="true"><ellipse cx="45" cy="83" rx="27" ry="4" fill="#387e711a" /><path d="M8 27 2 23m78 4 7-4M45 4V0" stroke="#91c8b3" strokeWidth="2" strokeLinecap="round" /><path d="m45 7 31 21v34L45 84 14 62V28Z" fill="#387e71" /><path d="m45 16 23 17v25L45 74 22 58V33Z" fill="#6ec2a4" /><path d="m29 42 16 16 16-16-16-13Z" fill="#e8f8ef" /><path d="m45 29 16 13-16 4-16-4Z" fill="#b6e5d1" /></svg></div>}
-      </div>}
+      {kind === "aim" && <div className="moment-aim" ref={aimRoot}><AimChallenge source={request.source} onDone={() => finishRef.current()} /></div>}
     </div>
     {head && kind === "voyage" && createPortal(<StrawHat />, head)}
     {head && kind === "ghosts" && createPortal(<Fedora />, head)}

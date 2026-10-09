@@ -24,7 +24,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 - **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
 - **Constelação:** três toques na estrela revelam um céu com um S desenhado, estrelas e o planeta do mascote, dentro da bancada.
 - **Pausa para café:** uma palavra no campo da ideia revela uma xícara e uma reação silenciosa do personagem.
-- **Descobertas pela página:** veleiro com proa de carneiro e apoio no convés; moonwalk com pernas articuladas, passos e deslize sincronizados, chapéu e luva presos ao personagem; visitantes na janela do RoomLab e Toddy correndo para buscar um ossinho com o mascote. Basquete, saltos entre ilhas e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
+- **Descobertas pela página:** veleiro com proa de carneiro e apoio no convés; moonwalk com pernas articuladas, passos e deslize sincronizados, chapéu e luva presos ao personagem; um tributo solo ao Michael na janela do RoomLab e Toddy correndo para buscar um ossinho com o mascote. Basquete, saltos entre ilhas e treino de mira têm entradas próprias, com desenhos originais e sem áudio.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -34,8 +34,10 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 | [BarberAg](https://barberag.com.br/) | SaaS próprio em produção, com clientes e usuários reais. Desenvolvo e mantenho o front-end de gestão e agendamento de barbearias em colaboração com a equipe de back-end. Código privado. |
 | [RoomLab](https://github.com/samuelsce/RoomLab) | Editor de quartos e setups em 2D e 3D, com histórico de alterações, persistência local e compartilhamento por link. [Demonstração](https://samuelsce.github.io/RoomLab/). |
 | [LinkWatch](https://github.com/samuelsce/LinkWatch) | Monitor de sites e APIs com worker HTTP, isolamento entre contas, proteção SSRF e testes unitários, de integração e E2E. Avaliação local; hospedagem e OAuth real ainda pendentes. |
-| [Sentinel](https://github.com/samuelsce/Sentinel) | Monitoramento de segurança em desenvolvimento. API, sessões, permissões, ingestão transacional e SDK Node.js implementados; processamento pelo worker, detecções e dashboard ainda planejados. |
+| [Sentinel](https://github.com/samuelsce/Sentinel) | Central full-stack de segurança até a M6: SDK Node.js, API Fastify, worker Python, três detecções explicáveis, dashboard Next.js ao vivo, triagem auditada e snapshots de evidências. Demo local reproduzível; resposta manual e hospedagem ainda planejadas. |
 | [Recette](https://github.com/Gab-sousa/recette-web) | Primeiro projeto e TCC desenvolvido em equipe. Atuei principalmente no front-end com HTML, CSS e JavaScript, com contribuições em Python e Django. |
+
+O conteúdo do Sentinel foi conferido no [README do projeto](https://github.com/samuelsce/Sentinel#readme) em 9 de outubro de 2026. A validação local registrou 30.050 eventos sem perda; a meta de latência de ingestão permanece não atendida. O card e seus detalhes em PT/EN distinguem essa implementação das próximas etapas.
 
 As tecnologias dos projetos são apresentadas individualmente no site. A stack deste repositório está abaixo.
 
@@ -76,16 +78,16 @@ Clique ou toque três vezes no rostinho ao lado do título do calendário. Acend
 
 Na bancada do hero, três toques rápidos na estrela da janela revelam uma constelação por oito segundos. Um novo toque na estrela ou Escape encerra a cena antes. O gesto também funciona com Enter ou Espaço. Escrever `café`, `cafe` ou `coffee` no campo da ideia revela a pausa para café do mascote por alguns segundos. Nenhuma descoberta altera a preferência de tema ou o título escolhido pelo visitante.
 
-- Três toques rápidos nos pontinhos da bancada: viagem com barco, chapéu de palha e tesouro.
-- Janela do RoomLab: o primeiro toque liga a noite; outro toque na janela revela a cena de Ghosts.
+- Três toques rápidos nos pontinhos da bancada: viagem no Going Merry, com chapéu de palha, vela e proa de carneiro.
+- Janela do RoomLab: o primeiro toque liga a noite; outro toque revela o tributo solo ao Michael, com moonwalk, chapéu e luva.
 - Dois toques no `s.` circular de Sobre: Toddy entra correndo, busca o ossinho e vai embora.
 - Três toques no nome do hero: série de cinco arremessos.
 - Dois toques em Git, na lista de tecnologias: saltos entre ilhas até uma cama. No teclado, digitar `189` fora de campos de texto também abre o jogo.
-- Dois toques na estrela do contato: três alvos e uma insígnia escondida.
+- Dois toques na estrela do contato: treino de mira com três alvos e uma insígnia escondida. Ao selecionar Iniciar treino, começam os 12 segundos. O prazo esgotado encerra a tentativa e oferece Tentar novamente, que reinicia os três alvos. Há uma opção Sem limite de tempo, disponível antes de começar, para treino livre. Enter e Espaço acionam os botões; Escape fecha e devolve o foco.
 
 No basquete, a mira começa ativa. Toque na bola ou no botão de arremesso para parar o marcador na faixa rosa e marcar três pontos. A opção sem movimento permite escolher a direção e está ativa por padrão quando as animações estão desativadas. Nos saltos, segure o botão para mover a sombra de pouso e solte quando ela alcançar a próxima ilha. Enter e Espaço têm o mesmo gesto. O marcador ganha uma confirmação verde na faixa de pouso, o personagem acomoda os pés na ilha e a câmera retorna suavemente após uma queda. São seis saltos, três vidas e uma cama na chegada, com referência a SkyWars e BedWars. O modo tranquilo oferece saltos assistidos e fica ativo com movimento reduzido. Os recordes dos dois jogos usam apenas o navegador, com alternativa em memória se o armazenamento estiver bloqueado.
 
-O veleiro tem vela, cordame e baú articulado. O moonwalk coordena sapatos, braços e cabeça, seguido de giro e reverência. O Toddy freia antes de esperar o ossinho, captura no alto e termina a aterrissagem antes de comemorar. Sombras ficam fora dos corpos e objetos acompanham seus pontos de apoio.
+O Going Merry tem vela principal ampliada, emblema, cordame, cabine, guarda-corpo e proa de carneiro refinados. O moonwalk coordena sapatos, braços e cabeça, seguido de giro e reverência. O Toddy freia antes de esperar o ossinho, captura no alto e termina a aterrissagem antes de comemorar. As quatro patas têm segmentos visíveis e um único conjunto de transformações articuladas. Com movimento desativado, o tributo ao Michael mantém uma pose estática com chapéu e luva. Sombras ficam fora dos corpos e objetos acompanham seus pontos de apoio.
 
 Cenas e jogos têm módulos e CSS separados, baixados somente na descoberta correspondente. Nas cenas, o controlador empresta o próprio mascote da página e recebe sua posição atual ao terminar. Chapéu, luva e ossinho são ligados ao desenho existente. Rolagem pequena mantém a coreografia; sair da área de origem, abrir o menu, redimensionar ou ocultar a aba encerra e limpa a cena. Escape e um botão discreto também encerram. A mira do basquete usa uma única animação nativa durante a série; a bola usa trajetória finita em coordenadas SVG. Nos saltos, uma animação nativa move a sombra somente enquanto o botão é segurado; personagem e câmera percorrem trajetórias finitas. Os jogos pausam na aba oculta e cancelam ao fechar a janela. Não há loop de frame ocioso ou serviço externo adicional.
 
@@ -187,6 +189,8 @@ As verificações de interação incluem Edge/Chromium com viewports simuladas e
 ## Referências e créditos
 
 A pesquisa visual incluiu [Supaste / Navbar Gallery](https://www.navbar.gallery/navbar/supaste), [Yash Fataniya / Footer Design](https://www.footer.design/sites/yash-fataniya), [Rauno / Craft](https://rauno.me/craft) e [Bruno Simon](https://bruno-simon.com/). O portfólio de [Samuel Rizzon](https://www.samuelrizzon.dev/) foi a inspiração inicial para criar uma experiência com personalidade; o [Eye tracker do Bencho](https://bencho.dev/blocks/eye-tracker) inspirou o olhar reativo.
+
+O modelo do Going Merry adapta proporções da [elevação de Catherine Gaum, publicada por Richard Bridgland](https://www.richardbridgland.com/case-studies/blog-post-title-three-t2x6k-njdgr), observada no navegador. A arte continua sendo SVG autoral.
 
 O desenho e a implementação das interações são próprios deste portfólio. As capturas pertencem aos projetos apresentados. A fonte Space Grotesk é distribuída pelo Fontsource sob a licença SIL Open Font License 1.1 indicada no pacote.
 

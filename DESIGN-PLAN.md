@@ -1,5 +1,17 @@
 # Samuel Santos: plano de design
 
+## Refinamento das cenas e Sentinel, 9 de outubro de 2026
+
+Preservar o sistema visual existente: papel #fff7fa, rosa #ef75a3, amora #691b3e, tinta #291b24 e Space Grotesk. As decisões desta revisão substituem os planos antigos de fantasmas e baú, mantidos abaixo como histórico.
+
+- Michael: apresentação solo, sem fantasmas; conservar moonwalk, fedora, luva e luz. Com movimento desativado, mostrar o mesmo desenho em pose estática, com sua cor definida no contêiner.
+- Going Merry: retirar baú e suas animações. Ampliar a vela principal e o emblema, ligar cordame e verga ao mastro, aumentar cabine e carneiro da proa. Preservar o apoio do personagem no convés e o balanço compartilhado.
+- Toddy: manter as patas de dois segmentos. Usar cor sólida nos traços verticais, cujo bounding box sem largura tornava o gradiente invisível; retirar rotações CSS de patas inteiras que se somavam ao rig durante frenagem e captura.
+- Mira: progresso, tempo, instrução e iniciar/treino livre, seguidos de três alvos sequenciais. Doze segundos somente após iniciar; vitória com três acertos, falha ao expirar e nova tentativa explícita. Prazo monotônico, validado também no clique; teclado e alternativa sem tempo.
+- Sentinel: mostrar o fluxo SDK → API → PostgreSQL e Worker → Alertas → Dashboard, com texto atual até M6 em PT/EN. Ajustar as setas para a tela estreita; contato em inglês também recebe tipografia menor em até 360 px.
+
+Referência efetivamente observada nesta revisão: [elevação lateral do Going Merry, Catherine Gaum / Richard Bridgland](https://www.richardbridgland.com/case-studies/blog-post-title-three-t2x6k-njdgr), aberta e inspecionada no navegador para vela, cabine, guarda-corpo e carneiro. Reutilizar a pesquisa anterior do Bencho e do 60fps para atenção e descoberta. Nenhum asset, áudio ou código dessas referências foi incorporado.
+
 ## Articulação e profundidade, 9 de outubro de 2026
 
 Preservar a composição, Space Grotesk e os tokens papel #fff7fa, rosa #ef75a3, amora #691b3e e tinta #291b24. O problema principal é continuidade física: pernas inteiras traduzidas, sapatos girando sem o tornozelo e relógios diferentes para deslize e passos. Refazer a dança com quadril, joelho e tornozelo ligados; preparar keyframes finitos de dois segmentos, sincronizados com a trajetória no mesmo relógio do navegador. Sustentar uma ponta enquanto a outra sola desliza, trocar o peso e acomodar os pés antes do giro. Não adicionar um motor 3D ou loop de física.

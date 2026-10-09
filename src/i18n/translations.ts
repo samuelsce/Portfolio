@@ -110,14 +110,16 @@ export const pt = {
   "metaDescription": "Portfólio de Samuel Santos, desenvolvedor full-stack. Projetos com React, Next.js, TypeScript, APIs e bancos de dados, com IA como apoio ao desenvolvimento.",
   "ogTitle": "Samuel Santos | Desenvolvimento full-stack",
   "ogDescription": "Conheça BarberAg, RoomLab, LinkWatch, Sentinel e Recette, projetos de Samuel Santos, desenvolvedor full-stack.",
-  "sentinelDiagramLabel": "Fluxo de ingestão do Sentinel: SDK Node.js envia eventos à API Fastify, que valida e persiste eventos e jobs no PostgreSQL em uma transação.",
-  "sentinelFlow": "Ingestão de eventos",
+  "sentinelDiagramLabel": "Fluxo do Sentinel: SDK e API persistem eventos no PostgreSQL; o worker Python produz alertas explicáveis, investigados no dashboard Next.js. Sessões, SSE e evidências preservadas.",
+  "sentinelFlow": "Eventos até a investigação",
+  "sentinelAlerts": "Alertas",
+  "sentinelRuleCount": "3 regras",
   "sentinelData": "Dados",
   "sentinelAuth": "Sessões e permissões",
   "sentinelAuthValue": "Papéis + CSRF",
-  "sentinelValidation": "Validação de eventos",
-  "sentinelPersistence": "Eventos e jobs",
-  "sentinelTransaction": "Transação única"
+  "sentinelValidation": "Atualizações ao vivo",
+  "sentinelPersistence": "Evidências",
+  "sentinelTransaction": "Snapshots preservados"
 };
 
 export type Translation = Record<keyof typeof pt, string>;
@@ -234,12 +236,14 @@ export const en: Translation = {
   "metaDescription": "Samuel Santos’s full-stack development portfolio. Projects with React, Next.js, TypeScript, APIs and databases, using AI to support development.",
   "ogTitle": "Samuel Santos | Full-stack development",
   "ogDescription": "Explore BarberAg, RoomLab, LinkWatch, Sentinel and Recette, projects by Samuel Santos, full-stack developer.",
-  "sentinelDiagramLabel": "Sentinel ingestion flow: the Node.js SDK sends events to the Fastify API, which validates and persists events and jobs in PostgreSQL in a single transaction.",
-  "sentinelFlow": "Event ingestion",
+  "sentinelDiagramLabel": "Sentinel flow: the SDK and API persist events in PostgreSQL; the Python worker produces explainable alerts, investigated in the Next.js dashboard. Sessions, SSE and preserved evidence.",
+  "sentinelFlow": "Events to investigation",
+  "sentinelAlerts": "Alerts",
+  "sentinelRuleCount": "3 rules",
   "sentinelData": "Data",
   "sentinelAuth": "Sessions and permissions",
   "sentinelAuthValue": "Roles + CSRF",
-  "sentinelValidation": "Event validation",
-  "sentinelPersistence": "Events and jobs",
-  "sentinelTransaction": "Single transaction"
+  "sentinelValidation": "Live updates",
+  "sentinelPersistence": "Evidence",
+  "sentinelTransaction": "Preserved snapshots"
 };

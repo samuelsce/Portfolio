@@ -1,5 +1,17 @@
 # Validação do portfólio
 
+## Refinamento das cenas e Sentinel, 9 de outubro de 2026
+
+- TypeScript e build de produção aprovados com npm run build. Sem novas dependências. JS principal: 103,56 KB gzip; CSS principal: 18,65 KB gzip. Cenas sob demanda: 12,29 KB JS / 2,90 KB CSS. Os jogos de basquete e saltos permanecem em seus módulos separados.
+- Conferência interativa no navegador Chromium do Codex, em desktop e viewports de 390 × 844 e 320 × 740. São simulações de tamanho, sem certificação em aparelho físico, Safari ou eventos de toque nesta revisão. Os registros anteriores abaixo descrevem verificações de outras versões e não foram todos executados novamente.
+- Mira: instrução e 12 segundos antes de iniciar; falha ao deixar o relógio expirar, tanto sem acertos quanto com dois de três; alvo removido e foco transferido à nova tentativa; reinício com 0/3; três acertos antes do prazo revelam a insígnia. Treino sem limite permanece ativo além dos 12 segundos. Operação completa por Enter e retorno do foco à estrela conferidos, incluindo Escape. Textos de instrução, falha e treino livre revisados em PT/EN.
+- Going Merry em 390 px: vela, emblema, cabine e proa revisados durante a viagem com o mascote apoiado no convés; nenhum baú no DOM. Michael: moonwalk solo com fedora/luva e nenhum fantasma; alternativa estática com cor rosa corrigida e observada.
+- Toddy em 390 px: chegada, patas conectadas e quatro traços visíveis conferidos; captura do ossinho e pose com osso na boca revisadas. Removidas as rotações adicionais dos contêineres das patas; a articulação nativa permanece responsável pelo gesto. Não foi repetido o diagnóstico numérico de geometria das versões anteriores.
+- Sentinel: diagrama e apresentação em PT/EN correspondem ao README atual do projeto até M6, consultado no GitHub. O texto registra a demo local, 30.050 eventos sem perda e a meta de latência não atendida; resposta manual e hospedagem permanecem planejadas.
+- Encontrado e corrigido excesso horizontal de 10 px no contato em inglês a 320 px. A nova conferência registrou scrollWidth === clientWidth === 305 (15 px reservados à barra de rolagem). O diagrama também recebe colunas e setas menores nessa faixa.
+- CI do [PR #1](https://github.com/samuelsce/Portfolio/pull/1): build do GitHub aprovado. A primeira prévia da Cloudflare falhou na etapa de publicação, após build concluído. A simulação local com Wrangler 4.149.0 reproduziu Missing entry-point to Worker script or to assets directory; o projeto também inferia um nome diferente do Worker existente. Adicionado wrangler.jsonc com samuelstudio, assets em ./dist e previews vazio. A mesma simulação passou, leu 30 arquivos e encerrou sem upload; build do GitHub e prévia Workers Builds da Cloudflare aprovados no commit b94391b, com PR sem conflitos. A branch não foi mesclada e não houve publicação em produção.
+- Limites: revisão visual e interação manual, sem medição de FPS, teste de leitor de tela ou nova execução de toda a bateria histórica. O tamanho dos pacotes não equivale a desempenho em GPU de celular.
+
 ## Articulação e profundidade, versão 1.11.1
 
 - TypeScript e build de produção aprovados. JS principal: 103,25 KB gzip (mais 0,28 KB em relação a 1.10.0); CSS principal: 18,59 KB. Cenas sob demanda: 12,67 KB JS / 2,98 KB CSS. Basquete: 3,95 KB JS / 1,32 KB CSS; saltos: 3,58 KB JS / 0,92 KB CSS. Sem dependências ou mídia externas novas. Os módulos de descoberta permanecem ausentes no carregamento inicial.

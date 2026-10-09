@@ -9,10 +9,12 @@ const paws = [
   { name: "front-front", x: 99, foot: 102, behind: false, bend: 1 },
 ];
 
-function Paw({ name, material }: { name: string; material: string }) {
+function Paw({ name }: { name: string }) {
   const paw = paws.find(p => p.name === name)!;
   const pose = limbPose({ x: paw.x, y: 103 }, { x: paw.foot, y: 125 }, 14.5, paw.bend);
-  const color = paw.behind ? "#886b5d" : `url(#${material})`;
+  // A vertical path has a zero-width object bounding box: gradient strokes can
+  // disappear, leaving floating feet. Solid fur strokes keep every limb visible.
+  const color = paw.behind ? "#886b5d" : "#bca08a";
   return <g className={`dog-paw ${name}`} strokeLinecap="round">
     <g className="dog-upper-leg" style={{ transform: pose.thigh }}><path d="M0 0v14.5" stroke={color} strokeWidth="10" /></g>
     <g className="dog-lower-leg" style={{ transform: pose.shin }}><path d="M0 0v14.5" stroke={color} strokeWidth="8" /></g>
@@ -76,10 +78,10 @@ export default memo(function DogArtwork({ bone = false }: { bone?: boolean }) {
     <ellipse className="dog-shadow" cx="80" cy="128" rx="61" ry="5" fill="#9c7586" opacity=".14" />
     <g className="dog-body">
       <g className="dog-tail"><path d="M34 89C4 83 5 52 18 46c11 14 10 22 3 28" fill="none" stroke="#886d60" strokeWidth="12" strokeLinecap="round" /><path d="M19 46q5 8 4 14" stroke="#c5a793" strokeWidth="5" strokeLinecap="round" /></g>
-      <Paw name="rear-back" material={coat} /><Paw name="front-back" material={coat} />
+      <Paw name="rear-back" /><Paw name="front-back" />
       <path d="M32 94q-5-24 38-25 30-2 42 20 8 9 3 18l-9 11q-19 8-51 0Q31 117 32 94Z" fill={`url(#${coat})`} stroke="#9d7d6b" />
       <path d="M38 96q5 16 21 16h35q12-2 14-9" stroke="#8d6a59" strokeWidth="4" fill="none" opacity=".24" /><path d="M40 87q14-11 41-10" stroke="#f0ddc4" strokeWidth="3" strokeLinecap="round" fill="none" opacity=".6" /><path d="m45 78 7 4 7-6 7 6 8-5 8 6 8-5" fill="none" stroke="#d7c0a9" strokeWidth="5" strokeLinecap="round" />
-      <Paw name="rear-front" material={coat} /><Paw name="front-front" material={coat} />
+      <Paw name="rear-front" /><Paw name="front-front" />
       <g className="dog-head">
         <path d="M83 48q7-21 33-17 31 2 31 34l-9 25-40 2-18-23Z" fill={`url(#${coat}-head)`} stroke="#a88b76" />
         <path d="m90 39 6 9 7-12 7 10 7-11 7 11 8-6" fill="none" stroke="#e4d1b9" strokeWidth="5" strokeLinecap="round" />
