@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import { createPortal } from "react-dom";
 
 import { useLanguage } from "../i18n/LanguageProvider";
@@ -29,12 +30,19 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
   const meter = useRef<HTMLDivElement>(null), marker = useRef<HTMLSpanElement>(null);
   const ball = useRef<SVGGElement>(null), player = useRef<HTMLDivElement>(null), net = useRef<SVGGElement>(null);
   const aim = useRef<Animation | null>(null);
+  const shootButton = useRef<HTMLButtonElement>(null);
   const [hand, setHand] = useState<Element | null>(null);
   const shotStart = useRef({ x:146, y:208, shoulderX:133, shoulderY:189 });
   const ground = useRef<SVGEllipseElement>(null);
   useEffect(() => { setHand(player.current!.querySelector(".arm-right")); }, []);
   const locked = useRef(false);
   const still = !motion || assist;
+
+  useEffect(() => {
+    // Run after showModal, which otherwise focuses the dialog's close button.
+    const frame = requestAnimationFrame(() => shootButton.current?.focus({ preventScroll: true }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     if (phase !== "aiming" || still) return;
@@ -122,7 +130,17 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
       try { localStorage.setItem(recordKey, String(score)); } catch { /* Session record works without storage. */ }
     }
   }
-  return <div className="three-game" data-phase={phase}>
+  function shotKey(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const from = event.target as HTMLElement;
+    // Checkbox and aim choices retain their native keyboard behavior.
+    if (from.closest("button,input") && !from.closest(".shoot-action,.court-shoot-zone")) return;
+    event.preventDefault();
+    if (!event.repeat) shoot();
+  }
+  return <div className="three-game" data-phase={phase} onKeyDown={shotKey} onKeyUp={event => {
+    if (event.key === " " && (event.target as HTMLElement).closest(".shoot-action,.court-shoot-zone")) event.preventDefault();
+  }}>
     <div className="personal-stage court-stage">
       <svg className="court-lines" viewBox="0 0 440 280" aria-hidden="true">
         <defs><radialGradient id="basketball-material" cx=".3" cy=".25" r=".8"><stop stopColor="#efbe91" /><stop offset=".6" stopColor="#d58c5d" /><stop offset="1" stopColor="#b56c49" /></radialGradient></defs><path d="M0 238h440v42H0Z" fill="#e9cbd7" /><path d="M40 261h70m18 0h96m25 0h110M90 242v38m164-38v38" stroke="#dab4c5" fill="none" /><path d="M28 238h384M50 220v-36c0-43 64-78 143-78s143 35 143 78v36M273 238v-47h128v47" fill="none" stroke="#d8a8bd" strokeWidth="2" />
@@ -136,7 +154,7 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
       </svg>
       <div ref={player} className="court-player"><MascotArtwork /></div>
       {hand && phase === "aiming" && createPortal(<Basketball held />,hand)}
-      <button className="court-shoot-zone" aria-label={c.action} onClick={shoot} disabled={phase === "flying"} />
+      <button className="court-shoot-zone" aria-label={c.action} onClick={shoot} aria-disabled={phase === "flying"} />
     </div>
     <p className="game-instructions">{c.ready}</p>
     <div className="shot-meter" ref={meter} role="img" aria-label={c.aim} data-still={still}>
@@ -144,7 +162,7 @@ export function ThreePointGame({ motion }: { motion: boolean }) {
     </div>
     <div className="game-score"><span>{c.attempts} <strong>{shots}/5</strong></span><span>{c.points} <strong>{points}</strong></span><span>{c.best} <strong>{best}</strong></span></div>
     <div className="game-feedback" role="status">{phase === "flying" ? c.flying : shots === 0 ? c.aiming : `${hit ? c.swish : c.miss}${phase === "done" ? ` ${c.end}` : ""}`}</div>
-    <button className="personal-action shoot-action" onClick={shoot} disabled={phase === "flying"}>{phase === "ready" ? c.start : phase === "done" ? personalCopy[language].restart : c.action}</button>
+    <button ref={shootButton} className="personal-action shoot-action" onClick={shoot} aria-disabled={phase === "flying"}>{phase === "ready" ? c.start : phase === "done" ? personalCopy[language].restart : c.action}</button>
     <label className="still-aim"><input type="checkbox" checked={still} disabled={!motion || phase === "flying"} onChange={event => setAssist(event.target.checked)} />{c.assist}</label>
     {still && <div className="still-choices" role="group" aria-label={c.aim}>{[c.left, c.center, c.right].map((label, i) => <button key={i} aria-pressed={stillAim === i / 2} disabled={phase === "flying"} onClick={() => setStillAim(i / 2)}>{label}</button>)}</div>}
   </div>;

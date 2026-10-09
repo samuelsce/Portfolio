@@ -6,7 +6,7 @@
 .personal-stage { width: 100%; aspect-ratio: 440/280; border-radius: 12px; background: #f3e1ea; overflow: hidden; position: relative; contain: paint; }
 .personal-stage > svg { width: 100%; height: 100%; display: block; }
 .personal-action { min-height: 44px; border: 1px solid var(--berry); border-radius: 8px; background: var(--berry); color: var(--paper); padding: 10px 18px; font: inherit; }
-.personal-arcade button:disabled { opacity: .5; cursor: default; }
+.personal-arcade button:disabled,.personal-arcade button[aria-disabled="true"] { opacity: .5; cursor: default; }
 .game-instructions { font-size: 14px; line-height: 1.5; color: #796471; margin: 17px 0; }
 .game-feedback { min-height: 38px; display: flex; align-items: center; font-size: 14px; line-height: 1.5; color: var(--berry); margin: 6px 0; }
 .game-score { display: flex; justify-content: space-between; gap: 10px; color: #796471; font-size: 13px; padding: 12px 0; border-bottom: 1px solid var(--line); }

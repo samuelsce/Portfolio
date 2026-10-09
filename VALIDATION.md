@@ -1,5 +1,12 @@
 # Validação do portfólio
 
+## Mira aleatória e controles dos jogos, 9 de outubro de 2026
+
+- TypeScript e build de produção aprovados. Sorteio apenas ao iniciar ou acertar um alvo, com tentativas limitadas e coordenadas proporcionais; sem novos loops por quadro ou dependências. Alvo mantém o mesmo botão no DOM e anima somente o desenho interno ao trocar.
+- Edge/Chromium em 1440, 390 e 320 px, com inglês em 320 px. Relógio inicial e instruções mostram 3 segundos; tentativa expira e reinicia. 27 posições observadas distintas, inteiramente dentro da área de jogo e abaixo do texto. Três acertos por mouse/toque simulado revelam a insígnia; treino sem prazo permanece jogável após 3 segundos.
+- Mira por Espaço/Enter: foco preservado entre alvos, tecla repetida não conta outro acerto, sem rolagem da página. Basquete: foco inicial em Arremessar, cinco lances por teclado, reinício, lance por mouse/toque, manutenção de foco no voo e bloqueio de repetição mesmo depois da aterrissagem. Checkbox e escolhas de direção respondem a Espaço sem arremessar. Escape fecha e devolve foco ao acionador.
+- Nenhum erro de JavaScript ou excesso horizontal nos cenários. Diagnóstico em .publish-staging/verify-game-inputs.cjs, ignorado no Git. Viewports e eventos de toque simulados, sem aparelho físico ou Safari.
+
 ## Modelo do Going Merry, 9 de outubro de 2026
 
 - Build de produção e TypeScript aprovados. SVG autoral sem novas dependências, imagens externas ou loop de animação. Cenas sob demanda: JS 12,95 KB gzip (antes 12,29 KB), CSS 2,87 KB (antes 2,90 KB); JS principal 103,55 KB. Volume usa gradientes estáticos e contornos.

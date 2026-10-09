@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Mira com prazo de 3 segundos e posições sorteadas a cada alvo/tentativa, delimitadas à área abaixo das instruções. Alvo mantém foco e entrada por teclado não repete ao segurar a tecla.
+- Basquete recebe foco no arremesso ao abrir; Espaço/Enter acionam uma única vez por pressão, preservam foco durante o voo e não interferem na seleção de assistência/direção. Reinício e toque mantidos.
+
 - Going Merry redesenhado com cabeça, focinho e pescoço em uma silhueta contínua, chifre esculpido, união da proa com o casco, vela curva, cabine em planos e madeira com profundidade. Removida a animação da orelha da figura de proa; desenho continua em SVG sob demanda.
 
 - Direção da articulação das patas do Toddy corrigida no repouso e na corrida; duração do treino de três miras reduzida de 12 para 6 segundos, com textos PT/EN atualizados.
