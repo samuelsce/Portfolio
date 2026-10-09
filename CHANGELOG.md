@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+- Removidos fantasmas do tributo ao Michael e baú da viagem. Moonwalk, fedora e luva preservados; pose estática com movimento desativado.
+- Going Merry refinado com vela e emblema maiores, cordame, cabine e carneiro da proa mais legíveis.
+- Patas do Toddy corrigidas: traços verticais visíveis e remoção de rotações extras que se somavam à articulação.
+- Treino de mira com início explícito, limite de 12 segundos, falha, nova tentativa, progresso e opção sem tempo. Prazo conferido no clique, suporte a teclado, retorno do foco e textos PT/EN.
+- Sentinel atualizado até M6: worker Python, três regras, dashboard Next.js, SSE, triagem auditada e evidências preservadas. Demo e limites de validação descritos sem antecipar resposta manual ou hospedagem.
+- Ajustes do diagrama em telas estreitas e do contato em inglês a 320 px. README, referências e validação atualizados.
+
 ## [1.11.1] - 2026-10-09
 
 - Rosto limitado à superfície da cabeça durante a virada. Olhos, boca e bochechas passam por trás do contorno sem aparecer fora da esfera; acessórios e áreas de interação preservados.
