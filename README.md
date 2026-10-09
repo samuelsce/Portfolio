@@ -24,6 +24,7 @@ A identidade combina rosa, tipografia Space Grotesk e ilustrações próprias. A
 - **Um segredo do planetinha:** pequeno puzzle escondido no calendário, com desafios solucionáveis e recorde salvo no navegador.
 - **Constelação:** três toques na estrela revelam um céu com um S desenhado, estrelas e o planeta do mascote, dentro da bancada.
 - **Pausa para café:** uma palavra no campo da ideia revela uma xícara e uma reação silenciosa do personagem.
+- **Segredos pessoais:** coleção escondida sobre One Piece, Ghosts e a infância no Wii, basquete, Minecraft 1.8.9, Valorant, comidas da Bahia e meu cachorro Toddy. Inclui um desafio de cinco arremessos e um puzzle de ponte entre ilhas, com desenhos próprios e sem áudio.
 - **Controle de movimento:** preferência inicial de movimento reduzido e opção para ativar ou desativar as animações na página.
 
 ## Projetos apresentados
@@ -74,6 +75,12 @@ Falhas no download desses módulos são isoladas por um limite de erro: os proje
 Clique ou toque três vezes no rostinho ao lado do título do calendário. Acenda todos os quadradinhos para ativar a órbita. Também funciona pelo teclado: Enter no rostinho; setas, Enter e Espaço no quadro; Escape para fechar. As animações da página e o controlador do mascote pausam enquanto o jogo está aberto.
 
 Na bancada do hero, três toques rápidos na estrela da janela revelam uma constelação por oito segundos. Um novo toque na estrela ou Escape encerra a cena antes. O gesto também funciona com Enter ou Espaço. Escrever `café`, `cafe` ou `coffee` no campo da ideia revela a pausa para café do mascote por alguns segundos. Nenhuma descoberta altera a preferência de tema ou o título escolhido pelo visitante.
+
+Cinco toques rápidos no nome `samuel.` do hero abrem a coleção pessoal. Também é possível escrever `One Piece`, `Ghosts`, `basquete`, `Minecraft`, `Valorant`, `Bahia` ou `Toddy` no campo da ideia e esperar um instante ou pressionar Enter. Os ícones da janela permitem explorar as outras histórias; setas navegam entre temas e Escape fecha com retorno de foco.
+
+No basquete, inicie a série e pare o marcador na faixa rosa para marcar três pontos. A opção de mira sem movimento permite escolher a direção e está ativa por padrão quando as animações estão desativadas. Na ponte, escolha a casa inicial de cada peça e encaixe os blocos; setas selecionam, R gira e Enter/Espaço coloca. É possível desfazer escolhas. O recorde do basquete usa apenas o navegador, com alternativa em memória se o armazenamento estiver bloqueado.
+
+Os desenhos, jogos e CSS pessoais são baixados somente nessa descoberta. A mira usa uma única animação nativa enquanto a série está ativa; a bola usa uma trajetória finita em coordenadas SVG. Ambas pausam na aba oculta e cancelam ao trocar o tema ou fechar a janela. As demais cenas têm repetições limitadas; não há loop de frame ou serviço externo adicional.
 
 </details>
 

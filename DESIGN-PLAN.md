@@ -1,4 +1,14 @@
-# Samuel Studio — plano de design
+# Samuel Santos: plano de design
+
+## Histórias e jogos pessoais, 8 de outubro de 2026
+
+Preservar a página profissional, a bancada reta, o personagem silencioso e os tokens existentes: papel #fff7fa, rosa #ef75a3, blush #f8dbe7, amora #691b3e, texto #291b24. Space Grotesk permanece em todos os controles e textos. O novo espaço fica escondido, em uma janela com narrativa curta à esquerda e cena/jogo à direita, empilhada em celular; navegação de sete ícones próprios.
+
+Direção: One Piece como viagem do planetinha de chapéu de palha; Ghosts como moonwalk com luva e chapéu, sem áudio ou letra; basquete com cinco bolas de três e recorde; Minecraft como puzzle de peças para construir uma ponte; Valorant como treino de três alvos; comidas da Bahia como escolha de prato; Toddy como ilustração autoral pegando um ossinho. Expor somente as histórias fornecidas pelo usuário, sem transformar hobbies em alegações profissionais. Não usar sprites, logos ou mídia de terceiros.
+
+Revisão do plano: sete novos cards visíveis repetiriam um padrão de landing page e adicionariam ruído ao conteúdo profissional. A coleção fica completamente escondida até uma palavra no campo da ideia ou cinco toques no nome, com um tema por vez. As cenas começam automaticamente, têm duração limitada e podem ser repetidas. Os dois jogos exigem decisões reais: tempo do arremesso e encaixe das peças. Compartilhar o desenho do mascote, limitar pintura à cena e carregar o módulo apenas na descoberta. Alternativa sem movimento para o basquete; teclado e foco para ambas as brincadeiras.
+
+Referências reutilizadas: [descoberta por toques do 60fps](https://60fps.design/shots/claude-ultracode-effort-selection-easter-egg-tap-interaction), descrição reconsultada, para a abertura escondida; [Eye Tracker do Bencho](https://bencho.dev/blocks/eye-tracker), preview e tema observados na pesquisa anterior, para atenção e reação do personagem. A nova tentativa de acesso ao Bencho retornou erro; não atribuir observação nova. Jogos, cenas e lógica próprios, sem código dessas referências.
 
 ## Descobertas e movimento automático, 8 de outubro de 2026
 

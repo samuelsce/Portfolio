@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.0] - 2026-10-08
+
+### Segredos pessoais e minigames
+
+- Cinco toques rápidos no nome do hero ou palavras no campo da ideia abrem uma coleção escondida em PT/EN, com sete temas pessoais. A estrela, a constelação, o café e o puzzle do calendário continuam disponíveis.
+- One Piece com barco e chapéu de palha; Ghosts com moonwalk silencioso, chapéu, luva e a história do Wii; Toddy com reação ao ossinho; pratos da Bahia e insígnia revelada por alvos. SVGs próprios, sem emojis, mídia externa ou reprodução de música.
+- Basquete: cinco bolas, stepback, mira por tempo, acertos e erros, recorde local e alternativa sem movimento. Ponte entre ilhas: peças de dois e três blocos, rotação, encaixe, desfazer e teclado, inspirada nas partidas de Minecraft 1.8.9.
+- Histórias, jogos, desenhos e CSS carregados somente ao descobrir o segredo. Animações de fundo pausam durante a janela modal. Temporização da mira e trajetória da bola pausam na aba oculta e cancelam ao fechar ou trocar o tema. Sem dependências ou loop de frame novo.
+- Janela responsiva com foco contido, retorno ao controle de origem, Escape, fechamento sempre acessível e falha de download isolada. Movimento reduzido mantém jogos operáveis e cenas estáticas.
+
 ## [1.6.1] - 2026-10-08
 
 - Cópia do mascote e animações do card pausam enquanto a constelação ocupa a bancada. O acompanhamento do mouse também ignora o rosto escondido; ao fechar a cena, os controles e o movimento retomam normalmente.

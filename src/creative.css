@@ -11,6 +11,9 @@
   -webkit-tap-highlight-color: transparent;
 }
 .name-letter { display: inline-block; transform-origin: 50% 80%; }
+.personal-loading { position: fixed; z-index: 200; inset: auto 24px 24px; width: min(430px,calc(100% - 48px)); margin-inline: auto; border: 1px solid var(--line); padding: 20px; border-radius: 12px; background: var(--paper); color: var(--ink); box-shadow: 0 8px 30px #291b2420; }
+.personal-loading > button { display: block; margin-top: 12px; padding: 10px 14px; min-height: 44px; border: 1px solid var(--line); background: transparent; border-radius: 8px; }
+.portfolio[data-arcade-open="true"] *, .portfolio[data-arcade-open="true"] *::before, .portfolio[data-arcade-open="true"] *::after { animation-play-state: paused !important; }
 .name-play:focus-visible { outline-offset: 10px; border-radius: 12px; }
 .chrome-secret {
   display: grid;

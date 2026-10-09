@@ -12,6 +12,7 @@ import SectionStroke from "./components/SectionStroke";
 import DeferredContributions from "./components/DeferredContributions";
 import CreativeMotion from "./components/CreativeMotion";
 import ConstellationScene from "./components/ConstellationScene";
+import PersonalSecrets from "./components/PersonalSecrets";
 import { useLanguage, LanguageSwitcher } from "./i18n/LanguageProvider";
 import { englishProjects, englishAcademicProject } from "./i18n/projects";
 
@@ -980,6 +981,7 @@ export default function App() {
         onHeaderChange={setHeaderSurface}
       />
       <CreativeMotion motion={motion} />
+      <PersonalSecrets motion={motion} />
     </div>
   );
 }

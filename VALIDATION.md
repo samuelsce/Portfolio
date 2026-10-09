@@ -1,5 +1,14 @@
 # Validação do portfólio
 
+## Segredos pessoais e minigames, versão 1.7.0
+
+- TypeScript e build de produção aprovados. JS principal: 102,35 KB gzip, cerca de 0,81 KB acima da versão 1.6.1; CSS principal: 18,41 KB gzip. Coleção pessoal separada: 10,12 KB JS e 2,86 KB CSS gzip, baixados somente na descoberta. Sem dependências ou serviços externos novos. Tamanho de arquivo não representa FPS.
+- Diagnóstico funcional em 320, 390, 768 e 1440 px: módulo ausente no carregamento inicial, palavras e cinco toques no nome, sete temas, jogos, recorde, encaixe inválido, solução da ponte, desfazer, alvos, pratos, Escape e retorno de foco. Sem excesso horizontal na janela ou erro de execução. Capturas revisadas para barco, chapéu, dança, ossinho, jogos e botão de fechar acessível durante rolagem interna.
+- Basquete confere erro à esquerda, acerto no centro, cinco tentativas e bloqueio de novos tiros durante a trajetória. Ponte solucionada com sete peças e 18 casas; conclusão transfere foco para uma ação habilitada. Insígnia também transfere o foco após os três alvos.
+- Em 390 px, CPU limitada em 4× no Chromium: mira real cronometrada, pontuação, pausa da dança e da trajetória por evento de visibilidade simulado, retomada, fechamento durante arremesso, limpeza ao trocar o tema e ponte pelo teclado aprovados. Essa simulação não reproduz o hardware de um iPhone, não limita GPU e não mede FPS no Safari.
+- Inglês, preferência de movimento reduzido, partida completa sem animação e armazenamento bloqueado aprovados. Falha de download do módulo isolada com retorno ao portfólio e ao foco de origem. Os arquivos e desenhos têm acesso apenas às histórias autorizadas, sem token, áudio ou mídia de terceiros.
+- Diagnósticos existentes de idiomas de 320 a 1600 px e de constelação/café/puzzle/retomada aprovados. Novas evidências em `.publish-staging/verify-personal-secrets.cjs` e `verify-personal-lifecycle.cjs`. Verificação em Edge/Chromium com viewport e toque simulados; sem validação em aparelho físico ou Safari.
+
 ## Pausa da cópia escondida, versão 1.6.1
 
 - Build e TypeScript aprovados. JavaScript principal: 101,54 KB gzip; CSS: 18,29 KB gzip.
