@@ -3,6 +3,7 @@ import { profile } from '../../data/portfolio';
 import { useLanguage } from '../../i18n/PixelLanguageProvider';
 import { content } from './content';
 import { GitHubIcon, LinkedInIcon } from './Icons';
+import { CharacterExpression, SceneLights } from './SceneDetails';
 
 export default function SceneHero() {
   const { language } = useLanguage();
@@ -33,9 +34,11 @@ export default function SceneHero() {
         <source media="(max-width: 599px)" srcSet="/pixel/scene-mobile.webp" width="888" height="444" />
         <img src="/pixel/scene.webp" width="2172" height="724" alt="" fetchPriority="high" />
       </picture>
+      <div className="scene-light-layer"><SceneLights /></div>
       <picture className="hero-character">
         <source media="(max-width: 599px)" srcSet="/pixel/samuel-small.webp" />
         <img src="/pixel/samuel.webp" width="1024" height="1536" alt={text.avatarAlt} fetchPriority="high" />
+        <CharacterExpression />
       </picture>
       <span className="scene-signal" aria-hidden="true" />
       <a className="scene-link scene-projects" href="#projetos"><span className="scene-label"><span className="scene-caption">{text.projects}</span></span></a>
