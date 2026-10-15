@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { LanguageSwitcher, useLanguage } from '../../i18n/LanguageProvider';
 import { content } from './content';
 
-export default function SiteHeader() {
+export default function SiteHeader({ motion, onMotionChange }: { motion: boolean; onMotionChange: () => void }) {
   const { language } = useLanguage();
   const text = content[language];
   const [open, setOpen] = useState(false);
@@ -33,6 +33,11 @@ export default function SiteHeader() {
     <a className="brand" href="#conteudo" translate="no">Samuel Santos</a>
     <div className="header-controls">
       <LanguageSwitcher />
+      <button type="button" className="motion-toggle" aria-pressed={motion} aria-label={motion ? text.reduceMotion : text.enableMotion} title={motion ? text.reduceMotion : text.enableMotion} onClick={onMotionChange}>
+        <svg className="icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
+          {motion ? <path d="M5 3v10M11 3v10" /> : <path d="m5 3 7 5-7 5Z" />}
+        </svg>
+      </button>
       <button ref={trigger} type="button" className="menu-toggle" aria-expanded={open} aria-controls="site-navigation" onClick={() => setOpen(value => !value)}>
         {open ? text.close : text.menu}<span aria-hidden="true">{open ? '−' : '+'}</span>
       </button>

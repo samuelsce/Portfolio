@@ -7,6 +7,8 @@ import Projects from './components/pixel/Projects';
 import ProfileSections from './components/pixel/ProfileSections';
 import ProjectDialog from './components/pixel/ProjectDialog';
 import { Arrow } from './components/pixel/Icons';
+import useRevealMotion from './components/pixel/useRevealMotion';
+import useMotionPreference from './components/pixel/useMotionPreference';
 
 function projectFromHash(): ProjectId | null {
   if (!location.hash.startsWith('#projeto-')) return null;
@@ -19,6 +21,9 @@ export default function App() {
   const text = content[language];
   const [project, setProject] = useState<ProjectId | null>(projectFromHash);
   const returnHash = useRef(projectFromHash() ? '#projetos' : location.hash);
+  const main = useRef<HTMLElement>(null);
+  const motion = useMotionPreference();
+  useRevealMotion(main, motion.enabled);
 
   useEffect(() => {
     const sync = () => setProject(projectFromHash());
@@ -37,10 +42,10 @@ export default function App() {
     setProject(null);
   }
 
-  return <div className="pixel-portfolio">
+  return <div className="pixel-portfolio" data-motion={motion.enabled ? 'on' : 'off'}>
     <a className="skip-link" href="#conteudo">{text.skip}</a>
-    <SiteHeader />
-    <main id="conteudo" tabIndex={-1}>
+    <SiteHeader motion={motion.enabled} onMotionChange={motion.toggle} />
+    <main ref={main} id="conteudo" tabIndex={-1}>
       <SceneHero />
       <Projects onProject={openProject} />
       <ProfileSections onProject={openProject} />

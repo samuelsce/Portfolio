@@ -11,7 +11,7 @@ export default function Projects({ onProject }: { onProject: (id: ProjectId) => 
     <article className="featured-project" aria-labelledby="barber-title">
       <figure className="project-media">
         <button type="button" className="project-image-button pixel-frame" onClick={() => onProject('barberag')} aria-label={`${text.viewProject}: BarberAg`}>
-          <img src="/projects/barberag-public.webp" width="1265" height="728" alt={text.screenshotAlt} loading="lazy" decoding="async" />
+          <span className="project-image-viewport"><img src="/projects/barberag-public.webp" width="1265" height="728" alt={text.screenshotAlt} loading="lazy" decoding="async" /></span>
           <span className="media-action" aria-hidden="true"><Arrow external /></span>
         </button>
         <figcaption>{text.screenshot}</figcaption>

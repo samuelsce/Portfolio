@@ -7,6 +7,7 @@ export default function ProjectDialog({ projectId, onClose }: { projectId: Proje
   const { language } = useLanguage();
   const text = content[language];
   const ref = useRef<HTMLDialogElement>(null);
+  const scrollArea = useRef<HTMLDivElement>(null);
   const project = projectId ? text.caseStudies[projectId] : null;
   const links = projectId ? projectLinks[projectId] : {};
 
@@ -14,6 +15,7 @@ export default function ProjectDialog({ projectId, onClose }: { projectId: Proje
     if (!projectId) return;
     const dialog = ref.current;
     const previousOverflow = document.body.style.overflow;
+    if (scrollArea.current) scrollArea.current.scrollTop = 0;
     dialog?.showModal();
     document.body.style.overflow = 'hidden';
     return () => {
@@ -25,6 +27,7 @@ export default function ProjectDialog({ projectId, onClose }: { projectId: Proje
   return <dialog className="project-dialog" ref={ref} aria-labelledby="case-title" onClose={() => { if (!ref.current?.open) onClose(); }}>
     {project && <>
       <div className="dialog-heading"><span>{project.status}</span><button type="button" className="close-button" onClick={() => ref.current?.close()}>{text.close}<span aria-hidden="true">×</span></button></div>
+      <div className="dialog-body" ref={scrollArea} tabIndex={0} role="region" aria-labelledby="case-title">
       <h2 id="case-title" translate="no">{project.name}</h2>
       <p className="case-intro">{project.intro}</p>
       {projectId === 'barberag' && <img className="case-image" src="/projects/barberag-public.webp" width="1265" height="728" alt={text.screenshotAlt} loading="lazy" decoding="async" />}
@@ -36,6 +39,7 @@ export default function ProjectDialog({ projectId, onClose }: { projectId: Proje
       <div className="project-actions">
         {links.site && <a className="pixel-button pixel-button-primary" href={links.site} target="_blank" rel="noreferrer">{text.visitSite}<Arrow external /></a>}
         {links.repo && <a className="pixel-button" href={links.repo} target="_blank" rel="noreferrer"><GitHubIcon />{text.viewCode}<Arrow external /></a>}
+      </div>
       </div>
     </>}
   </dialog>;

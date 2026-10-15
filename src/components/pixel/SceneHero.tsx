@@ -20,8 +20,8 @@ export default function SceneHero() {
         <source media="(max-width: 599px)" srcSet="/pixel/samuel-small.webp" />
         <img src="/pixel/samuel.webp" width="1024" height="1536" alt={text.avatarAlt} fetchPriority="high" />
       </picture>
-      <a className="scene-link scene-projects" href="#projetos"><span>{text.projects}<Arrow /></span></a>
-      <a className="scene-link scene-studies" href="#estudos"><span>{text.studies}<Arrow /></span></a>
+      <a className="scene-link scene-projects" href="#projetos"><span className="scene-label"><span className="scene-caption">{text.projects}</span><Arrow /></span></a>
+      <a className="scene-link scene-studies" href="#estudos"><span className="scene-label"><span className="scene-caption">{text.studies}</span><Arrow /></span></a>
     </div>
     <div className="hero-intro">
       <p className="hero-role">{text.role}</p>

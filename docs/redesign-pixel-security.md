@@ -80,3 +80,17 @@ O suporte a movimento reduzido foi revisado no CSS; não houve emulação de sis
 ## Escopo de publicação
 
 Trabalho local. Sem deploy, push, alteração de configuração de produção ou substituição do portfólio publicado. O arquivo preexistente `docs/planejamento-portfolio-2d.md` permanece fora desta entrega.
+
+## Ajustes de estrutura e movimento — 15/10/2026
+
+- Cabeçalho dos detalhes separado da área de rolagem. Apenas `.dialog-body` rola; a imagem permanece recortada dentro dessa área e nunca passa acima do cabeçalho. A posição do conteúdo volta ao início ao abrir outro projeto.
+- Retirada a frase adicional sobre a demonstração da agenda, em português e inglês. Mantida somente a identificação da página pública do BarberAg.
+- Altura mínima do cenário calculada a partir do personagem e do chão. Em 768, 960, 1440 e 1600 px, a distância entre o fim do header e o topo do personagem é de 48 px; 320 e 390 px mantêm o enquadramento mobile.
+- Rótulos de Projetos e Estudos centralizados nas placas. A linha textual começa recolhida e aparece com transição na interação de mouse ou foco de teclado. A seta também acompanha a interação.
+- Entradas contínuas no hero, seções reveladas uma vez por bloco, abertura suave dos detalhes, menu e projetos adicionais, e zoom discreto das imagens em dispositivos com ponteiro preciso. Sem alteração das artes aprovadas.
+- Um único IntersectionObserver acompanha os blocos abaixo da dobra. Os elementos deixam de ser observados após aparecerem; não há atualização de estado React por frame ou durante a rolagem. Foco de teclado revela imediatamente o bloco correspondente.
+- Controle de animações no header, com rótulo acessível e preferência persistida quando o armazenamento está disponível. O padrão acompanha `prefers-reduced-motion`; movimento completo sobre uma preferência reduzida exige escolha explícita pelo controle. O modo reduzido torna o conteúdo visível, remove efeitos e usa rolagem imediata.
+
+Validação no navegador: ausência de controles do header cortados ou rolagem lateral em 320, 390, 768, 960, 1440 e 1600 px; cabeçalho dos detalhes preservado após End/rolagem em desktop e mobile; linha recolhida em repouso e expandida no foco; revelação das seções; controle de animações nos dois modos e após recarregar; legenda PT/EN. O navegador de teste informou preferência por movimento reduzido, permitindo conferir o padrão antes da ativação explícita. Build, TypeScript e revisão de whitespace aprovados. Nenhuma dependência adicionada. Capturas em `artifacts/pixel-motion-fixes/`.
+
+Referências reaproveitadas: a amostra aprovada e Samuel Rizzon para a linguagem visual; Web Interface Guidelines para foco, controle de movimento, rolagem e eficiência. Não foram incorporados componentes de outra biblioteca.
