@@ -108,3 +108,15 @@ Referências reaproveitadas: a amostra aprovada e Samuel Rizzon para a linguagem
 Validação: build/TypeScript e whitespace; larguras de 320, 390, 768, 960 e 1440 px sem rolagem horizontal ou controles cortados; botão do rodapé por mouse e Enter com `scrollY = 0`; menu mobile por Enter/Escape, retorno de foco e fechamento ao navegar; abertura/Escape dos detalhes; rótulo e destino do perfil em PT/EN; efeitos desativados e conteúdo visível em modo reduzido. Favicon inspecionado em 16, 32, 64 e 128 px. Capturas em `artifacts/pixel-navigation-review/`.
 
 Referências reaproveitadas: amostra aprovada e [Samuel Rizzon](https://www.samuelrizzon.dev/) para a coerência dos pixels; [Web Interface Guidelines](https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md), consultadas novamente nesta revisão, para navegação, foco e controle de movimento. Sem nova biblioteca ou publicação.
+
+## Posicionamento e movimento do nome — 15/10/2026
+
+- TryHackMe descrito como estudo e prática em cibersegurança, sem nomear a trilha, em PT/EN. Perfil preservado; sem estatísticas ou credenciais acrescentadas.
+- Título da aba reduzido a “Samuel Santos”, no HTML e nos dois idiomas. Descrições e metadados de compartilhamento continuam explicando o contexto profissional.
+- Favicon substituído por um pequeno monitor com prompt, desenhado em dois paths SVG e sem forma de fundo. Contorno e símbolo adaptam a cor à preferência de tema do navegador. URL versionada para invalidar o ícone anterior.
+- O nome recebe uma onda vertical de 3 px, distribuída por letra. Cada letra se movimenta por cerca de um segundo a cada ciclo de 12 s, com início escalonado; a leitura permanece estável durante o restante do ciclo. Usa apenas transforms em CSS, sem lógica por frame. A animação pausa com o hero fora da tela ou com a aba oculta e é desativada pelo controle de movimento existente.
+- H1 continua com nome acessível “Samuel Santos”; letras decorativas individuais não fragmentam a leitura por tecnologia assistiva.
+- Hero destaca experiência com aplicações web em produção. Sobre começa pela atuação prática, explica a colaboração no BarberAg e declara a busca pelo primeiro estágio em segurança. Formação e laboratório continuam identificados pelo que são, sem atribuição de experiência profissional em segurança.
+- Currículo PDF preservado para revisão posterior solicitada pelo proprietário; nenhum arquivo de currículo alterado.
+
+Validação: build/TypeScript, título em PT/EN, ausência de referência à trilha na interface ativa, link do perfil, movimento desligado e pausa fora da tela. Larguras de 320, 390 e 1440 px sem sobreposição entre as palavras do nome ou rolagem horizontal. Favicon transparente inspecionado sobre fundos claro e escuro em 16, 32 e 64 px. Capturas em `artifacts/pixel-final-polish/`. Mesmas referências e direção aprovada reutilizadas; nenhuma dependência adicionada ou publicação realizada.

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { profile } from '../../data/portfolio';
 import { useLanguage } from '../../i18n/LanguageProvider';
 import { content } from './content';
@@ -22,7 +22,11 @@ export default function SceneHero() {
 
   return <section className="hero page-width" aria-labelledby="hero-name">
     <div className="hero-stage" ref={scene} data-active="false">
-      <h1 className="hero-name" id="hero-name" translate="no"><span>Samuel </span><span>Santos</span></h1>
+      <h1 className="hero-name" id="hero-name" translate="no" aria-label="Samuel Santos">
+        {['Samuel', 'Santos'].map((word, wordIndex) => <span key={word} className="hero-word" aria-hidden="true">
+          {Array.from(word).map((letter, index) => <span className="hero-letter" key={index} style={{ '--letter-delay': `${(wordIndex * 6 + index) * 65}ms` } as CSSProperties}>{letter}</span>)}
+        </span>)}
+      </h1>
       <span className="name-detail name-detail-left" aria-hidden="true" />
       <span className="name-detail name-detail-right" aria-hidden="true" />
       <picture className="hero-scenery">
