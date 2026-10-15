@@ -1,7 +1,7 @@
 export const profile = {
   name: "Samuel Santos",
   fullName: "Samuel Santos Cerqueira",
-  role: "Desenvolvedor full-stack",
+  role: "Segurança da Informação e Desenvolvimento",
   location: "Mauá, São Paulo, Brasil",
   github: "https://github.com/samuelsce",
   githubHandle: "@samuelsce",

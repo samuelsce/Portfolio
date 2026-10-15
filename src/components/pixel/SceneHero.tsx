@@ -1,0 +1,39 @@
+import { profile } from '../../data/portfolio';
+import { useLanguage } from '../../i18n/LanguageProvider';
+import { content } from './content';
+import { Arrow, GitHubIcon, LinkedInIcon } from './Icons';
+
+export default function SceneHero() {
+  const { language } = useLanguage();
+  const text = content[language];
+
+  return <section className="hero page-width" aria-labelledby="hero-name">
+    <div className="hero-stage">
+      <h1 className="hero-name" id="hero-name" translate="no"><span>Samuel</span><span>Santos</span></h1>
+      <span className="name-detail name-detail-left" aria-hidden="true" />
+      <span className="name-detail name-detail-right" aria-hidden="true" />
+      <picture className="hero-scenery">
+        <source media="(max-width: 599px)" srcSet="/pixel/scene-mobile.webp" width="888" height="444" />
+        <img src="/pixel/scene.webp" width="2172" height="724" alt="" fetchPriority="high" />
+      </picture>
+      <picture className="hero-character">
+        <source media="(max-width: 599px)" srcSet="/pixel/samuel-small.webp" />
+        <img src="/pixel/samuel.webp" width="1024" height="1536" alt={text.avatarAlt} fetchPriority="high" />
+      </picture>
+      <a className="scene-link scene-projects" href="#projetos"><span>{text.projects}<Arrow /></span></a>
+      <a className="scene-link scene-studies" href="#estudos"><span>{text.studies}<Arrow /></span></a>
+    </div>
+    <div className="hero-intro">
+      <p className="hero-role">{text.role}</p>
+      <p className="hero-description">{text.description}</p>
+      <div className="hero-actions">
+        <a className="pixel-button pixel-button-primary" href="#projetos">{text.viewProjects}</a>
+        <a className="pixel-button" href="/samuel-santos-curriculo.pdf" target="_blank" rel="noreferrer" aria-label={text.resumeLabel}>{text.resume}</a>
+      </div>
+      <div className="hero-social">
+        <a href={profile.github} target="_blank" rel="noreferrer"><GitHubIcon /><span>GitHub</span></a>
+        <a href={profile.linkedin} target="_blank" rel="noreferrer"><LinkedInIcon /><span>LinkedIn</span></a>
+      </div>
+    </div>
+  </section>;
+}
