@@ -1,15 +1,28 @@
+import { useEffect, useRef } from 'react';
 import { profile } from '../../data/portfolio';
 import { useLanguage } from '../../i18n/LanguageProvider';
 import { content } from './content';
-import { Arrow, GitHubIcon, LinkedInIcon } from './Icons';
+import { GitHubIcon, LinkedInIcon } from './Icons';
 
 export default function SceneHero() {
   const { language } = useLanguage();
   const text = content[language];
+  const scene = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = scene.current;
+    if (!element || !('IntersectionObserver' in window)) return;
+    let visible = false;
+    const update = () => { element.dataset.active = String(visible && !document.hidden); };
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); });
+    observer.observe(element);
+    document.addEventListener('visibilitychange', update);
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); };
+  }, []);
 
   return <section className="hero page-width" aria-labelledby="hero-name">
-    <div className="hero-stage">
-      <h1 className="hero-name" id="hero-name" translate="no"><span>Samuel</span><span>Santos</span></h1>
+    <div className="hero-stage" ref={scene} data-active="false">
+      <h1 className="hero-name" id="hero-name" translate="no"><span>Samuel </span><span>Santos</span></h1>
       <span className="name-detail name-detail-left" aria-hidden="true" />
       <span className="name-detail name-detail-right" aria-hidden="true" />
       <picture className="hero-scenery">
@@ -20,8 +33,9 @@ export default function SceneHero() {
         <source media="(max-width: 599px)" srcSet="/pixel/samuel-small.webp" />
         <img src="/pixel/samuel.webp" width="1024" height="1536" alt={text.avatarAlt} fetchPriority="high" />
       </picture>
-      <a className="scene-link scene-projects" href="#projetos"><span className="scene-label"><span className="scene-caption">{text.projects}</span><Arrow /></span></a>
-      <a className="scene-link scene-studies" href="#estudos"><span className="scene-label"><span className="scene-caption">{text.studies}</span><Arrow /></span></a>
+      <span className="scene-signal" aria-hidden="true" />
+      <a className="scene-link scene-projects" href="#projetos"><span className="scene-label"><span className="scene-caption">{text.projects}</span></span></a>
+      <a className="scene-link scene-studies" href="#estudos"><span className="scene-label"><span className="scene-caption">{text.studies}</span></span></a>
     </div>
     <div className="hero-intro">
       <p className="hero-role">{text.role}</p>

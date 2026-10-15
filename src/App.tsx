@@ -6,7 +6,6 @@ import SceneHero from './components/pixel/SceneHero';
 import Projects from './components/pixel/Projects';
 import ProfileSections from './components/pixel/ProfileSections';
 import ProjectDialog from './components/pixel/ProjectDialog';
-import { Arrow } from './components/pixel/Icons';
 import useRevealMotion from './components/pixel/useRevealMotion';
 import useMotionPreference from './components/pixel/useMotionPreference';
 
@@ -42,7 +41,7 @@ export default function App() {
     setProject(null);
   }
 
-  return <div className="pixel-portfolio" data-motion={motion.enabled ? 'on' : 'off'}>
+  return <div className="pixel-portfolio" id="inicio" data-motion={motion.enabled ? 'on' : 'off'}>
     <a className="skip-link" href="#conteudo">{text.skip}</a>
     <SiteHeader motion={motion.enabled} onMotionChange={motion.toggle} />
     <main ref={main} id="conteudo" tabIndex={-1}>
@@ -53,7 +52,7 @@ export default function App() {
     <footer className="site-footer page-width">
       <span translate="no">Samuel Santos</span>
       <span>Mauá, São Paulo</span>
-      <a href="#conteudo">{text.backTop}<Arrow direction="up" /></a>
+      <a className="back-top pixel-button pixel-button-small" href="#inicio">{text.backTop}</a>
     </footer>
     <ProjectDialog projectId={project} onClose={closeProject} />
   </div>;

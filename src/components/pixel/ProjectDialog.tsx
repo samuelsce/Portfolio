@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../../i18n/LanguageProvider';
 import { content, projectLinks, type ProjectId } from './content';
-import { Arrow, GitHubIcon } from './Icons';
+import { GitHubIcon } from './Icons';
 
 export default function ProjectDialog({ projectId, onClose }: { projectId: ProjectId | null; onClose: () => void }) {
   const { language } = useLanguage();
@@ -37,8 +37,8 @@ export default function ProjectDialog({ projectId, onClose }: { projectId: Proje
         <div><dt>{text.context}</dt><dd>{project.context}</dd></div>
       </dl>
       <div className="project-actions">
-        {links.site && <a className="pixel-button pixel-button-primary" href={links.site} target="_blank" rel="noreferrer">{text.visitSite}<Arrow external /></a>}
-        {links.repo && <a className="pixel-button" href={links.repo} target="_blank" rel="noreferrer"><GitHubIcon />{text.viewCode}<Arrow external /></a>}
+        {links.site && <a className="pixel-button pixel-button-primary" href={links.site} target="_blank" rel="noreferrer">{text.visitSite}</a>}
+        {links.repo && <a className="pixel-button" href={links.repo} target="_blank" rel="noreferrer"><GitHubIcon />{text.viewCode}</a>}
       </div>
       </div>
     </>}

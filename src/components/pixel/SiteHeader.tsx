@@ -30,7 +30,7 @@ export default function SiteHeader({ motion, onMotionChange }: { motion: boolean
   }, [open]);
 
   return <header className="site-header page-width">
-    <a className="brand" href="#conteudo" translate="no">Samuel Santos</a>
+    <a className="brand" href="#inicio" translate="no">Samuel Santos</a>
     <div className="header-controls">
       <LanguageSwitcher />
       <button type="button" className="motion-toggle" aria-pressed={motion} aria-label={motion ? text.reduceMotion : text.enableMotion} title={motion ? text.reduceMotion : text.enableMotion} onClick={onMotionChange}>
