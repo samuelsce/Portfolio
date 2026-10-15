@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLanguage } from '../../i18n/LanguageProvider';
+import { useLanguage } from '../../i18n/PixelLanguageProvider';
 import { content, projectLinks, type ProjectId } from './content';
 import { GitHubIcon } from './Icons';
 
@@ -39,6 +39,7 @@ export default function ProjectDialog({ projectId, onClose }: { projectId: Proje
       <div className="project-actions">
         {links.site && <a className="pixel-button pixel-button-primary" href={links.site} target="_blank" rel="noreferrer">{text.visitSite}</a>}
         {links.repo && <a className="pixel-button" href={links.repo} target="_blank" rel="noreferrer"><GitHubIcon />{text.viewCode}</a>}
+        {links.docs && <a className="text-action" href={links.docs} target="_blank" rel="noreferrer">{text.documentation}</a>}
       </div>
       </div>
     </>}

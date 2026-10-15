@@ -18,7 +18,7 @@ export function PixelDocument({ terminal = false }: { terminal?: boolean }) {
       <path d="M7 6h17v23H5V8h2z" fill="#425D47" stroke="#86B394" />
       <path d="M9 3h13l5 5v18H9z" fill="#DDDCC0" stroke="#676F59" />
       <path d="M22 3v5h5" stroke="#676F59" />
-      <path d="M12 11h11m-11 4h11m-11 4h11m-11 4h7" stroke="#7F947B" />
+      <path className="document-lines" d="M12 11h11m-11 4h11m-11 4h11m-11 4h7" stroke="#7F947B" />
     </>}
   </svg>;
 }

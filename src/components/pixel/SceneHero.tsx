@@ -1,6 +1,6 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
 import { profile } from '../../data/portfolio';
-import { useLanguage } from '../../i18n/LanguageProvider';
+import { useLanguage } from '../../i18n/PixelLanguageProvider';
 import { content } from './content';
 import { GitHubIcon, LinkedInIcon } from './Icons';
 
@@ -46,7 +46,7 @@ export default function SceneHero() {
       <p className="hero-description">{text.description}</p>
       <div className="hero-actions">
         <a className="pixel-button pixel-button-primary" href="#projetos">{text.viewProjects}</a>
-        <a className="pixel-button" href="/samuel-santos-curriculo.pdf" target="_blank" rel="noreferrer" aria-label={text.resumeLabel}>{text.resume}</a>
+        <a className="pixel-button" href="/samuel-santos-curriculo.pdf?v=20261015" target="_blank" rel="noreferrer" aria-label={text.resumeLabel}>{text.resume}</a>
       </div>
       <div className="hero-social">
         <a href={profile.github} target="_blank" rel="noreferrer"><GitHubIcon /><span>GitHub</span></a>

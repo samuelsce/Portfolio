@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { profile } from '../../data/portfolio';
-import { useLanguage } from '../../i18n/LanguageProvider';
+import { useLanguage } from '../../i18n/PixelLanguageProvider';
 import { content, projectLinks, type ProjectId } from './content';
 import { GitHubIcon, LinkedInIcon, PixelDocument } from './Icons';
 
@@ -24,7 +24,7 @@ export default function ProfileSections({ onProject }: { onProject: (id: Project
       <p className="section-intro">{text.studiesIntro}</p>
       <article className="study-lab">
         <PixelDocument terminal />
-        <div><p className="study-status">{text.localLab}</p><h3 translate="no">Sentinel</h3><p>{text.sentinelDescription}</p></div>
+        <div className="study-content"><p className="study-status">{text.localLab}</p><h3 translate="no">Sentinel</h3><p>{text.sentinelDescription}</p><ul className="lab-evidence">{text.labEvidence.map(item => <li key={item}>{item}</li>)}</ul></div>
         <div className="study-actions"><button className="text-action" type="button" onClick={() => onProject('sentinel')}>{text.viewProject}</button><a className="text-action" href={projectLinks.sentinel.repo} target="_blank" rel="noreferrer">GitHub</a></div>
       </article>
       <div className="study-list">
@@ -35,11 +35,11 @@ export default function ProfileSections({ onProject }: { onProject: (id: Project
     <section className="about section page-width" id="sobre" aria-labelledby="about-title">
       <div className="section-heading"><h2 id="about-title">{text.aboutTitle}</h2><span aria-hidden="true" /></div>
       <div className="about-layout">
-        <div className="about-copy"><p>{text.aboutBody}</p><p>{text.aboutWork}</p><a className="text-action" href="/samuel-santos-curriculo.pdf" target="_blank" rel="noreferrer" aria-label={text.resumeLabel}>{text.resume}</a></div>
+        <div className="about-copy"><p>{text.aboutBody}</p><p>{text.aboutWork}</p><a className="text-action" href="/samuel-santos-curriculo.pdf?v=20261015" target="_blank" rel="noreferrer" aria-label={text.resumeLabel}>{text.resume}</a></div>
         <div className="about-background">
           <h3>{text.education}</h3>
           <ul className="education-list"><li><p>{text.degree}</p><span>{text.degreePlace}</span></li><li><p>{text.diploma}</p><span>{text.diplomaPlace}</span></li></ul>
-          <dl className="background-details"><div><dt>{text.development}</dt><dd>{text.developmentBody}</dd></div><div><dt>{text.workflow}</dt><dd>{text.workflowBody}</dd></div></dl>
+          <dl className="background-details"><div><dt>{text.securityPractice}</dt><dd>{text.securityPracticeBody}</dd></div><div><dt>{text.development}</dt><dd>{text.developmentBody}</dd></div><div><dt>{text.workflow}</dt><dd>{text.workflowBody}</dd></div></dl>
         </div>
       </div>
     </section>

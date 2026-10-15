@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const storageKey = 'samuel-pixel-motion';
 
@@ -10,15 +10,15 @@ function savedPreference() {
 }
 
 export default function useMotionPreference() {
-  const [enabled, setEnabled] = useState(() => {
+  const [preference, setPreference] = useState(() => {
     const saved = savedPreference();
-    return saved ? saved === 'on' : !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return { enabled: saved ? saved === 'on' : !window.matchMedia('(prefers-reduced-motion: reduce)').matches, explicit: saved !== null };
   });
-  const explicitChoice = useRef(savedPreference() !== null);
+  const enabled = preference.enabled;
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => { if (!explicitChoice.current) setEnabled(!query.matches); };
+    const update = () => setPreference(current => current.explicit || current.enabled === !query.matches ? current : { ...current, enabled: !query.matches });
     query.addEventListener('change', update);
     return () => query.removeEventListener('change', update);
   }, []);
@@ -34,8 +34,7 @@ export default function useMotionPreference() {
 
   function toggle() {
     const next = !enabled;
-    explicitChoice.current = true;
-    setEnabled(next);
+    setPreference({ enabled: next, explicit: true });
     try { localStorage.setItem(storageKey, next ? 'on' : 'off'); } catch { /* The in-memory choice still works. */ }
   }
 

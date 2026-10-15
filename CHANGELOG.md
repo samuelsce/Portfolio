@@ -1,6 +1,17 @@
 # Changelog
 
-## [Unreleased]
+## [2.0.0] - 2026-10-15
+
+- Portfólio direcionado para Segurança da Informação, com experiência em desenvolvimento apresentada como diferencial.
+- Identidade em pixel art, Silkscreen local, verde e carvão, hero central e favicon de terminal transparente.
+- Currículo substituído pela versão de segurança enviada pelo proprietário.
+- Projetos com participação e limites explícitos; Sentinel com evidências práticas e acesso à documentação técnica.
+- Correções nos sublinhados, superfícies de hover, altura do hero, rolagem dos diálogos e retorno completo ao topo.
+- Motion em CSS, pausa fora da tela/aba oculta, controle de movimento e suporte à preferência reduzida.
+- Contexto de idioma específico da versão atual, removendo traduções antigas do bundle ativo.
+- README atualizado para a página publicada.
+
+## Histórico anterior
 
 - Quadra com linhas em perspectiva no piso, suporte ligado à tabela, rede e gomos da bola corrigidos. Piso, jogador e bola usam camadas separadas, preservando pegada e arremesso.
 - Mira transferida para janela modal central com fechamento interno, bloqueio de rolagem e recuperação de foco. Carregamento separado das cenas de barco, cachorro e dança; relógio agendado somente quando muda o segundo.

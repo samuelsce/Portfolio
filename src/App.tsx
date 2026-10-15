@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLanguage } from './i18n/LanguageProvider';
+import { useLanguage } from './i18n/PixelLanguageProvider';
 import { content, projectLinks, type ProjectId } from './components/pixel/content';
 import SiteHeader from './components/pixel/SiteHeader';
 import SceneHero from './components/pixel/SceneHero';

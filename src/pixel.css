@@ -121,7 +121,7 @@ section, main { scroll-margin-top: 30px; }
 .scene-studies { left: 72.5%; }
 .scene-label { display: inline-flex; align-items: center; justify-content: center; width: min(100%, 12.5cqw); height: clamp(22px, 2.65cqw, 40px); gap: 12px; font-size: clamp(10px, 1.12cqw, 15px); line-height: 1; white-space: nowrap; }
 .scene-caption { position: relative; }
-.scene-caption::after { content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1px; background: var(--green); transform: scaleX(0); transform-origin: left; }
+.scene-caption::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--green); transform: scaleX(0); transform-origin: left; }
 .scene-link:is(:hover, :focus-visible) .scene-caption { color: #fff; }
 .scene-link:is(:hover, :focus-visible) .scene-caption::after { transform: scaleX(1); }
 .scene-link:focus-visible { outline: 0; }
@@ -168,7 +168,7 @@ figcaption { color: var(--muted); font-size: 11px; line-height: 1.7; padding-top
 .project-contribution p:last-child { font-size: 16px; }
 .project-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 26px; }
 .project-info .pixel-button { padding-inline: 20px; font-size: 13px; gap: 12px; }
-.project-row { display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; gap: 28px; align-items: center; padding-block: 28px; border-top: 1px solid var(--line); }
+.project-row { display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; gap: 28px; align-items: center; padding-block: 28px; border-top: 1px solid var(--line); position: relative; isolation: isolate; }
 .project-row > div { min-width: 0; }
 .project-row h3 { font-size: 24px; line-height: 1.4; }
 .project-row p { font-size: 15px; margin-top: 8px; color: var(--muted); }
@@ -181,16 +181,23 @@ figcaption { color: var(--muted); font-size: 11px; line-height: 1.7; padding-top
 .expand-mark { font-size: 22px; line-height: 1; }
 .other-projects[open] > summary .expand-mark { transform: rotate(45deg); }
 .compact-row { padding-block: 24px; }
+.other-projects > div { padding-block: 8px; }
+.compact-row { padding-inline: 14px; }
+.compact-row::before { content: ''; position: absolute; inset: 8px 0; z-index: -1; background: #1b281f; opacity: 0; pointer-events: none; }
+.compact-row:is(:hover, :focus-within)::before { opacity: 1; }
 .compact-row h3 { font-size: 20px; }
 .text-action { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; border: 0; background: none; padding: 4px 0; font-size: 14px; text-align: left; color: var(--green); white-space: nowrap; }
-.text-action { position: relative; }
+.text-action { position: relative; width: fit-content; max-width: 100%; justify-self: start; }
 .text-action::after { content: ''; position: absolute; left: 0; right: 0; bottom: 3px; height: 1px; background: var(--green); transform: scaleX(0); transform-origin: left; pointer-events: none; }
 .text-action:is(:hover, :focus-visible) { color: var(--paper); }
 .text-action:is(:hover, :focus-visible)::after { transform: scaleX(1); }
 
 .study-lab { display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; gap: 28px; align-items: center; padding: 28px; background: var(--surface); border-left: 3px solid var(--green); }
+.study-lab > .pixel-document { align-self: start; margin-top: 16px; }
 .study-lab h3 { font-size: 26px; margin-top: 4px; }
 .study-lab p:not(.study-status) { font-size: 15px; color: var(--muted); margin-top: 8px; }
+.lab-evidence { list-style: square; margin: 14px 0 0; padding-left: 18px; color: var(--muted); font-size: 13px; line-height: 1.9; }
+.lab-evidence li::marker { color: var(--green); }
 .study-status { color: var(--green); font-size: 12px; line-height: 1.8; }
 .study-actions { display: flex; flex-direction: column; align-items: flex-start; }
 .study-list { margin-top: 28px; }
@@ -263,8 +270,10 @@ figcaption { color: var(--muted); font-size: 11px; line-height: 1.7; padding-top
   .text-action::after, .scene-caption::after, .hero-social a > span::after, .site-navigation > a:not(.pixel-button)::after { transition: transform 280ms var(--ease-out); }
   .pixel-document { transition: transform 300ms var(--ease-out); }
   .project-row:is(:hover, :focus-within) .pixel-document, .study-lab:is(:hover, :focus-within) .pixel-document { transform: translateY(-3px); }
-  .study-lab:is(:hover, :focus-within), .compact-row:is(:hover, :focus-within) { background-color: #1b281f; }
-  .study-lab, .project-row { transition: background-color 260ms ease-out; }
+  .study-lab:is(:hover, :focus-within) { background-color: #1b281f; }
+  .study-lab { transition: background-color 260ms ease-out; }
+  .compact-row::before { transition: opacity 240ms ease-out; }
+  .project-row:is(:hover, :focus-within) .document-lines { stroke-dasharray: 12; animation: document-ink 650ms ease-out both; }
   .study-lab:is(:hover, :focus-within) .terminal-cursor { animation: terminal-blink 1s steps(1) infinite; }
   .expand-mark { transition: transform 260ms var(--ease-out); }
   .close-button > span { transition: transform 220ms var(--ease-out); }
@@ -272,6 +281,8 @@ figcaption { color: var(--muted); font-size: 11px; line-height: 1.7; padding-top
   .copy-status:not(:empty) { animation: content-enter 240ms var(--ease-out) both; }
   .project-dialog[open] { animation: dialog-enter 280ms var(--ease-out) both; }
   .project-dialog[open]::backdrop { animation: scene-appear 240ms ease-out both; }
+  .project-dialog[open] .case-intro { animation: content-enter 350ms 70ms var(--ease-out) both; }
+  .project-dialog[open] .case-details { animation: content-enter 400ms 110ms var(--ease-out) both; }
   .site-navigation[data-open='true'] { animation: menu-enter 240ms var(--ease-out) both; }
   .other-projects[open] .compact-row { animation: content-enter 420ms var(--ease-out) both; }
   .other-projects[open] .compact-row + .compact-row { animation-delay: 50ms; }
@@ -292,6 +303,7 @@ figcaption { color: var(--muted); font-size: 11px; line-height: 1.7; padding-top
 @keyframes signal-run { 0% { opacity: 0; transform: translateX(0); } 10% { opacity: .9; } 65% { opacity: .9; } 80%, 100% { opacity: 0; transform: translateX(29cqw); } }
 @keyframes indicator-pulse { 0%, 65%, 100% { opacity: 1; } 75%, 88% { opacity: .25; } }
 @keyframes terminal-blink { 50% { opacity: 0; } }
+@keyframes document-ink { from { stroke-dashoffset: 12; } to { stroke-dashoffset: 0; } }
 @keyframes letter-wave { 0%, 9%, 100% { transform: translateY(0); } 4% { transform: translateY(-3px); } }
 @keyframes section-arrival { 0% { opacity: 0; transform: scaleX(0); } 35% { opacity: 1; transform: scaleX(1); } 100% { opacity: 0; transform: scaleX(1); } }
 @keyframes scene-appear { from { opacity: .15; } to { opacity: 1; } }
@@ -392,12 +404,13 @@ figcaption { color: var(--muted); font-size: 11px; line-height: 1.7; padding-top
   .project-row > a { font-size: 11px; padding-inline: 18px; }
   .other-projects > summary { font-size: 11px; }
   .compact-row h3 { font-size: 19px; }
-  .study-lab { grid-template-columns: 40px minmax(0, 1fr); gap: 16px; padding: 20px 16px; }
-  .study-lab .pixel-document { width: 40px; height: 40px; }
+  .study-lab { display: block; position: relative; padding: 20px 16px; }
+  .study-lab .pixel-document { position: absolute; top: 24px; left: 16px; width: 40px; height: 40px; margin: 0; }
+  .study-content > .study-status, .study-content > h3 { padding-left: 56px; }
   .study-lab h3 { font-size: 22px; }
-  .study-lab p:not(.study-status) { font-size: 14px; }
+  .study-lab p:not(.study-status) { font-size: 14px; margin-top: 18px; }
   .study-status { font-size: 11px; }
-  .study-actions { grid-column: 2; flex-direction: row; flex-wrap: wrap; gap: 10px 20px; }
+  .study-actions { margin-top: 16px; flex-direction: row; flex-wrap: wrap; gap: 10px 20px; }
   .study-actions .text-action { font-size: 12px; gap: 8px; }
   .study-list article { grid-template-columns: 1fr; gap: 6px; padding-block: 24px; }
   .study-list h3 { font-size: 18px; }

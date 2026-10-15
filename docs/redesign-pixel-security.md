@@ -120,3 +120,31 @@ Referências reaproveitadas: amostra aprovada e [Samuel Rizzon](https://www.samu
 - Currículo PDF preservado para revisão posterior solicitada pelo proprietário; nenhum arquivo de currículo alterado.
 
 Validação: build/TypeScript, título em PT/EN, ausência de referência à trilha na interface ativa, link do perfil, movimento desligado e pausa fora da tela. Larguras de 320, 390 e 1440 px sem sobreposição entre as palavras do nome ou rolagem horizontal. Favicon transparente inspecionado sobre fundos claro e escuro em 16, 32 e 64 px. Capturas em `artifacts/pixel-final-polish/`. Mesmas referências e direção aprovada reutilizadas; nenhuma dependência adicionada ou publicação realizada.
+
+## Revisão para publicação principal — 15/10/2026
+
+### Correções e conteúdo
+
+- Sublinhados dos controles limitados à largura do próprio conteúdo (`fit-content`), inclusive em grids. Traço das placas do hero reposicionado para permanecer dentro da área visível.
+- Hover de projetos adicionais separado em pseudo-elemento, com 8 px de folga vertical, padding lateral e transição de opacidade; não depende mais de pintar o fundo até a borda da linha.
+- Currículo do site substituído pelo PDF de uma página enviado pelo proprietário, já direcionado para Segurança da Informação. Conteúdo preservado, conferido por extração e renderização; SHA-256 idêntico ao arquivo de origem. Links versionados evitam reaproveitar o PDF antigo pelo cache.
+- Sentinel passa a mostrar três evidências concretas: alertas de login/acesso negado, triagem com timeline/auditoria e testes/análise na CI. Links de documentação de Sentinel e LinkWatch confirmados no GitHub. Proteção SSRF e isolamento no LinkWatch explicitados nos detalhes.
+- Prática de controles de acesso no Sobre e conclusão prevista da UNIVESP conforme currículo. Sem adicionar certificações, domínio de ferramentas ou experiência profissional em segurança não comprovados.
+- A documentação local do Sentinel já registra a M7 em branch/PR. O site não apresenta essa etapa como versão publicada nem incorpora métricas locais como resultados de produção.
+- Novo motion: traços do ícone de documento desenhados na interação e entrada curta do contexto/detalhes ao abrir um projeto. Respeitado o controle de movimento existente.
+- Laboratório no mobile reorganizado: ícone junto ao título; descrição e evidências usam a largura do bloco, reduzindo quebras e espaço vazio.
+
+### Pesquisa aplicada
+
+- [ISC2 — How to Get a Cybersecurity Job](https://www.isc2.org/insights/2021/08/how-to-get-a-cybersecurity-job): habilidades transferíveis justificam manter desenvolvimento em produção como evidência profissional, sem transformar esse histórico em experiência de analista de segurança.
+- [TryHackMe — How to Use CTF Challenges to Build a Cybersecurity Portfolio](https://tryhackme.com/resources/blog/how-to-use-ctf-challenges-to-build-a-cybersecurity-portfolio): método, evidências e documentação útil orientaram os links de avaliação técnica; não foram criados write-ups ou conquistas fictícias.
+- [OWASP — Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html): eventos de autenticação e autorização são pertinentes ao contexto de investigação; a inclusão no site se apoia no que o Sentinel já implementa, e não em alegação de conformidade OWASP.
+- Fontes factuais do proprietário: currículo enviado; READMEs locais de Sentinel e LinkWatch; documentação pública dos dois projetos. A pesquisa indica relevância de apresentação, não prova competência por si só.
+
+### Eficiência e validação
+
+O contexto ativo de idioma foi separado do conteúdo legado, preservando o armazenamento PT/EN. O bundle JavaScript passou de 264,73 KB (82,39 KB gzip) para 255,99 KB (79,22 KB gzip), mesmo com conteúdo novo. A preferência de movimento lê armazenamento apenas na inicialização e nas escolhas explícitas, evitando releitura em cada renderização. Não foram instaladas dependências. Isso mede tamanho de arquivos; não é um benchmark de FPS ou Core Web Vitals.
+
+Verificados build/TypeScript, whitespace e prévia do build estático. Inspeções em 320, 390, 768, 960 e 1440 px sem rolagem horizontal, imagens quebradas ou controles cortados. Testados abertura e Escape dos cinco projetos, rolagem do diálogo, foco de teclado nos sublinhados, hover real do projeto, expansão, menu mobile, PT/EN, cópia de contato, retorno ao topo e modo reduzido. Sem erros de console no smoke test do build. Capturas em `artifacts/pixel-release/`. README e changelog sincronizados com a versão 2.0.0. Sem certificação em aparelhos físicos ou promessa de resultado em seleção.
+
+A publicação na `main` e pela integração Cloudflare existente foi autorizada explicitamente pelo proprietário após esta revisão. O arquivo preexistente `docs/planejamento-portfolio-2d.md` permanece fora da entrega.

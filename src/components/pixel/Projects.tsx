@@ -1,4 +1,4 @@
-import { useLanguage } from '../../i18n/LanguageProvider';
+import { useLanguage } from '../../i18n/PixelLanguageProvider';
 import { content, projectLinks, type ProjectId } from './content';
 import { GitHubIcon, PixelDocument } from './Icons';
 

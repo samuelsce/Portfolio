@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { LanguageSwitcher, useLanguage } from '../../i18n/LanguageProvider';
+import { LanguageSwitcher, useLanguage } from '../../i18n/PixelLanguageProvider';
 import { content } from './content';
 
 export default function SiteHeader({ motion, onMotionChange }: { motion: boolean; onMotionChange: () => void }) {
@@ -44,7 +44,7 @@ export default function SiteHeader({ motion, onMotionChange }: { motion: boolean
     </div>
     <nav ref={nav} id="site-navigation" className="site-navigation" data-open={open} aria-label={text.navigation} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false); }}>
       {(['projects', 'studies', 'about', 'contact'] as const).map((key, index) => <a key={key} href={['#projetos', '#estudos', '#sobre', '#contato'][index]} onClick={() => setOpen(false)}>{text[key]}</a>)}
-      <a className="header-resume pixel-button pixel-button-small" href="/samuel-santos-curriculo.pdf" target="_blank" rel="noreferrer" aria-label={text.resumeLabel} onClick={() => setOpen(false)}>{text.resume}</a>
+      <a className="header-resume pixel-button pixel-button-small" href="/samuel-santos-curriculo.pdf?v=20261015" target="_blank" rel="noreferrer" aria-label={text.resumeLabel} onClick={() => setOpen(false)}>{text.resume}</a>
     </nav>
   </header>;
 }
